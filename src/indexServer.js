@@ -1,7 +1,6 @@
-import 'dotenv/config'
-import cors from 'cors'
-import express from 'express'
-import { ApolloServer, gql } from 'apollo-server-express'
+const cors = require('cors')
+const express = require('express')
+const { ApolloServer, gql } = require('apollo-server-express')
 
 const app = express()
 app.use(cors())

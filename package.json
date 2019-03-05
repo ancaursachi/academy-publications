@@ -2,8 +2,29 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ancai0ana/ReadingPub.git"
+  },
+  "keywords": [
+    "reading",
+    "students"
+  ],
+  "author": "Ursachi Anca-Ioana <u.ancaioana@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ancai0ana/ReadingPub/issues"
+  },
+  "homepage": "https://github.com/ancai0ana/ReadingPub#readme",
   "dependencies": {
     "apollo-boost": "^0.3.1",
+    "apollo-server": "^2.4.8",
+    "apollo-server-express": "^2.4.8",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "es6": "0.0.7",
+    "express": "^4.16.4",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "react": "^16.8.3",
@@ -11,8 +32,14 @@
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5"
   },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "nodemon": "^1.18.10"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"nodemon --exec babel-node src/indexServer.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
