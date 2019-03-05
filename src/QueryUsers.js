@@ -6,7 +6,7 @@ const QueryUsers = () => (
     query={gql`
       {
         users {
-          id
+          _id
           username
         }
       }
@@ -15,8 +15,8 @@ const QueryUsers = () => (
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>
       if (error) return <p>Error :(</p>
-      return data.users.map(({ id, username }) => (
-        <div key={id}>{username}</div>
+      return data.users.map(({ username, _id }, index) => (
+        <div key={_id}>{username}</div>
       ))
     }}
   </Query>

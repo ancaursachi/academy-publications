@@ -14,5 +14,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-Server is running on the port : [http://localhost:5000](http://localhost:5000)
+Server is running on the port : [http://localhost:5000](http://localhost:5000) <br>
 Client is running on the port : [http://localhost:3000](http://localhost:3000)
