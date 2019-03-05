@@ -45,6 +45,6 @@ let users = [
 
 server.applyMiddleware({ app, path: '/graphql' })
 
-app.listen({ port: 4000 }, () => {
-  console.log('Apollo Server on http://localhost:4000/graphql')
+app.listen({ port: 5000 }, () => {
+  console.log('Apollo Server on http://localhost:5000/graphql')
 })
