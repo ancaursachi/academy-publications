@@ -7,7 +7,7 @@ const express = require('express')
 
 const bodyParser = require('body-parser')
 const expressGraphQL = require('express-graphql')
-const schema = require('../graphql/index')
+const schema = require('./graphql/schema')
 
 //conect to database
 const mongoose = require('mongoose')
@@ -23,7 +23,6 @@ mongoose
   .catch(err => console.log(err))
 
 const app = express()
-
 app.use(
   '/graphql',
   cors(),

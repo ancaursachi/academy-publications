@@ -30,11 +30,13 @@ module.exports = {
     },
     editUser: (root, { id, username }) => {
       return new Promise((resolve, reject) => {
-        User.findOneAndUpdate({ id }, { $set: { username } }).exec(
-          (err, res) => {
-            err ? reject(err) : resolve(res)
-          },
-        )
+        User.findOneAndUpdate(
+          { id },
+          { $set: { username } },
+          { new: true },
+        ).exec((err, res) => {
+          err ? reject(err) : resolve(res)
+        })
       })
     },
     deleteUser: (root, args) => {

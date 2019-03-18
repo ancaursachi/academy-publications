@@ -33,6 +33,7 @@
     "merge-graphql-schemas": "^1.5.8",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.17",
+    "prettier": "^1.16.4",
     "react": "^16.8.3",
     "react-apollo": "^2.5.1",
     "react-dom": "^16.8.3",

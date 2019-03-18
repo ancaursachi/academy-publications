@@ -1,5 +1,6 @@
 const { gql } = require('apollo-server-express')
-const types = gql`
+
+module.exports = gql`
   type Query {
     user(_id: ID!): User!
     users: [User]
@@ -10,12 +11,7 @@ const types = gql`
   }
   type Mutation {
     addUser(username: String): User!
-    editUser(_id: String!, user: UpdateUserInput!): User!
-    deleteUser(_id: String!): User!
-  }
-
-  input UpdateUserInput {
-    username: String
+    editUser(_id: String!, username: String!): User!
+    deleteUser(_id: String!): Boolean
   }
 `
-module.exports = types
