@@ -43,7 +43,7 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "start": "concurrently \"nodemon src/app/server/index.js\" \"react-scripts start\"",
+    "start": "concurrently \"nodemon src/server/index.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -51,7 +51,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:5000/",
   "browserslist": [
     ">0.2%",
     "not dead",
