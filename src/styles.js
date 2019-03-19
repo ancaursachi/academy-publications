@@ -1,4 +1,11 @@
-// import { css } from 'styled-components'
+const colors = {
+  colorPrimary: '#4b5b82',
+  colorSecondary: '#d46865',
+  color1: '#3a2933',
+}
 
-export const colorPrimary = '#3a2933',
-  grey = '#l0l'
+const theme = {
+  ...colors,
+}
+
+export default theme

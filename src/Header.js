@@ -1,19 +1,62 @@
 import React from 'react'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
-import Button from 'react-bootstrap/Button'
-import { colorPrimary } from './styles'
+import th from './styles'
+import styled from 'styled-components'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import MainPage from './dashboard/Dashboard'
+import UserProfile from './dashboard/UserProfile'
 
 const Header = () => (
-  <Navbar style={{ backgroundColor: colorPrimary }} variant="dark">
-    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-    <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
-    </Nav>
-    <Button variant="outline-info">Log out </Button>
-  </Navbar>
+  <Router>
+    <Row>
+      <Column>
+        <Item>
+          <StyledLink to="/">Dashboard</StyledLink>
+        </Item>
+        <Item>
+          <StyledLink to="/UserProfile">Profile</StyledLink>
+        </Item>
+      </Column>
+      <Column>
+        <Item>
+          <StyledLink to="/Logout">Logout</StyledLink>
+        </Item>
+      </Column>
+    </Row>
+    <Route exact path="/" component={MainPage} />
+    <Route path="/UserProfile" component={UserProfile} />
+  </Router>
 )
+
+const Row = styled.nav`
+  list-style-type: none;
+  height: 3em;
+  background-color: ${th.colorPrimary};
+  display: grid;
+  grid-template-columns: 80% 20%;
+`
+
+const Column = styled.div`
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 1.4em;
+  margin-left: 3em;
+`
+const Item = styled.div`
+  float: left;
+  display: flex;
+  align-items: center;
+  margin: 0 0.5em 0 0.5em;
+`
+
+const StyledLink = styled(Link)`
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  :hover {
+    color: #fff;
+    text-decoration: none;
+  }
+`
 
 export default Header
