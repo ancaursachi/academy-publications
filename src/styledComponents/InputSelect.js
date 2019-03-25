@@ -2,16 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import th from './theme'
 
-const InputForm = ({
+const InputSelect = ({
   label,
   type = 'text',
   widthInput,
+  options,
   required,
   ...props
 }) => (
   <Root {...props}>
     <Label>{label}</Label>
-    <Input type={type} widthInput={widthInput} required />
+    <Select type={type} widthInput={widthInput} required>
+      {options.map((option, index) => (
+        <Option key={index} value={option}>
+          {option}
+        </Option>
+      ))}
+    </Select>
   </Root>
 )
 
@@ -22,7 +29,7 @@ const Root = styled.div`
 const Label = styled.label`
   margin: 0;
 `
-const Input = styled.input`
+const Select = styled.select`
   width: ${props => (props.widthInput ? `${props.widthInput}em` : '19em')};
   height: 2.5em;
   padding: 0.5em 0.5em;
@@ -32,5 +39,8 @@ const Input = styled.input`
   border-radius: 4px;
   box-sizing: border-box;
   outline: none;
+  background-color: white;
 `
-export default InputForm
+const Option = styled.option``
+
+export default InputSelect

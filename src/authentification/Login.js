@@ -6,8 +6,8 @@ const Login = ({ handleChangePage }) => {
   return (
     <Root>
       <Title>Login</Title>
-      <InputForm label="Email" type="text" />
-      <InputForm label="Password" type="password" />
+      <InputForm label="Email" type="text" mt={2} mb={1} />
+      <InputForm label="Password" type="password" mb={1} />
       <Row>
         <Button
           name="Sign Up"

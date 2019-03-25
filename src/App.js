@@ -8,10 +8,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 import {
   faArrowRight,
+  faArrowLeft,
   faSignInAlt,
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons'
 library.add(faArrowRight)
+library.add(faArrowLeft)
 library.add(faUserPlus)
 library.add(faSignInAlt)
 
