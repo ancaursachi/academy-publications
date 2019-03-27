@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { th, InputForm, Button } from '../styledComponents'
+import { th, InputForm, Button, Row } from '../styledComponents'
 
 const Login = ({ handleChangePage }) => {
   return (
@@ -8,13 +8,13 @@ const Login = ({ handleChangePage }) => {
       <Title>Login</Title>
       <InputForm label="Email" type="text" mt={2} mb={1} />
       <InputForm label="Password" type="password" mb={1} />
-      <Row>
+      <Row mt={3.5}>
         <Button
           name="Sign Up"
           iconName={'user-plus'}
           handleClick={handleChangePage}
         />
-        <Button name="Login" iconName={'sign-in-alt'} />
+        <Button name="Login" iconName={'sign-in-alt'} fullBorder />
       </Row>
     </Root>
   )
@@ -29,10 +29,5 @@ const Title = styled.p`
   margin: 0.5em 0em;
   font-size: 1.5em;
   font-weight: 700;
-`
-const Row = styled.div`
-  margin: 3.5em 0em;
-  display: flex;
-  justify-content: space-between;
 `
 export default Login

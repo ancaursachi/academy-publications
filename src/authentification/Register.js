@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { th, Button, InputForm, InputSelect } from '../styledComponents'
+import { th, Row, Button, InputForm, InputSelect } from '../styledComponents'
 
 const Register = ({ handleChangePage }) => {
   const [signUpPage, setSignUpPage] = useState(true)
@@ -53,6 +53,7 @@ const Step0 = ({ handleChangePage, handleChangeSignUpPage }) => (
       <Button
         mt={1}
         name="Next"
+        fullBorder
         iconName={'arrow-right'}
         handleClick={handleChangeSignUpPage}
       />
@@ -85,16 +86,17 @@ const Step1 = ({ handleChangePage, handleChangeSignUpPage }) => {
           name="End Sign Up"
           iconName={'user-plus'}
           mt={1}
+          fullBorder
           handleClick={handleUserIsCreated}
         />
       </Row>
     </Root>
   ) : (
     <Root>
-      <Row mt={4} justify={'center'}>
+      <Row mt={5} justify={'center'}>
         <Message>Welcome between our community !</Message>
       </Row>
-      <Row justify={'center'}>
+      <Row justify={'flex-end'}>
         <Button
           name="Login"
           iconName={'sign-in-alt'}
@@ -119,15 +121,6 @@ const Title = styled.p`
   font-size: 1.5em;
   font-weight: 700;
 `
-const Row = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: ${props =>
-    props.justify ? props.justify : 'space-between'};
-  ${th.marginHelper}
-  ${th.paddingHelper}
-`
-
 const Message = styled.div`
   font-size: 1.8em;
   font-weight: 900;
