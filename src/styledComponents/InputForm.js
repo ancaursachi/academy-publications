@@ -23,7 +23,7 @@ const Label = styled.label`
   margin: 0;
 `
 const Input = styled.input`
-  width: ${props => (props.widthInput ? `${props.widthInput}em` : '19em')};
+  width: ${props => (props.widthInput ? `${props.widthInput}em` : '20em')};
   height: 2.5em;
   padding: 0.5em 0.5em;
   margin: 0;

@@ -19,16 +19,6 @@ const Button = ({
   )
 }
 
-const borderStyle = props => {
-  if (props.fullBorder)
-    return css`
-      border: 2px solid ${th.colorPrimary};
-    `
-  return css`
-    border-bottom: 2px solid ${th.colorPrimary};
-  `
-}
-
 const Root = styled.button`
   color: ${th.colorPrimary};
   background-color: white;
@@ -41,7 +31,6 @@ const Root = styled.button`
   :focus {
     outline: none;
   }
-  ${borderStyle}
   ${th.marginHelper}
   ${th.paddingHelper}
 `

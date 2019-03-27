@@ -14,7 +14,7 @@ const Login = ({ handleChangePage }) => {
           iconName={'user-plus'}
           handleClick={handleChangePage}
         />
-        <Button name="Login" iconName={'sign-in-alt'} fullBorder />
+        <Button name="Login" iconName={'sign-in-alt'} />
       </Row>
     </Root>
   )

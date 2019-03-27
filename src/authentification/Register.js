@@ -29,16 +29,16 @@ const Step0 = ({ handleChangePage, handleChangeSignUpPage }) => (
   <Root>
     <Title>Sign Up</Title>
     <Row>
-      <InputForm label="First name" type="text" required widthInput={9} />
-      <InputForm label="Last name" type="text" widthInput={9} required />
+      <InputForm label="First name" type="text" required widthInput={9.5} />
+      <InputForm label="Last name" type="text" widthInput={9.5} required />
     </Row>
     <InputForm label="Email" type="text" margin={0} required />
     <Row>
-      <InputForm label="City" type="text" widthInput={9} />
+      <InputForm label="City" type="text" widthInput={9.5} />
       <InputSelect
         label="Role"
         type="text"
-        widthInput={9}
+        widthInput={9.5}
         required
         options={['User', 'Profesor', 'Student']}
       />
@@ -53,7 +53,6 @@ const Step0 = ({ handleChangePage, handleChangeSignUpPage }) => (
       <Button
         mt={1}
         name="Next"
-        fullBorder
         iconName={'arrow-right'}
         handleClick={handleChangeSignUpPage}
       />
@@ -86,7 +85,6 @@ const Step1 = ({ handleChangePage, handleChangeSignUpPage }) => {
           name="End Sign Up"
           iconName={'user-plus'}
           mt={1}
-          fullBorder
           handleClick={handleUserIsCreated}
         />
       </Row>
