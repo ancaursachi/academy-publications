@@ -1,17 +1,11 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import th from './theme'
 
-const Button = ({
-  name,
-  iconName,
-  iconLeft = false,
-  handleClick,
-  ...props
-}) => {
+const Button = ({ name, iconName, iconLeft = false, ...props }) => {
   return (
-    <Root onClick={handleClick ? handleClick : null} {...props}>
+    <Root {...props}>
       {iconLeft && iconName && <IconLeft icon={iconName} />}
       <Title>{name}</Title>
       {!iconLeft && iconName && <Icon icon={iconName} />}

@@ -1,22 +1,62 @@
 import React from 'react'
 import styled from 'styled-components'
 import { th, InputForm, Button, Row } from '../styledComponents'
+import { Formik } from 'formik'
+import { LoginSchema } from './validations'
 
+const handleLogin = values => {
+  console.log({ values })
+}
 const Login = ({ handleChangePage }) => {
+  const initialValues = { email: '', password: '' }
+
   return (
-    <Root>
-      <Title>Login</Title>
-      <InputForm label="Email" type="text" mt={2} mb={1} />
-      <InputForm label="Password" type="password" mb={1} />
-      <Row mt={3.5}>
-        <Button
-          name="Sign Up"
-          iconName={'user-plus'}
-          handleClick={handleChangePage}
-        />
-        <Button name="Login" iconName={'sign-in-alt'} />
-      </Row>
-    </Root>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={LoginSchema}
+      onSubmit={handleLogin}
+    >
+      {({ values, handleChange, handleSubmit, errors }) => {
+        return (
+          <Root>
+            <Title>Login</Title>
+            <InputForm
+              label="Email"
+              name="email"
+              type="text"
+              value={values.email}
+              onChange={handleChange}
+              error={errors.email}
+              mt={2}
+              mb={1}
+            />
+            <InputForm
+              label="Password"
+              name="password"
+              type="password"
+              value={values.password}
+              onChange={handleChange}
+              error={errors.password}
+              mt={1}
+              mb={1}
+            />
+            <Row mt={4}>
+              <Button
+                name="Sign Up"
+                iconName={'user-plus'}
+                onClick={handleChangePage}
+              />
+              <Button
+                name="Login"
+                type="submit"
+                iconName={'sign-in-alt'}
+                onClick={handleSubmit}
+              />
+            </Row>
+          </Root>
+        )
+      }}
+    </Formik>
   )
 }
 

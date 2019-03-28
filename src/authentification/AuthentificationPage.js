@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Card, th } from '../styledComponents'
-import { Login, Intro, Register } from '../authentification'
+import { Login, Intro, SignUp } from '../authentification'
 
 const AuthentificationPage = () => {
-  const [logInPage, setLogInPage] = useState(true)
+  const [logInPage, setLogInPage] = useState(false)
 
   const handleChangePage = () => {
     setLogInPage(!logInPage)
@@ -28,7 +28,7 @@ const AuthentificationPage = () => {
         </Card>
       ) : (
         <Card borderRadius={'0px 5px 5px 0px'} pl={2} pr={2} pt={2} pb={2}>
-          <Register handleChangePage={handleChangePage} />
+          <SignUp handleChangePage={handleChangePage} />
         </Card>
       )}
     </Root>
