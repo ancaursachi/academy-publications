@@ -1,5 +1,5 @@
 import React from 'react'
-import th from './styles'
+import { th } from './styledComponents'
 import styled from 'styled-components'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import MainPage from './dashboard/Dashboard'
