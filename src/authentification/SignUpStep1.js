@@ -92,7 +92,7 @@ const SignUpStep1 = ({
           name="Login"
           iconName={'sign-in-alt'}
           mt={5}
-          handleClick={handleChangePage}
+          onClick={handleChangePage}
         />
       </Row>
     </Root>

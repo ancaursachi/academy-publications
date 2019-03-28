@@ -4,7 +4,7 @@ import { Card, th } from '../styledComponents'
 import { Login, Intro, SignUp } from '../authentification'
 
 const AuthentificationPage = () => {
-  const [logInPage, setLogInPage] = useState(false)
+  const [logInPage, setLogInPage] = useState(true)
 
   const handleChangePage = () => {
     setLogInPage(!logInPage)
