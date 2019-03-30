@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { th, Row, Button, InputForm } from '../styledComponents'
 
@@ -7,14 +7,11 @@ const SignUpStep1 = ({
   values,
   handleChange,
   handleSubmit,
+  userIsCreated,
   handleChangePage,
+  handleUserIsCreated,
   handleChangeSignUpPage,
 }) => {
-  const [userIsCreated, setUserIsCreated] = useState(false)
-  const handleUserIsCreated = () => {
-    setUserIsCreated(!userIsCreated)
-  }
-
   const handleSignUp1Button = () => {
     const isValid =
       !errors.university &&
@@ -25,7 +22,7 @@ const SignUpStep1 = ({
       !!values.password
 
     if (isValid) {
-      return handleSubmit() || handleUserIsCreated()
+      return handleSubmit()
     }
   }
   return !userIsCreated ? (
@@ -78,26 +75,31 @@ const SignUpStep1 = ({
           name="End Sign Up"
           iconName={'user-plus'}
           mt={1}
+          type="submit"
           onClick={handleSignUp1Button}
         />
       </Row>
     </Root>
   ) : (
-    <Root>
-      <Row mt={5} justify={'center'}>
-        <Message>Welcome between our community !</Message>
-      </Row>
-      <Row justify={'flex-end'}>
-        <Button
-          name="Login"
-          iconName={'sign-in-alt'}
-          mt={5}
-          onClick={handleChangePage}
-        />
-      </Row>
-    </Root>
+    <SuccessCreateUserPage handleChangePage={handleChangePage} />
   )
 }
+
+const SuccessCreateUserPage = ({ handleChangePage }) => (
+  <Root>
+    <Row mt={5} justify={'center'}>
+      <Message>Welcome between our community !</Message>
+    </Row>
+    <Row justify={'flex-end'}>
+      <Button
+        name="Login"
+        iconName={'sign-in-alt'}
+        mt={5}
+        onClick={handleChangePage}
+      />
+    </Row>
+  </Root>
+)
 const Root = styled.div`
   width: 100%;
   height: 100%;

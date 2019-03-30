@@ -4,27 +4,56 @@ import { th } from '../styledComponents'
 import { Formik } from 'formik'
 import { SignupSchema } from './validations'
 import { SignUpStep0, SignUpStep1 } from '../authentification'
+import withGQL from './withGQL'
+import { compose } from 'recompose'
 
-const SignUp = ({ handleChangePage }) => {
+const SignUp = ({ handleChangePage, addUser }) => {
   const [signUpPage, setSignUpPage] = useState(true)
+  const [userIsCreated, setUserIsCreated] = useState(false)
 
   const handleChangeSignUpPage = () => {
     setSignUpPage(!signUpPage)
   }
 
-  const handleSignUp = values => {
-    console.log('Sign up values: ', values)
+  const handleUserIsCreated = () => {
+    setUserIsCreated(!userIsCreated)
+  }
+
+  const handleSignUp = ({
+    firstName,
+    lastName,
+    email,
+    country,
+    city,
+    university,
+    specialization,
+    password,
+  }) => {
+    return addUser({
+      variables: {
+        firstName,
+        lastName,
+        email,
+        country,
+        city,
+        university,
+        specialization,
+        password,
+      },
+    })
+      .then(() => handleUserIsCreated())
+      .catch(error => <pre>{error.message}</pre>)
   }
 
   const initialValues = {
-    specialization: '',
-    university: '',
     firstName: '',
-    password: '',
     lastName: '',
-    country: '',
     email: '',
+    country: '',
     city: '',
+    university: '',
+    specialization: '',
+    password: '',
   }
   return (
     <Formik
@@ -47,6 +76,8 @@ const SignUp = ({ handleChangePage }) => {
               <SignUpStep1
                 errors={errors}
                 values={values}
+                userIsCreated={userIsCreated}
+                handleUserIsCreated={handleUserIsCreated}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 handleChangePage={handleChangePage}
@@ -71,4 +102,4 @@ const Root = styled.div`
   ${th.paddingHelper}
 `
 
-export default SignUp
+export default compose(withGQL)(SignUp)

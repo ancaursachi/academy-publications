@@ -7,10 +7,26 @@ module.exports = gql`
   }
   type User {
     _id: String!
-    username: String!
+    firstName: String
+    lastName: String!
+    email: String!
+    country: String
+    city: String
+    university: String!
+    specialization: String!
+    password: String!
   }
   type Mutation {
-    addUser(username: String): User!
+    addUser(
+      firstName: String!
+      lastName: String!
+      email: String!
+      country: String
+      city: String
+      university: String!
+      specialization: String!
+      password: String!
+    ): User!
     editUser(_id: String!, username: String!): User!
     deleteUser(_id: String!): Boolean
   }
