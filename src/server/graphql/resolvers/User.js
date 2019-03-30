@@ -21,7 +21,6 @@ module.exports = {
   },
   Mutation: {
     addUser: (root, user) => {
-      console.log(user.input)
       const newUser = new User(user.input)
       return new Promise((resolve, reject) => {
         newUser.save((err, res) => {

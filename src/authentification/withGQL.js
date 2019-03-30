@@ -5,9 +5,7 @@ import gql from 'graphql-tag'
 const addUser = gql`
   mutation addUser($input: UserInput!) {
     addUser(input: $input) {
-      firstName
-      lastName
-      email
+      _id
     }
   }
 `
