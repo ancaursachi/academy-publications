@@ -19,30 +19,14 @@ const SignUp = ({ handleChangePage, addUser }) => {
     setUserIsCreated(!userIsCreated)
   }
 
-  const handleSignUp = ({
-    firstName,
-    lastName,
-    email,
-    country,
-    city,
-    university,
-    specialization,
-    password,
-  }) => {
+  const handleSignUp = input => {
     return addUser({
       variables: {
-        firstName,
-        lastName,
-        email,
-        country,
-        city,
-        university,
-        specialization,
-        password,
+        input,
       },
     })
       .then(() => handleUserIsCreated())
-      .catch(error => <pre>{error.message}</pre>)
+      .catch(error => alert('Email is already in the system'))
   }
 
   const initialValues = {

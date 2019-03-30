@@ -16,17 +16,20 @@ module.exports = gql`
     specialization: String!
     password: String!
   }
+
+  input UserInput {
+    firstName: String
+    lastName: String!
+    email: String!
+    country: String
+    city: String
+    university: String!
+    specialization: String!
+    password: String!
+  }
+
   type Mutation {
-    addUser(
-      firstName: String!
-      lastName: String!
-      email: String!
-      country: String
-      city: String
-      university: String!
-      specialization: String!
-      password: String!
-    ): User!
+    addUser(input: UserInput!): User!
     editUser(_id: String!, username: String!): User!
     deleteUser(_id: String!): Boolean
   }

@@ -20,29 +20,9 @@ module.exports = {
     },
   },
   Mutation: {
-    addUser: (
-      root,
-      {
-        firstName,
-        lastName,
-        email,
-        country,
-        city,
-        university,
-        specialization,
-        password,
-      },
-    ) => {
-      const newUser = new User({
-        firstName,
-        lastName,
-        email,
-        country,
-        city,
-        university,
-        specialization,
-        password,
-      })
+    addUser: (root, user) => {
+      console.log(user.input)
+      const newUser = new User(user.input)
       return new Promise((resolve, reject) => {
         newUser.save((err, res) => {
           err ? reject(err) : resolve(res)
