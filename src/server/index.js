@@ -1,13 +1,6 @@
-// const { ApolloServer, gql } = require('apollo-server-express')
-// const MongoClient = require('mongodb').MongoClient
-
 require('dotenv').config()
-const cors = require('cors')
-const express = require('express')
-
-const bodyParser = require('body-parser')
-const expressGraphQL = require('express-graphql')
 const schema = require('./graphql/schema')
+const { ApolloServer } = require('apollo-server')
 
 //conect to database
 const mongoose = require('mongoose')
@@ -22,35 +15,14 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err))
 
-const app = express()
-app.use(
-  '/graphql',
-  cors(),
-  bodyParser.json(),
-  expressGraphQL({
-    schema,
-    graphiql: true,
-  }),
-)
+const server = new ApolloServer({
+  schema,
+  // formatError: error => {
+  //   console.log(error)
+  //   return new Error('Internal server error')
+  // },
+})
 
-// const resolvers = {
-//   Query: {
-//     user: (parent, args) => {
-//       return users[0]
-//     },
-//     users: () => {
-//       return users
-//     },
-//   },
-// }
-
-// const server = new ApolloServer({
-//   typeDefs: schema,
-//   resolvers,
-// })
-
-// server.applyMiddleware({ app, path: '/graphql' })
-
-app.listen({ port: 5000 }, () => {
+server.listen({ port: 5000 }, () => {
   console.log('Apollo Server on http://localhost:5000/graphql')
 })

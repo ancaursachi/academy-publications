@@ -3,9 +3,15 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import th from './theme'
 
-const Button = ({ name, iconName, iconLeft = false, ...props }) => {
+const Button = ({
+  name,
+  iconName,
+  iconLeft = false,
+  type = 'button',
+  ...props
+}) => {
   return (
-    <Root {...props}>
+    <Root {...props} type={type}>
       {iconLeft && iconName && <IconLeft icon={iconName} />}
       <Title>{name}</Title>
       {!iconLeft && iconName && <Icon icon={iconName} />}
