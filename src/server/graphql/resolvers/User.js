@@ -17,7 +17,7 @@ module.exports = {
             err ? reject(err) : resolve(res)
           })
       })
-    },
+    }},
   Mutation: {
     addUser: (root, user) => {
       const newUser = new User(user.input)
@@ -45,8 +45,7 @@ module.exports = {
         })
       })
     },
-  },
-    login: (root, { email, password }) => {
+    login: (root, {email, password} ) => {
       return `${email}:${password}`;
     }
   }
