@@ -32,5 +32,6 @@ module.exports = gql`
     addUser(input: UserInput!): User!
     editUser(_id: String!, username: String!): User!
     deleteUser(_id: String!): Boolean
+    login(email: String!, password: String!): String!
   }
 `

@@ -18,7 +18,6 @@ module.exports = {
           })
       })
     },
-  },
   Mutation: {
     addUser: (root, user) => {
       const newUser = new User(user.input)
@@ -47,4 +46,8 @@ module.exports = {
       })
     },
   },
-}
+    login: (root, { email, password }) => {
+      return `${email}:${password}`;
+    }
+  }
+};
