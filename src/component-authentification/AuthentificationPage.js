@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Card, th } from '../styledComponents'
-import { Login, Intro, SignUp } from '../authentification'
+import { Card, th } from '../component-ui'
+import { Login, Intro, SignUp } from '../component-authentification'
 
 const AuthentificationPage = () => {
   const [logInPage, setLogInPage] = useState(false)

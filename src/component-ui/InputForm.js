@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import th from './theme'
-import { Row } from '../styledComponents'
 import { Field } from 'formik'
+
+import th from './theme'
+import { Row } from '../component-ui'
 
 const InputForm = ({
   label,

@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { th } from '../styledComponents'
 import { Formik } from 'formik'
-import { SignupSchema } from './validations'
-import { SignUpStep0, SignUpStep1 } from '../authentification'
-import withGQL from './withGQL'
 import { compose } from 'recompose'
+
+import withGQL from './withGQL'
+import { th } from '../component-ui'
+import {
+  SignUpStep0,
+  SignUpStep1,
+  SignUpValidation,
+} from '../component-authentification'
 
 const SignUp = ({ handleChangePage, addUser }) => {
   const [signUpPage, setSignUpPage] = useState(true)
   const [userIsCreated, setUserIsCreated] = useState(false)
-
   const handleChangeSignUpPage = () => {
     setSignUpPage(!signUpPage)
   }
@@ -42,7 +45,7 @@ const SignUp = ({ handleChangePage, addUser }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={SignupSchema}
+      validationSchema={SignUpValidation}
       onSubmit={handleSignUp}
     >
       {({ values, handleChange, handleSubmit, errors }) => {

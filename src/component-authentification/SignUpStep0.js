@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { th, Row, Button, InputForm } from '../styledComponents'
+
+import { th, Row, Button, InputForm } from '../component-ui'
 
 const SignUpStep0 = ({
   errors,

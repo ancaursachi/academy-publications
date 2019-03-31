@@ -1,17 +1,18 @@
 import React from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
-import { th } from './styledComponents'
 import styled from 'styled-components'
-import AuthentificationPage from './authentification/AuthentificationPage'
 import { library } from '@fortawesome/fontawesome-svg-core'
-
 import {
   faArrowRight,
   faArrowLeft,
   faSignInAlt,
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons'
+
+import { AuthentificationPage } from './component-authentification'
+import { th } from './component-ui'
+
 library.add(faArrowRight)
 library.add(faArrowLeft)
 library.add(faUserPlus)

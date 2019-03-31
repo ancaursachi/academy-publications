@@ -1,8 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
-import { th, InputForm, Button, Row } from '../styledComponents'
 import { Formik } from 'formik'
-import { LoginSchema } from './validations'
+import styled from 'styled-components'
+
+import { th, InputForm, Button, Row } from '../component-ui'
+import { LoginValidation } from '../component-authentification'
 
 const handleLogin = values => {
   console.log({ values })
@@ -13,7 +14,7 @@ const Login = ({ handleChangePage }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={LoginSchema}
+      validationSchema={LoginValidation}
       onSubmit={handleLogin}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
