@@ -4,7 +4,7 @@ import { Card, th } from '../component-ui'
 import { Login, Intro, SignUp } from '../component-authentification'
 
 const AuthentificationPage = () => {
-  const [logInPage, setLogInPage] = useState(false)
+  const [logInPage, setLogInPage] = useState(true)
 
   const handleChangePage = () => {
     setLogInPage(!logInPage)

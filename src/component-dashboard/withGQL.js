@@ -7,7 +7,7 @@ const getUsers = gql`
   query {
     users {
       _id
-      username
+      firstName
     }
   }
 `

@@ -1,12 +1,18 @@
 import React from 'react'
 import { Formik } from 'formik'
 import styled from 'styled-components'
-
+import uuid from 'random-uuid-v4'
 import { th, InputForm, Button, Row } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
 
 const handleLogin = values => {
-  console.log({ values })
+  const token = uuid()
+  const isToken = localStorage.getItem('authToken')
+  if (!isToken) {
+    localStorage.setItem('authToken', JSON.stringify(token))
+    localStorage.setItem('user', JSON.stringify(values))
+    window.location.reload()
+  }
 }
 const Login = ({ handleChangePage }) => {
   const initialValues = { email: '', password: '' }

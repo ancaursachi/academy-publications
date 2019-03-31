@@ -38,6 +38,7 @@
     "merge-graphql-schemas": "^1.5.8",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.17",
+    "random-uuid-v4": "0.0.8",
     "react": "^16.8.3",
     "react-apollo": "^2.5.1",
     "react-bootstrap": "^1.0.0-beta.5",
