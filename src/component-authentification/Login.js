@@ -4,24 +4,26 @@ import styled from 'styled-components'
 import uuid from 'random-uuid-v4'
 import { th, InputForm, Button, Row } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
+import { withRouter } from 'react-router-dom'
 
-const handleLogin = values => {
+const handleLogin = history => values => {
   const token = uuid()
   const isToken = localStorage.getItem('authToken')
   if (!isToken) {
     localStorage.setItem('authToken', JSON.stringify(token))
     localStorage.setItem('user', JSON.stringify(values))
+    history.push('/dashboard')
     window.location.reload()
   }
 }
-const Login = ({ handleChangePage }) => {
+const Login = ({ handleChangePage, history }) => {
   const initialValues = { email: '', password: '' }
-
+  console.log(history)
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginValidation}
-      onSubmit={handleLogin}
+      onSubmit={handleLogin(history)}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
@@ -77,4 +79,4 @@ const Title = styled.p`
   font-size: 1.5em;
   font-weight: 700;
 `
-export default Login
+export default withRouter(Login)
