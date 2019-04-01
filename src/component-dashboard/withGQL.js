@@ -11,9 +11,10 @@ const getUsers = gql`
     }
   }
 `
+
 export default compose(
   graphql(getUsers),
-  withProps(({ data }) => ({
-    users: get(data, 'users', []),
+  withProps(data => ({
+    users: get(data.data, 'users', []),
   })),
 )

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const schema = require('./graphql/schema')
 const { ApolloServer } = require('apollo-server')
+const authorizationLogic = require('./authorization')
 
 //conect to database
 const mongoose = require('mongoose')
@@ -17,12 +18,8 @@ mongoose
 
 const server = new ApolloServer({
   schema,
-  // formatError: error => {
-  //   console.log(error)
-  //   return new Error('Internal server error')
-  // },
+  context: authorizationLogic(),
 })
-
 server.listen({ port: 5000 }, () => {
   console.log('Apollo Server on http://localhost:5000/graphql')
 })

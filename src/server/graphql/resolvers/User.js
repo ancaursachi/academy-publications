@@ -1,4 +1,5 @@
 const User = require('../../models/User')
+const authorizationLogic = require('../../authorization')
 
 module.exports = {
   Query: {
@@ -45,6 +46,14 @@ module.exports = {
           err ? reject(err) : resolve(res)
         })
       })
+    },
+    login: async (root, { email, password }) => {
+      const user = await User.findOne(
+        { email: email, password: password },
+        { _id: 1, email: 1, firstName: 1, lastName: 1 },
+      )
+      if (user) return `${email}:${password}`
+      else return new Error("User doesn't exist")
     },
   },
 }

@@ -16,7 +16,6 @@ module.exports = gql`
     specialization: String!
     password: String!
   }
-
   input UserInput {
     firstName: String
     lastName: String!
@@ -27,10 +26,10 @@ module.exports = gql`
     specialization: String!
     password: String!
   }
-
   type Mutation {
     addUser(input: UserInput!): User!
     editUser(_id: String!, username: String!): User!
     deleteUser(_id: String!): Boolean
+    login(email: String!, password: String!): String!
   }
 `

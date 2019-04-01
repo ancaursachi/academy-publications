@@ -9,4 +9,12 @@ const addUser = gql`
     }
   }
 `
-export default compose(graphql(addUser, { name: 'addUser' }))
+const login = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password)
+  }
+`
+export default compose(
+  graphql(addUser, { name: 'addUser' }),
+  graphql(login, { name: 'login' }),
+)

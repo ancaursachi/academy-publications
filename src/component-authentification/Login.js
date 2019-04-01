@@ -1,29 +1,39 @@
 import React from 'react'
 import { Formik } from 'formik'
 import styled from 'styled-components'
-import uuid from 'random-uuid-v4'
+import { compose } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import { th, InputForm, Button, Row } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
-import { withRouter } from 'react-router-dom'
+import withGQL from './withGQL'
+import { get } from 'lodash'
 
-const handleLogin = history => values => {
-  const token = uuid()
-  const isToken = localStorage.getItem('authToken')
-  if (!isToken) {
-    localStorage.setItem('authToken', JSON.stringify(token))
-    localStorage.setItem('user', JSON.stringify(values))
-    history.push('/dashboard')
-    window.location.reload()
-  }
-}
-const Login = ({ handleChangePage, history }) => {
+const Login = ({ handleChangePage, history, login }) => {
   const initialValues = { email: '', password: '' }
-  console.log(history)
+
+  const handleLogin = ({ email, password }) => {
+    return login({
+      variables: {
+        email,
+        password,
+      },
+    })
+      .then(({ data }) => {
+        const token = get(data, 'login')
+        const isToken = localStorage.getItem('authToken')
+        if (!isToken) {
+          localStorage.setItem('authToken', JSON.stringify(token))
+          history.push('/dashboard')
+          window.location.reload()
+        }
+      })
+      .catch(error => alert(error))
+  }
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginValidation}
-      onSubmit={handleLogin(history)}
+      onSubmit={handleLogin}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
@@ -79,4 +89,7 @@ const Title = styled.p`
   font-size: 1.5em;
   font-weight: 700;
 `
-export default withRouter(Login)
+export default compose(
+  withRouter,
+  withGQL,
+)(Login)
