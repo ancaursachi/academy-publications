@@ -1,51 +1,21 @@
 const User = require('../../models/User')
-const authorizationLogic = require('../../authorization')
 
 module.exports = {
   Query: {
-    user: (root, args) => {
-      return new Promise((resolve, reject) => {
-        User.findOne(args).exec((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+    user: async (parent, args) => {
+      return await User.findOne(args)
     },
-    users: () => {
-      return new Promise((resolve, reject) => {
-        User.find({})
-          .populate()
-          .exec((err, res) => {
-            err ? reject(err) : resolve(res)
-          })
-      })
+    users: async () => {
+      return await User.find({})
     },
   },
   Mutation: {
-    addUser: (root, user) => {
+    addUser: (parent, user) => {
       const newUser = new User(user.input)
-      return new Promise((resolve, reject) => {
-        newUser.save((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
-    },
-    editUser: (root, { id, username }) => {
-      return new Promise((resolve, reject) => {
-        User.findOneAndUpdate(
-          { id },
-          { $set: { username } },
-          { new: true },
-        ).exec((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+      return newUser.save()
     },
     deleteUser: (root, args) => {
-      return new Promise((resolve, reject) => {
-        User.findOneAndRemove(args).exec((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+      return User.findOneAndRemove(args)
     },
     login: async (root, { email, password }) => {
       const user = await User.findOne(
