@@ -26,9 +26,13 @@ module.exports = gql`
     specialization: String!
     password: String!
   }
+
+  type Token {
+    token: String!
+  }
   type Mutation {
     addUser(input: UserInput!): User!
     deleteUser(_id: String!): Boolean
-    login(email: String!, password: String!): String!
+    login(email: String!, password: String!): Token!
   }
 `

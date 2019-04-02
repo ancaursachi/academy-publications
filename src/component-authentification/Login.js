@@ -19,7 +19,7 @@ const Login = ({ handleChangePage, history, login }) => {
       },
     })
       .then(({ data }) => {
-        const token = get(data, 'login')
+        const token = get(data.login, 'token')
         const isToken = localStorage.getItem('authToken')
         if (!isToken) {
           localStorage.setItem('authToken', JSON.stringify(token))

@@ -11,7 +11,9 @@ const addUser = gql`
 `
 const login = gql`
   mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
+    login(email: $email, password: $password) {
+      token
+    }
   }
 `
 export default compose(
