@@ -2,10 +2,10 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const addUser = gql`
-  mutation addUser($input: UserInput!) {
-    addUser(input: $input) {
-      _id
+const signUp = gql`
+  mutation signUp($input: UserInput!) {
+    signUp(input: $input) {
+      token
     }
   }
 `
@@ -17,6 +17,6 @@ const login = gql`
   }
 `
 export default compose(
-  graphql(addUser, { name: 'addUser' }),
+  graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
 )

@@ -19,6 +19,7 @@ const Login = ({ handleChangePage, history, login }) => {
       },
     })
       .then(({ data }) => {
+        console.log('aici', data)
         const token = get(data.login, 'token')
         const isToken = localStorage.getItem('authToken')
         if (!isToken) {

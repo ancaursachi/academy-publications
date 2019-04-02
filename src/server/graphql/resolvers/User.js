@@ -1,7 +1,10 @@
+const { AuthenticationError, UserInputError } = require('apollo-server')
+const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 
-function createToken({ email, password }) {
-  return `${email}:${password}`
+const createToken = async (user, secret, expiresIn) => {
+  const { email, password } = user
+  return await jwt.sign({ email, password }, secret, { expiresIn })
 }
 
 const models = {
@@ -14,21 +17,29 @@ const models = {
     },
   },
   Mutation: {
-    addUser: (parent, args) => {
-      const newUser = new User(args.input)
-      console.log(newUser)
-      return newUser.save()
+    signUp: async (parent, args) => {
+      const user = new User(args.input)
+      const secret = 'hipopotan'
+      await user.save()
+      return { token: createToken(user, secret, '30m') }
     },
     deleteUser: (parent, args) => {
       return User.findOneAndRemove(args)
     },
     login: async (parent, { email, password }) => {
-      const user = await User.findOne(
-        { email: email, password: password },
-        { email: 1, password: 1 },
-      )
-      if (user) return { token: createToken(user) }
-      else return new Error("User doesn't exist")
+      const user = await User.findByLogin(email)
+      const secret = 'hipopotan'
+      if (!user) {
+        throw new UserInputError('No user found with this login credentials.')
+      }
+
+      const isValid = await user.validatePassword(password)
+
+      if (!isValid) {
+        throw new AuthenticationError('Invalid password.')
+      }
+
+      return { token: createToken(user, secret, '30m') }
     },
   },
 }

@@ -6,7 +6,7 @@ module.exports = function authorizationLogic() {
     //shitty logic,there must be another way
     // PLOX FIX ME!
     const mutationbody = req.body.operationName
-    if (['login', 'addUser'].includes(mutationbody)) {
+    if (['login', 'signUp'].includes(mutationbody)) {
       return
     }
     const token = req.headers.authorization || ''

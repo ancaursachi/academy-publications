@@ -11,7 +11,7 @@ import {
   SignUpValidation,
 } from '../component-authentification'
 
-const SignUp = ({ handleChangePage, addUser }) => {
+const SignUp = ({ handleChangePage, signUp }) => {
   const [signUpPage, setSignUpPage] = useState(true)
   const [userIsCreated, setUserIsCreated] = useState(false)
   const handleChangeSignUpPage = () => {
@@ -23,7 +23,7 @@ const SignUp = ({ handleChangePage, addUser }) => {
   }
 
   const handleSignUp = input => {
-    return addUser({
+    return signUp({
       variables: {
         input,
       },

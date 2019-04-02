@@ -18,7 +18,7 @@ mongoose
 
 const server = new ApolloServer({
   schema,
-  context: authorizationLogic(),
+  // context: authorizationLogic(),
 })
 server.listen({ port: 5000 }, () => {
   console.log('Apollo Server on http://localhost:5000/graphql')
