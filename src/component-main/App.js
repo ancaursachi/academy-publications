@@ -4,6 +4,7 @@ import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faArrowRight,
@@ -39,7 +40,9 @@ const client = new ApolloClient({
 const App = props => {
   return (
     <ApolloProvider client={client}>
-      <Routing />
+      <ApolloHooksProvider client={client}>
+        <Routing />
+      </ApolloHooksProvider>
     </ApolloProvider>
   )
 }

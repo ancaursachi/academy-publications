@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Formik } from 'formik'
 import { compose } from 'recompose'
 
-import withGQL from './withGQL'
+import { mutations } from '../qraphqlClient'
 import { th } from '../component-ui'
 import {
   SignUpStep0,
@@ -89,4 +89,4 @@ const Root = styled.div`
   ${th.paddingHelper}
 `
 
-export default compose(withGQL)(SignUp)
+export default compose(mutations)(SignUp)

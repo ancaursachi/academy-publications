@@ -1,8 +1,11 @@
 import React from 'react'
-import withGQL from './withGQL'
-import { compose } from 'recompose'
+import { get } from 'lodash'
+import { useQuery } from 'react-apollo-hooks'
+import { queries } from '../qraphqlClient'
 
-const DashboardPage = ({ users }) => {
+const DashboardPage = () => {
+  const { data } = useQuery(queries.getUsers)
+  const users = get(data, 'users', [])
   return (
     <div>
       <p>DashboardPage</p>
@@ -13,4 +16,4 @@ const DashboardPage = ({ users }) => {
   )
 }
 
-export default compose(withGQL)(DashboardPage)
+export default DashboardPage

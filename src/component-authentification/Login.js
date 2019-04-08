@@ -5,13 +5,13 @@ import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { th, InputForm, Button, Row } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
-import withGQL from './withGQL'
+import { mutations } from '../qraphqlClient'
 import { get } from 'lodash'
 
-const Login = ({ handleChangePage, history, login }) => {
+const Login = ({ handleChangePage, history, login, ...props }) => {
   const initialValues = { email: '', password: '' }
 
-  const handleLogin = ({ email, password }) => {
+  const handleSubmit = ({ email, password }) => {
     return login({
       variables: {
         email,
@@ -19,7 +19,6 @@ const Login = ({ handleChangePage, history, login }) => {
       },
     })
       .then(({ data }) => {
-        console.log('aici', data)
         const token = get(data.login, 'token')
         const isToken = localStorage.getItem('authToken')
         if (!isToken) {
@@ -30,11 +29,12 @@ const Login = ({ handleChangePage, history, login }) => {
       })
       .catch(error => alert(error))
   }
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginValidation}
-      onSubmit={handleLogin}
+      onSubmit={handleSubmit}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
@@ -92,5 +92,5 @@ const Title = styled.p`
 `
 export default compose(
   withRouter,
-  withGQL,
+  mutations,
 )(Login)
