@@ -4,6 +4,7 @@ module.exports = gql`
   type Query {
     user(_id: ID!): User!
     users: [User]
+    loggedInUser: User!
   }
   type User {
     _id: String!

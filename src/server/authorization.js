@@ -1,10 +1,10 @@
+const { jwtSecret } = require('./config')
 const User = require('./models/User')
+const jwt = require('jsonwebtoken')
+const { AuthenticationError } = require('apollo-server')
 
 module.exports = function authorizationLogic() {
   return async ({ req }) => {
-    //----------------------------------------------------------------
-    //shitty logic,there must be another way
-    // PLOX FIX ME!
     const mutationbody = req.body.operationName
     if (['login', 'signUp'].includes(mutationbody)) {
       return
@@ -14,17 +14,19 @@ module.exports = function authorizationLogic() {
       const splittedToken = token
         .replace('Bearer ', '')
         .replace(/"/g, '')
-        .split(':')
-      const email = splittedToken[0]
-      const password = splittedToken[1]
-      //----------------------------- this part will be replaced by jwt
-      const returnedUser = await User.findOne(
-        { email: email, password: password },
-        { email: 1, password: 1, firstName: 1, _id: 1 },
-      )
-      if (returnedUser == null) {
-        throw new Error('INVALID TOKEN')
-      } else return { user: returnedUser._doc }
+        .split(':')[0]
+
+      const decodedToken = jwt.verify(splittedToken, jwtSecret)
+      const { email, password } = decodedToken
+      const user = await User.findOne({ email, password })
+      if (!user) {
+        throw new AuthenticationError('No user found with this credential.')
+      }
+      try {
+        return { loggedInUser: user }
+      } catch (e) {
+        throw new AuthenticationError('Your session expired. Sign in again.')
+      }
     }
     throw new Error('YOU MUST PROVIDE TOKEN. HACKERMANE!')
   }

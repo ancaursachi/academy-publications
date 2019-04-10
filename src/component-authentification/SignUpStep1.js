@@ -26,7 +26,7 @@ const SignUpStep1 = ({
       return handleSubmit()
     }
   }
-  return !userIsCreated ? (
+  return (
     <Root>
       <Title>Sign Up</Title>
       <InputForm
@@ -81,26 +81,9 @@ const SignUpStep1 = ({
         />
       </Row>
     </Root>
-  ) : (
-    <SuccessCreateUserPage handleChangePage={handleChangePage} />
   )
 }
 
-const SuccessCreateUserPage = ({ handleChangePage }) => (
-  <Root>
-    <Row mt={5} justify={'center'}>
-      <Message>Welcome between our community !</Message>
-    </Row>
-    <Row justify={'flex-end'}>
-      <Button
-        name="Login"
-        iconName={'sign-in-alt'}
-        mt={5}
-        onClick={handleChangePage}
-      />
-    </Row>
-  </Root>
-)
 const Root = styled.div`
   width: 100%;
   height: 100%;
@@ -114,12 +97,6 @@ const Root = styled.div`
 const Title = styled.p`
   font-size: 1.5em;
   font-weight: 700;
-`
-const Message = styled.div`
-  font-size: 1.8em;
-  font-weight: 900;
-  text-align: center;
-  color: ${th.colorSecondary};
 `
 
 export default SignUpStep1
