@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Formik } from 'formik'
 import { compose } from 'recompose'
+import { get } from 'lodash'
+import { withRouter } from 'react-router-dom'
 
-import withGQL from './withGQL'
+import { mutations } from '../qraphqlClient'
 import { th } from '../component-ui'
 import {
   SignUpStep0,
@@ -11,7 +13,7 @@ import {
   SignUpValidation,
 } from '../component-authentification'
 
-const SignUp = ({ handleChangePage, addUser }) => {
+const SignUp = ({ handleChangePage, history, signUp, login }) => {
   const [signUpPage, setSignUpPage] = useState(true)
   const [userIsCreated, setUserIsCreated] = useState(false)
   const handleChangeSignUpPage = () => {
@@ -23,13 +25,30 @@ const SignUp = ({ handleChangePage, addUser }) => {
   }
 
   const handleSignUp = input => {
-    return addUser({
+    return signUp({
       variables: {
         input,
       },
     })
-      .then(() => handleUserIsCreated())
-      .catch(error => alert('Email is already in the system'))
+      .then(() =>
+        login({
+          variables: {
+            email: input.email,
+            password: input.password,
+          },
+        })
+          .then(({ data }) => {
+            const token = get(data.login, 'token')
+            const isToken = localStorage.getItem('authToken')
+            if (!isToken) {
+              localStorage.setItem('authToken', JSON.stringify(token))
+              history.push('/dashboard')
+              window.location.reload()
+            }
+          })
+          .catch(error => alert(error)),
+      )
+      .catch(error => alert(error))
   }
 
   const initialValues = {
@@ -89,4 +108,7 @@ const Root = styled.div`
   ${th.paddingHelper}
 `
 
-export default compose(withGQL)(SignUp)
+export default compose(
+  mutations,
+  withRouter,
+)(SignUp)

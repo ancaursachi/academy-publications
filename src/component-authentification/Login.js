@@ -1,21 +1,40 @@
 import React from 'react'
 import { Formik } from 'formik'
 import styled from 'styled-components'
-
+import { compose } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import { th, InputForm, Button, Row } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
+import { mutations } from '../qraphqlClient'
+import { get } from 'lodash'
 
-const handleLogin = values => {
-  console.log({ values })
-}
-const Login = ({ handleChangePage }) => {
+const Login = ({ handleChangePage, history, login, ...props }) => {
   const initialValues = { email: '', password: '' }
+
+  const handleSubmit = ({ email, password }) => {
+    return login({
+      variables: {
+        email,
+        password,
+      },
+    })
+      .then(({ data }) => {
+        const token = get(data.login, 'token')
+        const isToken = localStorage.getItem('authToken')
+        if (!isToken) {
+          localStorage.setItem('authToken', JSON.stringify(token))
+          history.push('/dashboard')
+          window.location.reload()
+        }
+      })
+      .catch(error => alert(error))
+  }
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginValidation}
-      onSubmit={handleLogin}
+      onSubmit={handleSubmit}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
@@ -71,4 +90,7 @@ const Title = styled.p`
   font-size: 1.5em;
   font-weight: 700;
 `
-export default Login
+export default compose(
+  withRouter,
+  mutations,
+)(Login)

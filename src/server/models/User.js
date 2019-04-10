@@ -1,8 +1,9 @@
+const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -37,6 +38,22 @@ const UserSchema = new Schema({
     required: true,
   },
 })
+UserSchema.statics.findByLogin = async function(email) {
+  return await this.findOne({ email })
+}
+
+UserSchema.pre('save', async function() {
+  this.password = await this.generatePasswordHash()
+})
+
+UserSchema.methods.generatePasswordHash = async function() {
+  const saltRounds = 10
+  return await bcrypt.hash(this.password, saltRounds)
+}
+
+UserSchema.methods.validatePassword = async function(password) {
+  return await bcrypt.compare(password, this.password)
+}
 
 const User = mongoose.model('User', UserSchema)
 

@@ -1,50 +1,52 @@
+const { jwtSecret } = require('../../config')
+const { AuthenticationError, UserInputError } = require('apollo-server')
+const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 
-module.exports = {
+const createToken = async (user, secret, expiresIn) => {
+  const { email, password } = user
+  return await jwt.sign({ email, password }, secret, { expiresIn })
+}
+
+const models = {
   Query: {
-    user: (root, args) => {
-      return new Promise((resolve, reject) => {
-        User.findOne(args).exec((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+    loggedInUser: async (parent, args, { loggedInUser }) => {
+      return loggedInUser
     },
-    users: () => {
-      return new Promise((resolve, reject) => {
-        User.find({})
-          .populate()
-          .exec((err, res) => {
-            err ? reject(err) : resolve(res)
-          })
-      })
+
+    user: async (parent, args, { logInUser }) => {
+      console.log('context', logInUser)
+      return await User.findOne({ _id: logInUser })
+    },
+    users: async (parent, args, { logInUser }) => {
+      return await User.find({})
     },
   },
   Mutation: {
-    addUser: (root, user) => {
-      const newUser = new User(user.input)
-      return new Promise((resolve, reject) => {
-        newUser.save((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+    signUp: async (parent, args) => {
+      const user = await User.findByLogin(args.input.email)
+      if (user) {
+        throw new UserInputError('This email already exist.')
+      }
+      const newUser = new User(args.input)
+      await newUser.save()
+      return { token: createToken(newUser, jwtSecret, '30m') }
     },
-    editUser: (root, { id, username }) => {
-      return new Promise((resolve, reject) => {
-        User.findOneAndUpdate(
-          { id },
-          { $set: { username } },
-          { new: true },
-        ).exec((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+    deleteUser: (parent, args) => {
+      return User.findOneAndRemove(args)
     },
-    deleteUser: (root, args) => {
-      return new Promise((resolve, reject) => {
-        User.findOneAndRemove(args).exec((err, res) => {
-          err ? reject(err) : resolve(res)
-        })
-      })
+    login: async (parent, { email, password }, { logInUser }) => {
+      const user = await User.findByLogin(email)
+      if (!user) {
+        throw new UserInputError('No user found with this login credentials.')
+      }
+      const isValid = await user.validatePassword(password)
+      if (!isValid) {
+        throw new AuthenticationError('Invalid password.')
+      }
+      return { token: createToken(user, jwtSecret, '30m') }
     },
   },
 }
+
+module.exports = models
