@@ -2,10 +2,17 @@ import { css } from 'styled-components'
 import { get } from 'lodash'
 
 const colors = {
-  colorPrimary: '#4b5b82',
-  colorSecondary: '#d46865',
-  colorThird: '#3F3B48',
-  colorDark: '#3b3b3b',
+  colorBlue: '#1c5367',
+  colorBrick: '#BA6049',
+  colorDark: '#222327',
+  colorWhite: '#fff',
+  colorGreenLight: '#77a598',
+  colorBrownLight: '#575450',
+  colorBackground: '#f2ede7',
+  colorError: '#d46865',
+  colorBlueLight: '#4D646B',
+  colorYellowLight: '#fef9c7',
+  colorYellow: '#fce181',
 }
 
 const marginHelper = props => {

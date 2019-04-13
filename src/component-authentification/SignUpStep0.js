@@ -95,12 +95,14 @@ const SignUpStep0 = ({
       <Row>
         <Button
           mt={1}
+          underline
           name="Login"
           iconName={'sign-in-alt'}
           onClick={handleChangePage}
         />
         <Button
           mt={1}
+          underline
           name="Next"
           iconName={'arrow-right'}
           onClick={handleSignUp0Button}
@@ -118,7 +120,7 @@ const Title = styled.p`
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  color: ${th.colorPrimary};
+  color: ${th.colorDark};
   display: flex;
   align-items: center;
   flex-wrap: wrap;

@@ -13,7 +13,7 @@ const AuthentificationPage = () => {
   return (
     <Root>
       <Card
-        backgroundColor={th.colorPrimary}
+        backgroundColor={th.colorBlue}
         width={20}
         borderRadius={'5px 0px 0px 5px'}
         pl={2}

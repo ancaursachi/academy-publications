@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { th } from './../component-ui'
 
 const Intro = () => (
   <Root>
@@ -23,15 +24,19 @@ const Root = styled.div`
   display: flex;
   align-items: center;
 `
-const Content = styled.div``
+const Content = styled.div`
+  color: #snow;
+`
 
 const Header = styled.p`
   font-size: 2em;
   margin: 0em;
+  color: ${th.colorWhite};
 `
 const Title = styled.p`
   font-size: 1.5em;
   font-weight: 700;
+  color: ${th.colorYellowLight};
 `
 
 const Info = styled.div``

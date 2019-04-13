@@ -62,11 +62,14 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
             />
             <Row mt={4}>
               <Button
+                iconRight
+                underline
                 name="Sign Up"
                 iconName={'user-plus'}
                 onClick={handleChangePage}
               />
               <Button
+                underline
                 name="Login"
                 type="submit"
                 iconName={'sign-in-alt'}
@@ -83,7 +86,6 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  color: ${th.colorPrimary};
 `
 const Title = styled.p`
   margin: 0.5em 0em;

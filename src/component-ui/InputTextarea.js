@@ -63,12 +63,12 @@ const Textarea = styled(Field)`
 `
 
 const Error = styled.div`
-  color: ${th.colorSecondary};
+  color: ${th.colorError};
   font-size: 0.8em;
 `
 const ErrorMessage = styled.div`
   position: absolute;
-  color: ${th.colorSecondary};
+  color: ${th.colorError};
   font-size: 0.8em;
 `
 export default InputTextarea

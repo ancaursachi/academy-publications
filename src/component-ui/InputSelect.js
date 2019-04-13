@@ -59,11 +59,11 @@ const Select = styled(Field)`
 `
 const ErrorMessage = styled.div`
   position: absolute;
-  color: ${th.colorSecondary};
+  color: ${th.colorError};
   font-size: 0.8em;
 `
 const Error = styled.div`
-  color: ${th.colorSecondary};
+  color: ${th.colorError};
   font-size: 0.8em;
 `
 const Option = styled.option``

@@ -84,6 +84,7 @@ export default SubmissionForm
 
 const Root = styled.div`
   margin: 2em 2em;
+  color: ${th.colorDark};
 `
 
 const Title = styled.div`
@@ -91,5 +92,5 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   font-weight: 600;
-  color: ${th.colorSecondary};
+  color: ${th.colorBrick};
 `

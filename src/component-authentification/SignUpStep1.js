@@ -65,18 +65,20 @@ const SignUpStep1 = ({
 
       <Row>
         <Button
+          mt={1}
+          iconLeft
+          underline
           name="Prev"
           iconName={'arrow-left'}
-          iconLeft
           onClick={handleChangeSignUpPage}
-          mt={1}
         />
-        <Button name="Login" handleClick={handleChangePage} mt={1} />
+        <Button name="Login" underline handleClick={handleChangePage} mt={1} />
         <Button
+          mt={1}
+          underline
+          type="submit"
           name="End Sign Up"
           iconName={'user-plus'}
-          mt={1}
-          type="submit"
           onClick={handleSignUp1Button}
         />
       </Row>
@@ -87,7 +89,7 @@ const SignUpStep1 = ({
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  color: ${th.colorPrimary};
+  color: ${th.colorDark};
   display: flex;
   align-items: center;
   flex-wrap: wrap;

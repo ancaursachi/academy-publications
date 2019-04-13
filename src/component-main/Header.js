@@ -12,7 +12,12 @@ const Header = () => (
     </Column>
     <Column>
       <Item>
-        <Button name="Logout" onClick={logout} />
+        <Button
+          name="Logout"
+          color={th.colorWhite}
+          onClick={logout}
+          fontWeight={600}
+        />
       </Item>
     </Column>
   </Row>
@@ -27,7 +32,7 @@ const logout = () => {
 const Row = styled.nav`
   list-style-type: none;
   height: 3em;
-  background-color: ${th.colorThird};
+  background-color: ${th.colorBlue};
   display: grid;
   grid-template-columns: 80% 20%;
   position: fixed;
@@ -39,7 +44,7 @@ const Row = styled.nav`
 const Column = styled.div`
   display: flex;
   align-items: center;
-  color: #fff;
+  color: ${th.colorWhite};
   font-size: 1.4em;
   margin-left: 3em;
 `
@@ -51,11 +56,12 @@ const Item = styled.div`
 `
 
 const StyledLink = styled(Link)`
-  color: #fff;
+  color: ${th.colorWhite};
+  font-weight: 600;
   text-decoration: none;
   display: block;
   :hover {
-    color: #fff;
+    color: ${th.colorWhite};
     text-decoration: none;
   }
 `

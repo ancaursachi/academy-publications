@@ -1,52 +1,55 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { get } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import th from './theme'
 
-const Button = ({
-  name,
-  iconName,
-  iconLeft = false,
-  type = 'button',
-  lineButton,
-  ...props
-}) => {
+const Button = ({ name, iconName, iconLeft, type = 'button', ...props }) => {
   return (
     <Root {...props} type={type}>
-      {iconLeft && iconName && <IconLeft icon={iconName} />}
-      <Title>{name}</Title>
-      {!iconLeft && iconName && <Icon icon={iconName} />}
+      {iconLeft && iconName && <IconLeft icon={iconName} color={props.color} />}
+      <Title {...props}>{name}</Title>
+      {!iconLeft && iconName && (
+        <IconRight icon={iconName} color={props.color} />
+      )}
     </Root>
   )
 }
+
+const helper = props => {
+  if (get(props, 'underline')) {
+    return css`
+      box-shadow: 0em 0.1em 0em 0em ${th[props.color]};
+    `
+  }
+}
 const Root = styled.button`
-  color: ${th.colorPrimary};
-  background-color: white;
-  color: black;
+  color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+  background-color: transparent;
   border: none;
   text-decoration: none;
-  box-shadow: 0em 0.1em 0em 0em ${th.colorPrimary};
   display: flex;
   align-items: center;
   :focus {
     outline: none;
   }
+  font-weight: ${props =>
+    get(props, 'fontWeight') ? props.fontWeight : 'normal'};
   ${th.marginHelper}
   ${th.paddingHelper}
+  ${helper};
 `
 
 const Title = styled.p`
-  color: ${th.colorPrimary};
+  color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
   margin: 0em;
 `
-const Icon = styled(FontAwesomeIcon)`
+const IconRight = styled(FontAwesomeIcon)`
   margin: 0em 0em 0em 0.5em;
-  color: ${th.colorPrimary};
 `
 const IconLeft = styled(FontAwesomeIcon)`
   margin: 0em 0.5em 0em 0em;
-  color: ${th.colorPrimary};
 `
 
 export default Button
