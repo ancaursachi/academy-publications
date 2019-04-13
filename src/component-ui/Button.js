@@ -9,6 +9,7 @@ const Button = ({
   iconName,
   iconLeft = false,
   type = 'button',
+  lineButton,
   ...props
 }) => {
   return (
@@ -19,14 +20,13 @@ const Button = ({
     </Root>
   )
 }
-
 const Root = styled.button`
   color: ${th.colorPrimary};
   background-color: white;
   color: black;
   border: none;
   text-decoration: none;
-  border-bottom: 2px solid ${th.colorPrimary};
+  box-shadow: 0em 0.1em 0em 0em ${th.colorPrimary};
   display: flex;
   align-items: center;
   :focus {

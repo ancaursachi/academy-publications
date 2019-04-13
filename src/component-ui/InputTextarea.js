@@ -1,31 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Row } from '../component-ui'
 import { Field } from 'formik'
 
 import th from './theme'
+import { Row } from '../component-ui'
 
-const InputSelect = ({
+const InputTextarea = ({
   label,
+  value,
   name,
-  options,
+  onChange,
   required,
-  widthInput,
-  type = 'text',
+  validate,
   error = null,
+  widthInput = null,
+  type = 'text',
   ...props
 }) => (
   <Root {...props}>
     <Label labelName={label} required={required} />
-
-    <Select type={type} widthinput={widthInput} component="select" name={name}>
-      {options.map((option, index) => (
-        <Option key={index} value={option}>
-          {option}
-        </Option>
-      ))}
-    </Select>
-
+    <Textarea
+      name={name}
+      type={type}
+      widthinput={widthInput}
+      value={value}
+      onChange={onChange}
+      validate={validate}
+      component="textarea"
+    />
     {error && <ErrorMessage>{error}</ErrorMessage>}
   </Root>
 )
@@ -38,34 +40,35 @@ const Label = ({ labelName, required }) => (
 )
 
 const Root = styled.div`
+  position: relative;
   ${th.marginHelper}
   ${th.paddingHelper}
-  width: ${props => (props.width ? `${props.width}em` : '19em')};
 `
 const StyledLabel = styled.label`
   margin: 0;
 `
-const Select = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '19em')};
-  height: 2.5em;
+const Textarea = styled(Field)`
+  width: 100%;
+  min-height: ${props =>
+    props.heightinput ? `${props.heightinput}em` : '10em'};
+  max-height: ${props =>
+    props.heightinput ? `${props.heightinput}em` : '10em'};
+  min-width: ${props => (props.widthinput ? `${props.widthinput}em` : '600em')};
   padding: 0.5em 0.5em;
-  margin: 0;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   outline: none;
-  background-color: white;
+`
+
+const Error = styled.div`
+  color: ${th.colorSecondary};
+  font-size: 0.8em;
 `
 const ErrorMessage = styled.div`
   position: absolute;
   color: ${th.colorSecondary};
   font-size: 0.8em;
 `
-const Error = styled.div`
-  color: ${th.colorSecondary};
-  font-size: 0.8em;
-`
-const Option = styled.option``
-
-export default InputSelect
+export default InputTextarea

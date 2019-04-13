@@ -27,9 +27,13 @@ const logout = () => {
 const Row = styled.nav`
   list-style-type: none;
   height: 3em;
-  background-color: ${th.colorPrimary};
+  background-color: ${th.colorThird};
   display: grid;
   grid-template-columns: 80% 20%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 `
 
 const Column = styled.div`

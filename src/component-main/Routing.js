@@ -5,6 +5,7 @@ import { DashboardPage } from '../component-dashboard'
 import { Header } from '../component-main'
 import { Redirect } from 'react-router'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { SubmissionPage } from '../component-submission'
 
 const Routing = () => {
   return (
@@ -13,6 +14,7 @@ const Routing = () => {
       <LoginRoute exact path="/login" component={AuthentificationPage} />
       <PrivateRoute exact path="/" component={DashboardPage} />
       <PrivateRoute exact path="/dashboard" component={DashboardPage} />
+      <PrivateRoute exact path="/submission" component={SubmissionPage} />
     </Router>
   )
 }

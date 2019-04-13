@@ -11,11 +11,13 @@ import {
   faArrowLeft,
   faSignInAlt,
   faUserPlus,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import { Routing } from '../component-main'
 library.add(faArrowRight)
 library.add(faArrowLeft)
 library.add(faUserPlus)
+library.add(faPlus)
 library.add(faSignInAlt)
 
 const authLink = setContext((_, { headers }) => {

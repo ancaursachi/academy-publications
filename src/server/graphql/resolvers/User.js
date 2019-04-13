@@ -44,7 +44,7 @@ const models = {
       if (!isValid) {
         throw new AuthenticationError('Invalid password.')
       }
-      return { token: createToken(user, jwtSecret, '30m') }
+      return { token: createToken(user, jwtSecret, '300m') }
     },
   },
 }

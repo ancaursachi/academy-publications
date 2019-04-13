@@ -4,8 +4,8 @@ import { get } from 'lodash'
 const colors = {
   colorPrimary: '#4b5b82',
   colorSecondary: '#d46865',
+  colorThird: '#3F3B48',
   colorDark: '#3b3b3b',
-  colorThird: '#3a2933',
 }
 
 const marginHelper = props => {
