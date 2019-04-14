@@ -8,11 +8,9 @@ import th from './theme'
 const Button = ({ name, iconName, iconLeft, type = 'button', ...props }) => {
   return (
     <Root {...props} type={type}>
-      {iconLeft && iconName && <IconLeft icon={iconName} color={props.color} />}
+      {iconLeft && iconName && <IconLeft icon={iconName} color="inherit" />}
       <Title {...props}>{name}</Title>
-      {!iconLeft && iconName && (
-        <IconRight icon={iconName} color={props.color} />
-      )}
+      {!iconLeft && iconName && <IconRight icon={iconName} color="inherit" />}
     </Root>
   )
 }
@@ -23,9 +21,25 @@ const helper = props => {
       box-shadow: 0em 0.1em 0em 0em ${th[props.color]};
     `
   }
+  if (get(props, 'sideMenu')) {
+    return css`
+      background-color: ${th.colorCrem};
+      transition: all 0.4s ease 0s;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      color: ${th.colorWhite};
+      :hover {
+        box-shadow: 0em 0.3em 1em rgba(0, 0, 0, 0.4);
+      }
+    `
+  }
+
+  return css`
+    color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+  `
 }
 const Root = styled.button`
-  color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
   background-color: transparent;
   border: none;
   text-decoration: none;
@@ -42,8 +56,9 @@ const Root = styled.button`
 `
 
 const Title = styled.p`
-  color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+  color: inherit;
   margin: 0em;
+  font-size: ${props => get(props, 'fontSize')};
 `
 const IconRight = styled(FontAwesomeIcon)`
   margin: 0em 0em 0em 0.5em;

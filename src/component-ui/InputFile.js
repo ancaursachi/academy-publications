@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field } from 'formik'
 
 import th from './theme'
 import { Row } from '../component-ui'
@@ -47,7 +46,7 @@ const StyledLabel = styled.label`
 const File = styled.input`
   width: 100%;
 
-  padding: 0.5em 0.5em;
+  padding: 0em 0em;
   display: inline-block;
   box-sizing: border-box;
   outline: none;
