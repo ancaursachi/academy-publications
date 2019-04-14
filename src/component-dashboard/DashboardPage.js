@@ -12,7 +12,6 @@ const DashboardPage = ({ history }) => {
   const { data } = useQuery(queries.getUsers)
   const { width: pageWidth } = useMeasureWindow()
   const users = get(data, 'users', [])
-  console.log(pageWidth)
   return (
     <Root>
       {/* {users.map(({ firstName }, index) => (
@@ -29,8 +28,8 @@ const DashboardPage = ({ history }) => {
           onClick={() => history.push('/submission')}
         />
       </SideMenu>
-      <Content>
-        <div>sici</div>
+      <Content pr={1} pl={1} pt={1}>
+        <div>aici</div>
       </Content>
     </Root>
   )
@@ -44,7 +43,6 @@ const Root = styled.div`
 `
 
 const Content = styled.div`
-  padding: 1em;
   ${th.marginHelper}
   ${th.paddingHelper}
 `

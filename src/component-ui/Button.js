@@ -19,6 +19,7 @@ const helper = props => {
   if (get(props, 'underline')) {
     return css`
       box-shadow: 0em 0.1em 0em 0em ${th[props.color]};
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
   if (get(props, 'sideMenu')) {
@@ -48,6 +49,8 @@ const Root = styled.button`
   :focus {
     outline: none;
   }
+  font-size: ${props =>
+    get(props, 'fontSize') ? `${props.fontSize}em` : `1em`};
   font-weight: ${props =>
     get(props, 'fontWeight') ? props.fontWeight : 'normal'};
   ${th.marginHelper}

@@ -11,7 +11,7 @@ import { get } from 'lodash'
 const Login = ({ handleChangePage, history, login, ...props }) => {
   const initialValues = { email: '', password: '' }
 
-  const handleSubmit = ({ email, password }) => {
+  const handleLogin = ({ email, password }) => {
     return login({
       variables: {
         email,
@@ -34,7 +34,7 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
     <Formik
       initialValues={initialValues}
       validationSchema={LoginValidation}
-      onSubmit={handleSubmit}
+      onSubmit={handleLogin}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (

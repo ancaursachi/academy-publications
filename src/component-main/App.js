@@ -5,20 +5,8 @@ import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-  faArrowRight,
-  faArrowLeft,
-  faSignInAlt,
-  faUserPlus,
-  faPlus,
-} from '@fortawesome/free-solid-svg-icons'
+import Icons from './Icons'
 import { Routing } from '../component-main'
-library.add(faArrowRight)
-library.add(faArrowLeft)
-library.add(faUserPlus)
-library.add(faPlus)
-library.add(faSignInAlt)
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('authToken')
@@ -40,6 +28,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
 })
 const App = props => {
+  Icons()
   return (
     <ApolloProvider client={client}>
       <ApolloHooksProvider client={client}>

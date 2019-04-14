@@ -20,6 +20,7 @@ const InputFile = ({
     <File
       name={name}
       type="file"
+      accept=".pdf,.doc,.docx,.txt"
       widthinput={widthInput}
       onChange={onChange}
       validate={validate}
