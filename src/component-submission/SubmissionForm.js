@@ -27,10 +27,12 @@ const SubmissionForm = ({ createManuscript, history }) => {
       variables: {
         input: manuscript,
       },
-    }).then(() => {
-      history.push('/dashboard')
-      window.location.reload()
     })
+      .then(() => {
+        history.push('/dashboard')
+        window.location.reload()
+      })
+      .catch(error => alert(error))
   }
 
   return (
