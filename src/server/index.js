@@ -17,6 +17,17 @@ mongoose
 const server = new ApolloServer({
   schema,
   context: authorizationLogic(),
+  introspection: true,
+  playground: {
+    settings: {
+      'editor.theme': 'dark',
+    },
+    tabs: [
+      {
+        endpoint: 'http://localhost:1000/graphql',
+      },
+    ],
+  },
 })
 
 server.listen({ port }, () => {

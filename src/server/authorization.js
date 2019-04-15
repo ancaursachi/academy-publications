@@ -28,6 +28,6 @@ module.exports = function authorizationLogic() {
         throw new AuthenticationError('Your session expired. Sign in again.')
       }
     }
-    throw new Error('YOU MUST PROVIDE TOKEN. HACKERMANE!')
+    // throw new AuthenticationError('YOU MUST PROVIDE TOKEN. HACKERMANE!')
   }
 }

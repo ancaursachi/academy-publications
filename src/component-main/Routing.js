@@ -6,6 +6,7 @@ import { Header } from '../component-main'
 import { Redirect } from 'react-router'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { SubmissionPage } from '../component-submission'
+import NotFoundPage from './NotFoundPage'
 
 const Routing = () => {
   return (
@@ -15,6 +16,7 @@ const Routing = () => {
       <PrivateRoute exact path="/" component={DashboardPage} />
       <PrivateRoute exact path="/dashboard" component={DashboardPage} />
       <PrivateRoute exact path="/submission" component={SubmissionPage} />
+      <Route exact path="*" component={NotFoundPage} />
     </Router>
   )
 }

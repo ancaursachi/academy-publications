@@ -1,32 +1,36 @@
 import React from 'react'
 import styled from 'styled-components'
+import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { th, Button } from '../component-ui'
+import { withRouter } from 'react-router-dom'
 
-const Header = () => (
-  <Row>
-    <Column>
-      <Item>
-        <StyledLink to="/dashboard">Dashboard</StyledLink>
-      </Item>
-    </Column>
-    <Column>
-      <Item>
-        <Button
-          name="Logout"
-          color={th.colorWhite}
-          onClick={logout}
-          fontWeight={600}
-        />
-      </Item>
-    </Column>
-  </Row>
-)
-
-const logout = () => {
-  localStorage.removeItem('authToken')
-  localStorage.removeItem('user')
-  window.location.reload()
+const Header = ({ history }) => {
+  const handleLogout = () => {
+    localStorage.removeItem('authToken')
+    localStorage.removeItem('user')
+    history.push('/login')
+    window.location.reload()
+  }
+  return (
+    <Row>
+      <Column>
+        <Item>
+          <StyledLink to="/dashboard">Dashboard</StyledLink>
+        </Item>
+      </Column>
+      <Column>
+        <Item>
+          <Button
+            name="Logout"
+            color={th.colorWhite}
+            onClick={handleLogout}
+            fontWeight={600}
+          />
+        </Item>
+      </Column>
+    </Row>
+  )
 }
 
 const Row = styled.nav`
@@ -66,4 +70,4 @@ const StyledLink = styled(Link)`
   }
 `
 
-export default Header
+export default compose(withRouter)(Header)
