@@ -100,7 +100,7 @@ const SignUp = ({ handleChangePage, history, signUp, login }) => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  color: ${th.colorPrimary};
+  color: ${th.colorDark};
   display: flex;
   align-items: center;
   flex-wrap: wrap;

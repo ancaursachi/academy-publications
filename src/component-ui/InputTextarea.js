@@ -5,7 +5,7 @@ import { Field } from 'formik'
 import th from './theme'
 import { Row } from '../component-ui'
 
-const InputForm = ({
+const InputTextarea = ({
   label,
   value,
   name,
@@ -19,13 +19,14 @@ const InputForm = ({
 }) => (
   <Root {...props}>
     <Label labelName={label} required={required} />
-    <Input
+    <Textarea
       name={name}
       type={type}
       widthinput={widthInput}
       value={value}
       onChange={onChange}
       validate={validate}
+      component="textarea"
     />
     {error && <ErrorMessage>{error}</ErrorMessage>}
   </Root>
@@ -46,9 +47,13 @@ const Root = styled.div`
 const StyledLabel = styled.label`
   margin: 0;
 `
-const Input = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '20em')};
-  height: 2.5em;
+const Textarea = styled(Field)`
+  width: 100%;
+  min-height: ${props =>
+    props.heightinput ? `${props.heightinput}em` : '10em'};
+  max-height: ${props =>
+    props.heightinput ? `${props.heightinput}em` : '10em'};
+  min-width: ${props => (props.widthinput ? `${props.widthinput}em` : '600em')};
   padding: 0.5em 0.5em;
   display: inline-block;
   border: 1px solid #ccc;
@@ -66,4 +71,4 @@ const ErrorMessage = styled.div`
   color: ${th.colorError};
   font-size: 0.8em;
 `
-export default InputForm
+export default InputTextarea

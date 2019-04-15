@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Field } from 'formik'
 
 import th from './theme'
 import { Row } from '../component-ui'
 
-const InputForm = ({
+const InputFile = ({
   label,
   value,
   name,
@@ -14,16 +13,15 @@ const InputForm = ({
   validate,
   error = null,
   widthInput = null,
-  type = 'text',
   ...props
 }) => (
   <Root {...props}>
     <Label labelName={label} required={required} />
-    <Input
+    <File
       name={name}
-      type={type}
+      type="file"
+      accept=".pdf,.doc,.docx,.txt"
       widthinput={widthInput}
-      value={value}
       onChange={onChange}
       validate={validate}
     />
@@ -46,13 +44,11 @@ const Root = styled.div`
 const StyledLabel = styled.label`
   margin: 0;
 `
-const Input = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '20em')};
-  height: 2.5em;
-  padding: 0.5em 0.5em;
+const File = styled.input`
+  width: 100%;
+
+  padding: 0em 0em;
   display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
   box-sizing: border-box;
   outline: none;
 `
@@ -66,4 +62,4 @@ const ErrorMessage = styled.div`
   color: ${th.colorError};
   font-size: 0.8em;
 `
-export default InputForm
+export default InputFile
