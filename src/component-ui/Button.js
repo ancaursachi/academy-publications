@@ -22,9 +22,17 @@ const helper = props => {
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
+  if (get(props, 'decisionDash')) {
+    return css`
+      width: 2em;
+      height: 2em;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
   if (get(props, 'sideMenu')) {
     return css`
-      background-color: ${th.colorCrem};
+      background-color: ${th.colorBlueLight};
       transition: all 0.4s ease 0s;
       width: 100%;
       display: flex;

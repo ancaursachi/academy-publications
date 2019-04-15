@@ -98,7 +98,7 @@ const SubmissionForm = ({ createManuscript, history }) => {
                 name="Submit"
                 type="submit"
                 fontSize={1.2}
-                color={th.colorBrick}
+                color={th.colorBlueLight}
                 iconName={'arrow-right'}
                 onClick={handleSubmit}
               />
@@ -125,5 +125,5 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   font-weight: 600;
-  color: ${th.colorBrick};
+  color: ${th.colorBlueLight};
 `
