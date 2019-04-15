@@ -18,7 +18,7 @@ const DashboardPage = ({ history }) => {
         <div key={index}>{firstName}</div>
       ))} */}
 
-      <SideMenu pageWidth={pageWidth / 5} pt={2}>
+      <SideMenu pageWidth={pageWidth / 5} pt={5}>
         <Button
           fontWeight="bold"
           fontSize="1.2em"
@@ -28,7 +28,7 @@ const DashboardPage = ({ history }) => {
           onClick={() => history.push('/submission')}
         />
       </SideMenu>
-      <Content pr={1} pl={1} pt={1}>
+      <Content pr={1} pl={1} pt={1} mt={3}>
         <div>aici</div>
       </Content>
     </Root>
@@ -38,7 +38,6 @@ const DashboardPage = ({ history }) => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 3em;
   display: flex;
 `
 
