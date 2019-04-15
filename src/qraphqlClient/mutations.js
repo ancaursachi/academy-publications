@@ -16,7 +16,13 @@ const login = gql`
     }
   }
 `
+const createManuscript = gql`
+  mutation createManuscript($input: ManuscriptInput!) {
+    createManuscript(input: $input)
+  }
+`
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
+  graphql(createManuscript, { name: 'createManuscript' }),
 )

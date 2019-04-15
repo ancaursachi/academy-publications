@@ -18,7 +18,7 @@ const SubmissionPage = ({ history }) => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 2em;
+  margin-top: 1em;
   display: flex;
   justify-content: center;
   align-items: center;

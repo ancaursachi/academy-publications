@@ -1,4 +1,5 @@
 import React from 'react'
+import { compose } from 'recompose'
 import styled from 'styled-components'
 import {
   th,
@@ -10,9 +11,11 @@ import {
   InputTextarea,
 } from '../component-ui'
 import { Formik } from 'formik'
+import { mutations } from '../qraphqlClient'
+import { withRouter } from 'react-router-dom'
 import { submissionValidation } from '../component-submission'
 
-const SubmissionForm = () => {
+const SubmissionForm = ({ createManuscript, history }) => {
   const initialValues = {
     title: '',
     articleType: 'Research article',
@@ -20,7 +23,14 @@ const SubmissionForm = () => {
     manuscriptFile: '',
   }
   const handleSubmission = manuscript => {
-    console.log({ manuscript })
+    return createManuscript({
+      variables: {
+        input: manuscript,
+      },
+    }).then(() => {
+      history.push('/dashboard')
+      window.location.reload()
+    })
   }
 
   return (
@@ -98,7 +108,10 @@ const SubmissionForm = () => {
   )
 }
 
-export default SubmissionForm
+export default compose(
+  mutations,
+  withRouter,
+)(SubmissionForm)
 
 const Root = styled.div`
   margin: 2em 2em;
