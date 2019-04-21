@@ -14,6 +14,7 @@ const queries = {
       manuscripts {
         _id
         title
+        created
         abstract
         articleType
       }

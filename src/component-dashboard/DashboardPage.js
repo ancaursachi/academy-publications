@@ -1,21 +1,27 @@
 import React from 'react'
-import { get } from 'lodash'
+import { get, sortBy } from 'lodash'
 import { useQuery } from 'react-apollo-hooks'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { queries } from '../qraphqlClient'
 import { ManuscriptCard, SideMenu } from '../component-dashboard'
+import { InputFile } from '../component-ui'
 
 const DashboardPage = ({ history }) => {
   const { data } = useQuery(queries.getManuscripts)
   const manuscripts = get(data, 'manuscripts', [])
-
+  const sortedManuscripts = sortBy(
+    manuscripts,
+    manuscript => -manuscript.created,
+  )
+  console.log(sortedManuscripts)
   return (
     <Root>
       <SideMenu history={history} />
       <Content>
-        {manuscripts.map(manuscript => (
+        {/* <InputFile name="searchValue" value=/> */}
+        {sortedManuscripts.map(manuscript => (
           <ManuscriptCard key={manuscript._id} manuscript={manuscript} />
         ))}
       </Content>
@@ -31,6 +37,7 @@ const Root = styled.div`
 const Content = styled.div`
   margin: 3.5em 0em 0em 0em;
   display: flex;
+  align-self: flex-start;
   justify-content: center;
   flex-wrap: wrap;
   padding-left: 14em;
