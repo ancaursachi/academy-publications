@@ -21,7 +21,7 @@ const InputSelect = ({
     <Select type={type} widthinput={widthInput} component="select" name={name}>
       {options.map((option, index) => (
         <Option key={index} value={option}>
-          {option}
+          {renameSelectOption(option)}
         </Option>
       ))}
     </Select>
@@ -29,6 +29,19 @@ const InputSelect = ({
     {error && <ErrorMessage>{error}</ErrorMessage>}
   </Root>
 )
+
+const renameSelectOption = option => {
+  switch (option) {
+    case 'title':
+      return 'Title'
+    case 'abstract':
+      return 'Abstract'
+    case 'articleType':
+      return 'Article Type'
+    default:
+      return option
+  }
+}
 
 const Label = ({ labelName, required }) => (
   <Row justify={'flex-start'}>

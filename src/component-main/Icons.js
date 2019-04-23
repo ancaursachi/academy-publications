@@ -5,6 +5,7 @@ import {
   faArrowLeft,
   faSignInAlt,
   faUserPlus,
+  faSearch,
   faTimes,
   faCheck,
   faPlus,
@@ -15,6 +16,7 @@ const Icons = () => {
   library.add(faArrowLeft)
   library.add(faSignInAlt)
   library.add(faUserPlus)
+  library.add(faSearch)
   library.add(faTimes)
   library.add(faCheck)
   library.add(faPlus)

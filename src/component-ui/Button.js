@@ -38,6 +38,7 @@ const helper = props => {
       display: flex;
       justify-content: center;
       color: ${th.colorWhite};
+      padding: 0.3em;
       :hover {
         box-shadow: 0em 0.3em 1em rgba(0, 0, 0, 0.4);
       }
