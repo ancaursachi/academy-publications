@@ -9,6 +9,17 @@ const queries = {
       }
     }
   `,
+  getManuscripts: gql`
+    query {
+      manuscripts {
+        _id
+        title
+        created
+        abstract
+        articleType
+      }
+    }
+  `,
 }
 
 export default queries

@@ -15,6 +15,12 @@ const ManuscriptSchema = new mongoose.Schema({
   },
   manuscriptFile: {
     type: String,
+  },
+  created: {
+    type: Number,
+  },
+  userId: {
+    type: String,
     required: true,
   },
 })

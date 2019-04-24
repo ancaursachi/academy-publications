@@ -22,14 +22,23 @@ const helper = props => {
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
+  if (get(props, 'decisionDash')) {
+    return css`
+      width: 2em;
+      height: 2em;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
   if (get(props, 'sideMenu')) {
     return css`
-      background-color: ${th.colorCrem};
+      background-color: ${th.colorBlueLight};
       transition: all 0.4s ease 0s;
       width: 100%;
       display: flex;
       justify-content: center;
       color: ${th.colorWhite};
+      padding: 0.3em;
       :hover {
         box-shadow: 0em 0.3em 1em rgba(0, 0, 0, 0.4);
       }

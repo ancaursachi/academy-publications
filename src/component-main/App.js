@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
@@ -30,11 +31,19 @@ const client = new ApolloClient({
 const App = props => {
   Icons()
   return (
-    <ApolloProvider client={client}>
-      <ApolloHooksProvider client={client}>
-        <Routing />
-      </ApolloHooksProvider>
-    </ApolloProvider>
+    <Root>
+      <ApolloProvider client={client}>
+        <ApolloHooksProvider client={client}>
+          <Routing />
+        </ApolloHooksProvider>
+      </ApolloProvider>
+    </Root>
   )
 }
+const Root = styled.div`
+  width: 100%;
+  height: 100%;
+  font-family: 'Merriweather Light', 'Times New Roman', serif;
+  background-color: #e9ebee;
+`
 export default App

@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
-import { InputForm, Button, Row } from '../component-ui'
+import { InputForm, Button, Row, Modal } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
 import { mutations } from '../qraphqlClient'
 import { get } from 'lodash'
 
 const Login = ({ handleChangePage, history, login, ...props }) => {
   const initialValues = { email: '', password: '' }
+  const [error, setError] = useState('')
+  const handleSetError = error => setError(error)
+
+  const [showModal, setShowModal] = useState(false)
+  const handleShowModal = () => setShowModal(!showModal)
 
   const handleLogin = ({ email, password }) => {
     return login({
@@ -27,7 +32,10 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
           window.location.reload()
         }
       })
-      .catch(error => alert(error))
+      .catch(error => {
+        handleSetError(error.message)
+        handleShowModal()
+      })
   }
 
   return (
@@ -76,6 +84,12 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
                 onClick={handleSubmit}
               />
             </Row>
+            <Modal
+              handleShowModal={handleShowModal}
+              showModal={showModal}
+              title={error}
+              error={error}
+            />
           </Root>
         )
       }}

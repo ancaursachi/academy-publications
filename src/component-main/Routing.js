@@ -14,10 +14,10 @@ const Routing = () => {
     <Router>
       <Switch>
         <LoginRoute exact path="/login" component={AuthentificationPage} />
-        <PrivateRoute exact path="/" component={DashboardPage} />
         <PrivateRoute exact path="/dashboard" component={DashboardPage} />
         <PrivateRoute exact path="/submission" component={SubmissionPage} />
         <Route exact path="/404" component={NotFoundPage} />
+        <Redirect from="*" to="/login" />
         <Redirect from="*" to="/404" />
       </Switch>
     </Router>
