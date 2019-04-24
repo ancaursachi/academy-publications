@@ -1,8 +1,10 @@
-import React from 'react'
-import { Card, Row, th, Button } from '../component-ui'
+import React, { useState } from 'react'
+import { Card, Row, th, Button, Modal } from '../component-ui'
 import styled from 'styled-components'
 
 const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
+  const [showModal, setShowModal] = useState(false)
+  const handleShowModal = () => setShowModal(!showModal)
   return (
     <Card
       borderRadius={'5px 5px 5px 5px'}
@@ -21,18 +23,25 @@ const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
           <ArticleType>{articleType}</ArticleType>
           <Abstract>{abstract}</Abstract>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
-            <Button iconName={'times'} decisionDash color={th.colorRed} />
+            <Button iconName={'trash-alt'} decisionDash />
             <Button
               iconName={'check'}
               decisionDash
               color={th.colorGreenLight}
+              onClick={handleShowModal}
             />
           </Row>
         </Border>
       </Content>
+      <Modal
+        showModal={showModal}
+        handleShowModal={handleShowModal}
+        title={'Do you want to review this manuscript?'}
+      />
     </Card>
   )
 }
+
 const Content = styled.div`
   display: flex;
   height: 100%;

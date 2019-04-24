@@ -6,7 +6,7 @@ import { get } from 'lodash'
 import { withRouter } from 'react-router-dom'
 
 import { mutations } from '../qraphqlClient'
-import { th } from '../component-ui'
+import { th, Modal } from '../component-ui'
 import {
   SignUpStep0,
   SignUpStep1,
@@ -16,6 +16,13 @@ import {
 const SignUp = ({ handleChangePage, history, signUp, login }) => {
   const [signUpPage, setSignUpPage] = useState(true)
   const [userIsCreated, setUserIsCreated] = useState(false)
+
+  const [error, setError] = useState('')
+  const handleSetError = error => setError(error)
+
+  const [showModal, setShowModal] = useState(false)
+  const handleShowModal = () => setShowModal(!showModal)
+
   const handleChangeSignUpPage = () => {
     setSignUpPage(!signUpPage)
   }
@@ -46,9 +53,15 @@ const SignUp = ({ handleChangePage, history, signUp, login }) => {
               window.location.reload()
             }
           })
-          .catch(error => alert(error)),
+          .catch(error => {
+            handleSetError(error.message)
+            handleShowModal()
+          }),
       )
-      .catch(error => alert(error))
+      .catch(error => {
+        handleSetError(error.message)
+        handleShowModal()
+      })
   }
 
   const initialValues = {
@@ -90,6 +103,12 @@ const SignUp = ({ handleChangePage, history, signUp, login }) => {
                 handleChangeSignUpPage={handleChangeSignUpPage}
               />
             )}
+            <Modal
+              handleShowModal={handleShowModal}
+              showModal={showModal}
+              title={error}
+              error={error}
+            />
           </Root>
         )
       }}
