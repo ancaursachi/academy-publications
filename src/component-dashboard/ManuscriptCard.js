@@ -58,16 +58,17 @@ const Border = styled.div`
   padding: 1em;
 `
 const Title = styled.div`
-  font-size: 1.5em;
+  font-size: 1.3em;
   width: 100%;
   color: ${th.colorBlue};
 `
 const ArticleType = styled.div`
-  font-size: 1.1em;
+  font-size: 0.9em;
 `
 const Abstract = styled.div`
-  font-size: 1em;
+  font-size: 0.8em;
   width: 100%;
+  padding-top: 0.7em;
   color: ${th.colorGrey};
 `
 

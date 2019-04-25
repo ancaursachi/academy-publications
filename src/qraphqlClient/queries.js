@@ -6,6 +6,13 @@ const queries = {
       users {
         _id
         firstName
+        lastName
+        email
+        country
+        city
+        university
+        specialization
+        role
       }
     }
   `,

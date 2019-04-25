@@ -22,15 +22,23 @@ const SideMenu = ({ history, ...props }) => {
           name="Dashboard"
           onClick={() => history.push('/dashboard')}
         />
+        <Button
+          mt={1}
+          fontWeight="bold"
+          fontSize="1.2em"
+          sideMenu
+          name="Users"
+          onClick={() => history.push('/users')}
+        />
       </Content>
     </Root>
   )
 }
 
 const Root = styled.div`
-  background-color:${th.colorBlue}
+  background-color: ${th.colorBlue};
   height: 100%;
-  width:100%;
+  width: 100%;
   display: flex;
   box-shadow: 0em 0em 0.6em 0em rgba(0, 0, 0, 0.5);
   align-items: flex-start;

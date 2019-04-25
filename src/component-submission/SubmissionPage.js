@@ -8,8 +8,8 @@ import { SubmissionForm } from '../component-submission'
 const SubmissionPage = ({ history }) => {
   return (
     <Root>
-      <SideMenu history={history} pt={5} />
-      <SubmissionForm pt={5} />
+      <SideMenu history={history} pt={6} />
+      <SubmissionForm pt={6} />
     </Root>
   )
 }

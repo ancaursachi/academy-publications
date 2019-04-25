@@ -35,6 +35,7 @@ const helper = props => {
       transition: all 0.4s ease 0s;
       width: 100%;
       display: flex;
+      font-size: 0.9em;
       justify-content: flex-start;
       color: ${th.colorWhite};
       padding: 0.3em;

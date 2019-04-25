@@ -22,6 +22,7 @@ const Header = ({ history }) => {
           name="Logout"
           color={th.colorBlueLight}
           onClick={handleLogout}
+          fontSize={0.8}
           fontWeight={600}
         />
       </Column>
