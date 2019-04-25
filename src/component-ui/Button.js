@@ -32,15 +32,17 @@ const helper = props => {
   }
   if (get(props, 'sideMenu')) {
     return css`
-      background-color: ${th.colorBlueLight};
       transition: all 0.4s ease 0s;
       width: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       color: ${th.colorWhite};
       padding: 0.3em;
       :hover {
-        box-shadow: 0em 0.3em 1em rgba(0, 0, 0, 0.4);
+        color: ${th.colorCremLight};
+      }
+      :active {
+        color: ${th.colorCremLight};
       }
     `
   }

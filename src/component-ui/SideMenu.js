@@ -14,6 +14,14 @@ const SideMenu = ({ history, ...props }) => {
           name="Create manuscript"
           onClick={() => history.push('/submission')}
         />
+        <Button
+          mt={1}
+          fontWeight="bold"
+          fontSize="1.2em"
+          sideMenu
+          name="Dashboard"
+          onClick={() => history.push('/dashboard')}
+        />
       </Content>
     </Root>
   )

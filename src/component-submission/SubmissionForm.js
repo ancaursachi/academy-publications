@@ -45,7 +45,16 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
           <Root {...rest}>
-            <Card height={35} width={40} mb={4} pt={2.2} pr={2} pl={2} pb={2}>
+            <Card
+              height={35}
+              borderRadius={'5px 5px 5px 5px'}
+              width={40}
+              mb={4}
+              pt={2.2}
+              pr={2}
+              pl={2}
+              pb={2}
+            >
               <Title>Manuscript Details</Title>
               <Row mt={2}>
                 <InputForm

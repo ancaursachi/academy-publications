@@ -67,7 +67,7 @@ const Modal = ({ showModal, handleShowModal, title, error = false }) => {
             />
           </CloseItem>
           <Title>{title}</Title>
-          <Row mt={2} align="flex-end">
+          <Row mt={0.5} align="flex-end">
             <Button name="Close" underline onClick={handleShowModal} />
             <Button
               name="Review"
@@ -100,6 +100,7 @@ const Root = styled.div`
   position: fixed;
   display: ${props => (props.showModal ? 'block' : 'none')};
   background-color: ${th.colorWhite};
+  border-radius: 5px;
   left: 33%;
   top: 35%;
 `

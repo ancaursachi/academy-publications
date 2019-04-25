@@ -14,20 +14,16 @@ const Header = ({ history }) => {
   }
   return (
     <Row>
+      <Logo>
+        <StyledLink to="/dashboard">Academy Publication</StyledLink>
+      </Logo>
       <Column>
-        <Item>
-          <StyledLink to="/dashboard">Dashboard</StyledLink>
-        </Item>
-      </Column>
-      <Column>
-        <Item>
-          <Button
-            name="Logout"
-            color={th.colorBlue}
-            onClick={handleLogout}
-            fontWeight={600}
-          />
-        </Item>
+        <Button
+          name="Logout"
+          color={th.colorBlueLight}
+          onClick={handleLogout}
+          fontWeight={600}
+        />
       </Column>
     </Row>
   )
@@ -36,37 +32,35 @@ const Header = ({ history }) => {
 const Row = styled.nav`
   list-style-type: none;
   height: 3em;
-  background-color: ${th.colorCremLight};
-  display: grid;
-  grid-template-columns: 80% 20%;
+  background-color: ${th.colorWhite};
+  display: flex;
   position: fixed;
+  justify-content: space-between;
+  box-shadow: 0em 0em 0.1em 0em ${th.colorBlueLight}
   z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
 `
-
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.4em;
+  margin-left: 1em;
+`
 const Column = styled.div`
   display: flex;
   align-items: center;
-  color: ${th.colorBlue};
   font-size: 1.4em;
-  margin-left: 3em;
+  margin-right: 1em;
 `
-const Item = styled.div`
-  float: left;
-  display: flex;
-  align-items: center;
-  margin: 0 0.5em 0 0.5em;
-`
-
 const StyledLink = styled(Link)`
-  color: ${th.colorBlue};
+  color: ${th.colorBlueLight};
   font-weight: 600;
   text-decoration: none;
   display: block;
   :hover {
-    color: ${th.colorBlue};
+    color: ${th.colorBlueLight};
     text-decoration: none;
   }
 `

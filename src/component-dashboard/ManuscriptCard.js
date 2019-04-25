@@ -62,11 +62,9 @@ const Title = styled.div`
   width: 100%;
   color: ${th.colorBlue};
 `
-
 const ArticleType = styled.div`
   font-size: 1.1em;
 `
-
 const Abstract = styled.div`
   font-size: 1em;
   width: 100%;
