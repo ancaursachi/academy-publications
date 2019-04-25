@@ -43,7 +43,7 @@ const App = props => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  font-family: 'Merriweather Light', 'Times New Roman', serif;
+  /* font-family: 'Merriweather Light', 'Times New Roman', serif; */
   background-color: #e9ebee;
 `
 export default App

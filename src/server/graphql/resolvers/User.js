@@ -23,12 +23,12 @@ const models = {
     },
   },
   Mutation: {
-    signUp: async (parent, args) => {
-      const user = await User.findByLogin(args.input.email)
+    signUp: async (parent, { input }) => {
+      const user = await User.findByLogin(input.email)
       if (user) {
         throw new UserInputError('This email already exist.')
       }
-      const newUser = new User(args.input)
+      const newUser = new User({ ...input, role: 'user' })
       await newUser.save()
       return { token: createToken(newUser, jwtSecret, '30m') }
     },

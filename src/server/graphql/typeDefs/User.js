@@ -16,6 +16,7 @@ module.exports = gql`
     university: String!
     specialization: String!
     password: String!
+    role: String!
   }
   input UserInput {
     firstName: String

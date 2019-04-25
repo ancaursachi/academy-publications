@@ -125,12 +125,14 @@ const Error = styled.div`
   padding-bottom: 1em;
   text-align: center;
   justify-content: center;
+  align-items: center;
   color: ${th.colorError};
   line-height: normal;
 `
 
 const Icon = styled(FontAwesomeIcon)`
   padding-right: 0.5em;
+  font-size: 2em;
 `
 
 export default Modal

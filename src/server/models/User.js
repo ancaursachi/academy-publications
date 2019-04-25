@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
     type: Schema.Types.Mixed,
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+  },
 })
 UserSchema.statics.findByLogin = async function(email) {
   return await this.findOne({ email })
