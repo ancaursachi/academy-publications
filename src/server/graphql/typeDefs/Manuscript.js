@@ -12,6 +12,7 @@ module.exports = gql`
     userId: String!
     created: Date
     abstract: String!
+    professorId: String
     articleType: String!
     manuscriptFile: String
   }
@@ -21,8 +22,8 @@ module.exports = gql`
     articleType: String!
     manuscriptFile: String
   }
-
   type Mutation {
     createManuscript(input: ManuscriptInput!): Boolean
+    addEditorOnManuscript(_id: String!): Manuscript
   }
 `

@@ -23,6 +23,9 @@ const ManuscriptSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  professorId: {
+    type: String,
+  },
 })
 
 const Manuscript = mongoose.model('Manuscript', ManuscriptSchema)

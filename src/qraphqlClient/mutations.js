@@ -34,10 +34,18 @@ const createManuscript = gql`
     createManuscript(input: $input)
   }
 `
+const addEditorOnManuscript = gql`
+  mutation addEditorOnManuscript($id: String!) {
+    addEditorOnManuscript(_id: $id) {
+      professorId
+    }
+  }
+`
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
   graphql(deleteUser, { name: 'deleteUser' }),
   graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),
+  graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
 )

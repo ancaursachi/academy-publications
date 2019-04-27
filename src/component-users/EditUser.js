@@ -5,6 +5,7 @@ import { compose } from 'recompose'
 import { Formik } from 'formik'
 import styled from 'styled-components'
 import { editUserValidation } from '../component-users'
+import { queries } from '../qraphqlClient'
 
 const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
   const initialValues = {
@@ -25,8 +26,13 @@ const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
       variables: {
         input,
       },
+      refetchQueries: [
+        {
+          query: queries.getUsers,
+        },
+      ],
     })
-      .then(() => window.location.reload())
+      .then(() => {})
       .catch(error => {
         alert(error.message)
       })

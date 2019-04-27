@@ -38,12 +38,12 @@ const models = {
       }
       return User.findOneAndRemove({ _id })
     },
-    editUser: (parent, { input }, { loggedInUser }) => {
+    editUser: async (parent, { input }, { loggedInUser }) => {
       const { _id, ...userRest } = input
-      return User.findOneAndUpdate(
+      return await User.findOneAndUpdate(
         { _id },
         { $set: userRest },
-        { returnNewDocument: true },
+        { new: true },
       )
     },
     login: async (parent, { email, password }, { loggedInUser }) => {

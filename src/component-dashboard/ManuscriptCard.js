@@ -1,10 +1,35 @@
 import React, { useState } from 'react'
 import { Card, Row, th, Button, Modal } from '../component-ui'
 import styled from 'styled-components'
+import { compose } from 'recompose'
+import { mutations } from '../qraphqlClient'
+import { queries } from '../qraphqlClient'
 
-const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
+const ManuscriptCard = ({
+  manuscript: { _id, title, abstract, articleType },
+  addEditorOnManuscript,
+}) => {
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
+
+  const handleReview = () => {
+    handleShowModal()
+    return addEditorOnManuscript({
+      variables: {
+        id: _id,
+      },
+      refetchQueries: [
+        {
+          query: queries.getManuscripts,
+        },
+      ],
+    })
+      .then(() => {})
+      .catch(error => {
+        alert(error.message)
+      })
+  }
+
   return (
     <Card
       borderRadius={'5px 5px 5px 5px'}
@@ -38,6 +63,7 @@ const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
         handleShowModal={handleShowModal}
         title={'Do you want to review this manuscript?'}
         buttonName={'Review'}
+        onClickSubmit={handleReview}
       />
     </Card>
   )
@@ -73,4 +99,4 @@ const Abstract = styled.div`
   color: ${th.colorGrey};
 `
 
-export default ManuscriptCard
+export default compose(mutations)(ManuscriptCard)

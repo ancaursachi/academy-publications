@@ -28,7 +28,6 @@ const models = {
   },
   Mutation: {
     createManuscript: async (parent, args, { loggedInUser }) => {
-      console.log('user', loggedInUser._id)
       const createdDate = new Date()
       const newManuscript = new Manuscript({
         ...args.input,
@@ -36,6 +35,13 @@ const models = {
         userId: loggedInUser._id,
       })
       await newManuscript.save()
+    },
+    addEditorOnManuscript: async (parent, { _id }, { loggedInUser }) => {
+      return await Manuscript.findOneAndUpdate(
+        { _id },
+        { $set: { professorId: loggedInUser._id } },
+        { new: true },
+      )
     },
   },
 }

@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
-import { th, Loader, Row, SearchBar } from '../component-ui'
+import { th, Loader, SearchBar } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { DeleteUserModal, EditUserModal } from '../component-users'
 
