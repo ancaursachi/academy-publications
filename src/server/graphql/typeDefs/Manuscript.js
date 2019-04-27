@@ -5,6 +5,7 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    unassignedManuscripts: [Manuscript]
   }
   type Manuscript {
     _id: String!

@@ -23,8 +23,14 @@ const models = {
       return await Manuscript.findOne({ _id })
     },
     manuscripts: async () => {
-      return await Manuscript.find({})
+      return await Manuscript.find()
     },
+    unassignedManuscripts: async () => {
+      return await Manuscript.find({ professorId: null })
+    },
+    // assignedManuscripts: async () => {
+    //   return await Manuscript.find({ professorId: null })
+    // },
   },
   Mutation: {
     createManuscript: async (parent, args, { loggedInUser }) => {

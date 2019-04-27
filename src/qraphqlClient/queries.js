@@ -27,6 +27,17 @@ const queries = {
       }
     }
   `,
+  getUnassignedManuscripts: gql`
+    query {
+      unassignedManuscripts {
+        _id
+        title
+        created
+        abstract
+        articleType
+      }
+    }
+  `,
 }
 
 export default queries

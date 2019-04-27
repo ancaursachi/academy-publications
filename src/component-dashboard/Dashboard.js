@@ -8,10 +8,10 @@ import { ManuscriptCard } from '.'
 import styled from 'styled-components'
 
 const Dashboard = ({ ...rest }) => {
-  const { data, loading } = useQuery(queries.getManuscripts)
+  const { data, loading } = useQuery(queries.getUnassignedManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'manuscripts', [])
+  const manuscripts = get(data, 'unassignedManuscripts', [])
   const sortedManuscripts = sortBy(
     manuscripts,
     manuscript => -manuscript.created,

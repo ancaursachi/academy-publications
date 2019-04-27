@@ -20,7 +20,7 @@ const ManuscriptCard = ({
       },
       refetchQueries: [
         {
-          query: queries.getManuscripts,
+          query: queries.getUnassignedManuscripts,
         },
       ],
     })
