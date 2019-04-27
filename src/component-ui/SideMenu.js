@@ -27,6 +27,14 @@ const SideMenu = ({ history, ...props }) => {
           fontWeight="bold"
           fontSize="1.2em"
           sideMenu
+          name="Review Process"
+          onClick={() => history.push('/reviewProcess')}
+        />
+        <Button
+          mt={1}
+          fontWeight="bold"
+          fontSize="1.2em"
+          sideMenu
           name="Users"
           onClick={() => history.push('/users')}
         />

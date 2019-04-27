@@ -3,31 +3,15 @@ import { Card, Row, th, Button, Modal } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
-import { queries } from '../qraphqlClient'
 
-const ManuscriptCard = ({
+const ManuscriptCardReview = ({
   manuscript: { _id, title, abstract, articleType },
-  addEditorOnManuscript,
 }) => {
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
   const handleReview = () => {
     handleShowModal()
-    return addEditorOnManuscript({
-      variables: {
-        id: _id,
-      },
-      refetchQueries: [
-        {
-          query: queries.getUnassignedManuscripts,
-        },
-      ],
-    })
-      .then(() => {})
-      .catch(error => {
-        alert(error.message)
-      })
   }
 
   return (
@@ -48,11 +32,11 @@ const ManuscriptCard = ({
           <ArticleType>{articleType}</ArticleType>
           <Abstract>{abstract}</Abstract>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
-            <Button iconName={'trash-alt'} decisionDash color={th.colorGrey} />
             <Button
-              iconName={'check'}
-              decisionDash
-              color={th.colorGreenLight}
+              name="Review"
+              iconName={'arrow-right'}
+              review
+              color={th.colorGrey}
               onClick={handleShowModal}
             />
           </Row>
@@ -99,4 +83,4 @@ const Abstract = styled.div`
   color: ${th.colorGrey};
 `
 
-export default compose(mutations)(ManuscriptCard)
+export default compose(mutations)(ManuscriptCardReview)

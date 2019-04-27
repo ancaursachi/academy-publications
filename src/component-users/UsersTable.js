@@ -28,6 +28,7 @@ const UsersTable = ({ deleteUser, ...rest }) => {
         return (
           <Root {...rest}>
             <Content>
+              <TitlePage>Users</TitlePage>
               <SearchBar
                 values={values}
                 handleChange={handleChange}
@@ -95,7 +96,15 @@ const Root = styled.div`
 const Content = styled.div`
   width: 90%;
 `
+const TitlePage = styled.div`
+  font-size: 1.6em;
+  font-weight: 600;
+  width: 100%;
+  padding-bottom: 1.5em;
+  color: ${th.colorBlue};
+`
 const Table = styled.div`
+  margin-top: 1em;
   width: 100%;
 `
 const TableRow = styled.div`

@@ -30,6 +30,16 @@ const helper = props => {
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
+  if (get(props, 'review')) {
+    return css`
+      width: 5.5em;
+      height: 2.3em;
+      padding: 0.5em 0.5em 0em 0.5em;
+      font-weight: 600;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
   if (get(props, 'usersTable')) {
     return css`
       width: 2em;

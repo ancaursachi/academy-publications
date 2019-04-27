@@ -4,14 +4,14 @@ import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
 import { th, Loader, SearchBar } from '../component-ui'
-import { ManuscriptCard } from '../component-dashboard'
+import { ManuscriptCardReview } from '../component-review'
 import styled from 'styled-components'
 
-const Dashboard = ({ ...rest }) => {
-  const { data, loading } = useQuery(queries.getUnassignedManuscripts)
+const ReviewManuscripts = ({ ...rest }) => {
+  const { data, loading } = useQuery(queries.getAssignedManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'unassignedManuscripts', [])
+  const manuscripts = get(data, 'assignedManuscripts', [])
   const sortedManuscripts = sortBy(
     manuscripts,
     manuscript => -manuscript.created,
@@ -30,7 +30,7 @@ const Dashboard = ({ ...rest }) => {
         return (
           <Root {...rest}>
             <Content>
-              <TitlePage>Dashboard</TitlePage>
+              <TitlePage>Review Process</TitlePage>
               <SearchBar
                 values={values}
                 handleChange={handleChange}
@@ -43,7 +43,7 @@ const Dashboard = ({ ...rest }) => {
                     .includes(values.searchValue.toLowerCase()),
                 )
                 .map(manuscript => (
-                  <ManuscriptCard
+                  <ManuscriptCardReview
                     key={manuscript._id}
                     manuscript={manuscript}
                   />
@@ -55,7 +55,6 @@ const Dashboard = ({ ...rest }) => {
     </Formik>
   )
 }
-
 const Root = styled.div`
   display: flex;
   justify-content: center;
@@ -71,4 +70,4 @@ const TitlePage = styled.div`
   padding-bottom: 1em;
   color: ${th.colorBlue};
 `
-export default Dashboard
+export default ReviewManuscripts
