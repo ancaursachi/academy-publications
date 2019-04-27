@@ -8,6 +8,7 @@ const colors = {
   colorOrange: '#da9f88',
   colorRed: '#A74143',
   colorGrey: '#5D656C',
+  colorGreyLight: '#c1c1c1',
   colorBrick: '#BA6049',
   colorDark: '#222327',
   colorCrem: '#d4c098',

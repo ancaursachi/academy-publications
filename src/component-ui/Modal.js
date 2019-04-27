@@ -5,6 +5,7 @@ import th from './theme'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ModalError = ({ showModal, handleShowModal, error }) => {
+  console.log({ showModal })
   return (
     <Wrapper showModal={showModal}>
       <Root showModal={showModal}>
@@ -36,7 +37,14 @@ const ModalError = ({ showModal, handleShowModal, error }) => {
   )
 }
 
-const Modal = ({ showModal, handleShowModal, title, error = false }) => {
+const Modal = ({
+  handleShowModal,
+  onClickSubmit,
+  buttonName,
+  showModal,
+  title,
+  error = false,
+}) => {
   if (error) {
     return (
       <ModalError
@@ -70,11 +78,11 @@ const Modal = ({ showModal, handleShowModal, title, error = false }) => {
           <Row mt={0.5} align="flex-end">
             <Button name="Close" underline onClick={handleShowModal} />
             <Button
-              name="Review"
+              name={buttonName || 'Review'}
               underline
               iconName={'arrow-right'}
               mr={1.5}
-              // onClick={handleSubmit}
+              onClick={onClickSubmit}
             />
           </Row>
         </Card>

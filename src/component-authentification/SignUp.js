@@ -68,7 +68,7 @@ const SignUp = ({ handleChangePage, history, signUp, login }) => {
     firstName: '',
     lastName: '',
     email: '',
-    country: '',
+    country: 'Romania',
     city: '',
     university: '',
     specialization: '',

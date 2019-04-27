@@ -37,6 +37,7 @@ const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
         showModal={showModal}
         handleShowModal={handleShowModal}
         title={'Do you want to review this manuscript?'}
+        buttonName={'Review'}
       />
     </Card>
   )

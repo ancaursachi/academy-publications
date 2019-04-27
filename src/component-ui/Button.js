@@ -30,6 +30,14 @@ const helper = props => {
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
+  if (get(props, 'usersTable')) {
+    return css`
+      width: 2em;
+      height: 2em;
+      display: flex;
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
   if (get(props, 'sideMenu')) {
     return css`
       transition: all 0.4s ease 0s;

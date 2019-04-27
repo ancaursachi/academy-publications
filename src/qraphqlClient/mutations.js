@@ -16,6 +16,11 @@ const login = gql`
     }
   }
 `
+const deleteUser = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(_id: $id)
+  }
+`
 const createManuscript = gql`
   mutation createManuscript($input: ManuscriptInput!) {
     createManuscript(input: $input)
@@ -24,5 +29,6 @@ const createManuscript = gql`
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
+  graphql(deleteUser, { name: 'deleteUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),
 )

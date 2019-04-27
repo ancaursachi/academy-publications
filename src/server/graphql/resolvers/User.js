@@ -14,11 +14,11 @@ const models = {
       return loggedInUser
     },
 
-    user: async (parent, args, { logInUser }) => {
-      console.log('context', logInUser)
-      return await User.findOne({ _id: logInUser })
+    user: async (parent, args, { loggedInUser }) => {
+      console.log('context', loggedInUser)
+      return await User.findOne({ _id: loggedInUser })
     },
-    users: async (parent, args, { logInUser }) => {
+    users: async (parent, args, { loggedInUser }) => {
       return await User.find({})
     },
   },
@@ -32,10 +32,13 @@ const models = {
       await newUser.save()
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
-    deleteUser: (parent, args) => {
-      return User.findOneAndRemove(args)
+    deleteUser: (parent, { _id }, { loggedInUser }) => {
+      if (loggedInUser._id == _id) {
+        throw new Error("You can't delete your account.")
+      }
+      return User.findOneAndRemove({ _id })
     },
-    login: async (parent, { email, password }, { logInUser }) => {
+    login: async (parent, { email, password }, { loggedInUser }) => {
       const user = await User.findByLogin(email)
       if (!user) {
         throw new UserInputError('No user found with this login credentials.')

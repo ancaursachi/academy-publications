@@ -5,6 +5,7 @@ import {
   faArrowRight,
   faArrowLeft,
   faSignInAlt,
+  faPencilAlt,
   faUserPlus,
   faTrashAlt,
   faSearch,
@@ -16,6 +17,7 @@ import {
 const Icons = () => {
   library.add(faExclamationTriangle)
   library.add(faArrowRight)
+  library.add(faPencilAlt)
   library.add(faArrowLeft)
   library.add(faSignInAlt)
   library.add(faTrashAlt)
