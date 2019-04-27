@@ -32,14 +32,15 @@ const InputSelect = ({
 
 const renameSelectOption = option => {
   switch (option) {
-    case 'title':
-      return 'Title'
-    case 'abstract':
-      return 'Abstract'
     case 'articleType':
       return 'Article Type'
+    case 'firstName':
+      return 'First Name'
+    case 'lastName':
+      return 'Last Name'
+
     default:
-      return option
+      return option.charAt(0).toUpperCase() + option.slice(1)
   }
 }
 

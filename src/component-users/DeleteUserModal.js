@@ -2,6 +2,7 @@ import React, { useState, Fragment } from 'react'
 import { th, Button, Modal } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { compose } from 'recompose'
+import styled from 'styled-components'
 
 const DeleteUserModal = ({ deleteUser, user }) => {
   const [error, setError] = useState('')
@@ -30,12 +31,14 @@ const DeleteUserModal = ({ deleteUser, user }) => {
   }
   return (
     <Fragment>
-      <Button
-        iconName={'trash-alt'}
-        usersTable
-        color={th.colorBrick}
-        onClick={handleDelete}
-      />
+      <Root>
+        <Button
+          iconName={'trash-alt'}
+          usersTable
+          color={th.colorBrick}
+          onClick={handleDelete}
+        />
+      </Root>
       <Modal
         showModal={showModal}
         handleShowModal={handleShowModal}
@@ -47,4 +50,9 @@ const DeleteUserModal = ({ deleteUser, user }) => {
     </Fragment>
   )
 }
+
+const Root = styled.div`
+  display: flex;
+  align-self: center;
+`
 export default compose(mutations)(DeleteUserModal)

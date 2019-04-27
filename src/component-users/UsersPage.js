@@ -20,7 +20,7 @@ const Root = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 18% 82%;
 `
 
 export default compose(withRouter)(UsersPage)

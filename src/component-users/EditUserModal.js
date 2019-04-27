@@ -2,6 +2,7 @@ import React, { useState, Fragment } from 'react'
 import { th, Button, Modal } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { compose } from 'recompose'
+import styled from 'styled-components'
 
 const EditUserModal = ({ user }) => {
   const [error, setError] = useState('')
@@ -16,7 +17,9 @@ const EditUserModal = ({ user }) => {
   }
   return (
     <Fragment>
-      <Button iconName={'pencil-alt'} usersTable onClick={handleEdit} />
+      <Root>
+        <Button iconName={'pencil-alt'} usersTable onClick={handleEdit} />
+      </Root>
       <Modal
         showModal={showModal}
         handleShowModal={handleShowModal}
@@ -28,4 +31,8 @@ const EditUserModal = ({ user }) => {
     </Fragment>
   )
 }
+const Root = styled.div`
+  display: flex;
+  align-self: center;
+`
 export default compose(mutations)(EditUserModal)

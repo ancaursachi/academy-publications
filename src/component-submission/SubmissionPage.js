@@ -19,7 +19,7 @@ const Root = styled.div`
   height: 100%;
 
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 18% 82%;
 `
 
 export default compose(withRouter)(SubmissionPage)

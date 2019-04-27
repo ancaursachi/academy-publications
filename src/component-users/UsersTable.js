@@ -1,16 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Formik } from 'formik'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
-import { th, Loader, Row } from '../component-ui'
+import { th, Loader, Row, SearchBar } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { DeleteUserModal, EditUserModal } from '../component-users'
 
 const UsersTable = ({ deleteUser, ...rest }) => {
   const { data, loading } = useQuery(queries.getUsers)
   const { users } = data
+
+  const initialValues = { searchValue: '', searchType: 'email' }
 
   if (loading) {
     return (
@@ -20,70 +23,100 @@ const UsersTable = ({ deleteUser, ...rest }) => {
     )
   }
   return (
-    <Root {...rest}>
-      <Table>
-        <Head>
-          <Tr>
-            <Th>First Name</Th>
-            <Th>Last Name</Th>
-            <Th>Email</Th>
-            <Th>Country</Th>
-            <Th>City</Th>
-            <Th>University</Th>
-            <Th>Specialization</Th>
-            <Th>Role</Th>
-          </Tr>
-        </Head>
-        <Body>
-          {users &&
-            users.map(user => (
-              <Tr key={user._id}>
-                <Td>{user.firstName}</Td>
-                <Td>{user.lastName}</Td>
-                <Td>{user.email}</Td>
-                <Td>{user.country}</Td>
-                <Td>{user.city}</Td>
-                <Td>{user.university}</Td>
-                <Td>{user.specialization}</Td>
-                <Td>{user.role}</Td>
-                <Row>
-                  <DeleteUserModal user={user} />
-                  <EditUserModal user={user} />
-                </Row>
-              </Tr>
-            ))}
-        </Body>
-      </Table>
-    </Root>
+    <Formik initialValues={initialValues}>
+      {({ values, handleChange }) => {
+        return (
+          <Root {...rest}>
+            <Content>
+              <SearchBar
+                values={values}
+                handleChange={handleChange}
+                options={[
+                  'firstName',
+                  'lastName',
+                  'email',
+                  'country',
+                  'city',
+                  'university',
+                  'specialization',
+                  'role',
+                ]}
+              />
+              <Table>
+                <TableRow>
+                  <TableHeadCell>First Name</TableHeadCell>
+                  <TableHeadCell>Last Name</TableHeadCell>
+                  <TableHeadCell>Email</TableHeadCell>
+                  <TableHeadCell>Country</TableHeadCell>
+                  <TableHeadCell>City</TableHeadCell>
+                  <TableHeadCell>University</TableHeadCell>
+                  <TableHeadCell>Specialization</TableHeadCell>
+                  <TableHeadCell>Role</TableHeadCell>
+                  <div />
+                  <div />
+                </TableRow>
+                {users &&
+                  users
+                    .filter(user =>
+                      user[values.searchType]
+                        .toLowerCase()
+                        .includes(values.searchValue.toLowerCase()),
+                    )
+                    .map(user => (
+                      <TableRow key={user._id}>
+                        <TableCell>{user.firstName}</TableCell>
+                        <TableCell>{user.lastName}</TableCell>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>{user.country}</TableCell>
+                        <TableCell>{user.city}</TableCell>
+                        <TableCell>{user.university}</TableCell>
+                        <TableCell>{user.specialization}</TableCell>
+                        <TableCell>{user.role}</TableCell>
+                        <DeleteUserModal user={user} />
+                        <EditUserModal user={user} />
+                      </TableRow>
+                    ))}
+              </Table>
+            </Content>
+          </Root>
+        )
+      }}
+    </Formik>
   )
 }
 
 const Root = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   ${th.marginHelper};
   ${th.paddingHelper};
 `
-
-const Table = styled.table`
-  margin: 0em 3em;
-  border-collapse: collapse;
+const Content = styled.div`
+  width: 90%;
+`
+const Table = styled.div`
   width: 100%;
 `
-const Head = styled.thead``
-const Body = styled.tbody``
-const Tr = styled.tr``
-const Td = styled.td`
+const TableRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 10%) repeat(1, 20%) repeat(5, 10%) repeat(
+      2,
+      5%
+    );
+`
+const TableCell = styled.div`
   border: 1px solid #ddd;
   padding: 8px;
   background-color: ${th.colorWhite};
+  overflow-wrap: break-word;
 `
-const Th = styled.th`
+const TableHeadCell = styled.div`
   border: 1px solid #ddd;
   padding: 8px;
   background-color: ${th.colorCremLight};
+  overflow-wrap: break-word;
 `
-
 export default compose(
   mutations,
   withRouter,
