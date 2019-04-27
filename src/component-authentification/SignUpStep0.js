@@ -65,6 +65,7 @@ const SignUpStep0 = ({
         onChange={handleChange}
         value={values.email}
         error={errors.email}
+        widthInput={21}
       />
 
       <Row>

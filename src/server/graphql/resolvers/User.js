@@ -33,6 +33,8 @@ const models = {
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
     deleteUser: (parent, { _id }, { loggedInUser }) => {
+      console.log('1', loggedInUser._id)
+      console.log('2', _id)
       if (loggedInUser._id == _id) {
         throw new Error("You can't delete your account.")
       }

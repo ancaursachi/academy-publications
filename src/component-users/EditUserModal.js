@@ -1,32 +1,24 @@
 import React, { useState, Fragment } from 'react'
-import { th, Button, Modal } from '../component-ui'
+import { Button, ModalComponent } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { compose } from 'recompose'
 import styled from 'styled-components'
+import { EditUser } from '../component-users'
 
 const EditUserModal = ({ user }) => {
-  const [error, setError] = useState('')
-  const handleSetError = error => setError(error)
-
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
-  const handleEdit = user => {
-    handleSetError('')
-    handleShowModal()
-  }
   return (
     <Fragment>
       <Root>
-        <Button iconName={'pencil-alt'} usersTable onClick={handleEdit} />
+        <Button iconName={'pencil-alt'} usersTable onClick={handleShowModal} />
       </Root>
-      <Modal
+      <ModalComponent
         showModal={showModal}
         handleShowModal={handleShowModal}
-        title={'Are you sure you want to edit this manuscript?'}
-        buttonName={'Edit'}
-        // onClickSubmit={handleDeleteFinal}
-        error={error}
+        user={user}
+        component={EditUser}
       />
     </Fragment>
   )

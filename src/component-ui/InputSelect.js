@@ -52,15 +52,15 @@ const Label = ({ labelName, required }) => (
 )
 
 const Root = styled.div`
+  position: relative;
   ${th.marginHelper}
   ${th.paddingHelper}
-  width: ${props => (props.width ? `${props.width}em` : '19em')};
 `
 const StyledLabel = styled.label`
   margin: 0;
 `
 const Select = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '19em')};
+  width: ${props => (props.widthinput ? `${props.widthinput}em` : '100%')};
   height: 2.5em;
   padding: 0.5em 0.5em;
   margin: 0;

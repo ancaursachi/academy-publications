@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react'
-import { th, Button, Modal } from '../component-ui'
+import { th, Button, Modal, ModalError } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { compose } from 'recompose'
 import styled from 'styled-components'
@@ -8,6 +8,9 @@ const DeleteUserModal = ({ deleteUser, user }) => {
   const [error, setError] = useState('')
   const handleSetError = error => setError(error)
 
+  const [showModalError, setShowModalError] = useState(false)
+  const handleShowModalError = () => setShowModalError(!showModalError)
+
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -15,8 +18,8 @@ const DeleteUserModal = ({ deleteUser, user }) => {
     handleSetError('')
     handleShowModal()
   }
-
   const handleDeleteFinal = () => {
+    handleShowModal()
     return deleteUser({
       variables: {
         id: user._id,
@@ -26,6 +29,7 @@ const DeleteUserModal = ({ deleteUser, user }) => {
         window.location.reload()
       })
       .catch(error => {
+        handleShowModalError()
         handleSetError(error.message)
       })
   }
@@ -45,6 +49,11 @@ const DeleteUserModal = ({ deleteUser, user }) => {
         title={'Are you sure you want to delete this manuscript?'}
         buttonName={'Delete'}
         onClickSubmit={handleDeleteFinal}
+        error={error}
+      />
+      <ModalError
+        handleShowModal={handleShowModalError}
+        showModal={showModalError}
         error={error}
       />
     </Fragment>

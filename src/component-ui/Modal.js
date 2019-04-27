@@ -5,7 +5,6 @@ import th from './theme'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ModalError = ({ showModal, handleShowModal, error }) => {
-  console.log({ showModal })
   return (
     <Wrapper showModal={showModal}>
       <Root showModal={showModal}>
@@ -37,12 +36,61 @@ const ModalError = ({ showModal, handleShowModal, error }) => {
   )
 }
 
+const ModalComponent = ({
+  user,
+  showModal,
+  buttonName,
+  onClickSubmit,
+  handleShowModal,
+  component: Component,
+}) => {
+  return (
+    <Wrapper showModal={showModal}>
+      <Root showModal={showModal} top="20%">
+        <Card
+          borderRadius={'5px 5px 5px 5px'}
+          pt={0.5}
+          pr={0.5}
+          pl={1.5}
+          pb={5.5}
+          width={26}
+          height={22}
+        >
+          <CloseItem>
+            <Button
+              iconName={'times'}
+              decisionDash
+              onClick={handleShowModal}
+              color={th.colorGrey}
+            />
+          </CloseItem>
+
+          <Component user={user} />
+
+          <Row mt={0.5}>
+            <Button name="Close" underline onClick={handleShowModal} />
+            <Button
+              name={buttonName || 'Review'}
+              underline
+              iconName={'arrow-right'}
+              mr={1.5}
+              onClick={onClickSubmit}
+            />
+          </Row>
+        </Card>
+      </Root>
+    </Wrapper>
+  )
+}
+
 const Modal = ({
   handleShowModal,
   onClickSubmit,
   buttonName,
   showModal,
   title,
+  user,
+  component,
   error = false,
 }) => {
   if (error) {
@@ -54,6 +102,18 @@ const Modal = ({
       />
     )
   }
+
+  if (component) {
+    return (
+      <ModalComponent
+        showModal={showModal}
+        handleShowModal={handleShowModal}
+        component={component}
+        user={user}
+      />
+    )
+  }
+
   return (
     <Wrapper showModal={showModal}>
       <Root showModal={showModal}>
@@ -110,7 +170,7 @@ const Root = styled.div`
   background-color: ${th.colorWhite};
   border-radius: 5px;
   left: 33%;
-  top: 35%;
+  top: ${props => (props.top ? props.top : '35%')};
 `
 
 const CloseItem = styled.div`
