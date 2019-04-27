@@ -1,4 +1,4 @@
-const { jwtSecret } = require('../../config')
+const { jwtSecret, jwtExpiresIn } = require('../../config')
 const { AuthenticationError, UserInputError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
@@ -33,12 +33,18 @@ const models = {
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
     deleteUser: (parent, { _id }, { loggedInUser }) => {
-      console.log('1', loggedInUser._id)
-      console.log('2', _id)
       if (loggedInUser._id == _id) {
         throw new Error("You can't delete your account.")
       }
       return User.findOneAndRemove({ _id })
+    },
+    editUser: (parent, { input }, { loggedInUser }) => {
+      const { _id, ...userRest } = input
+      return User.findOneAndUpdate(
+        { _id },
+        { $set: userRest },
+        { returnNewDocument: true },
+      )
     },
     login: async (parent, { email, password }, { loggedInUser }) => {
       const user = await User.findByLogin(email)
@@ -49,7 +55,7 @@ const models = {
       if (!isValid) {
         throw new AuthenticationError('Invalid password.')
       }
-      return { token: createToken(user, jwtSecret, '300m') }
+      return { token: createToken(user, jwtSecret, jwtExpiresIn) }
     },
   },
 }

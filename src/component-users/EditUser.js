@@ -6,7 +6,7 @@ import { Formik } from 'formik'
 import styled from 'styled-components'
 import { editUserValidation } from '../component-users'
 
-const EditUser = ({ user, showModal, handleShowModal }) => {
+const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
   const initialValues = {
     _id: user._id,
     firstName: user.firstName,
@@ -19,8 +19,17 @@ const EditUser = ({ user, showModal, handleShowModal }) => {
     specialization: user.specialization,
   }
 
-  const handleEditUser = () => {
-    console.log('da', user)
+  const handleEditUser = input => {
+    handleShowModal()
+    return editUser({
+      variables: {
+        input,
+      },
+    })
+      .then(() => window.location.reload())
+      .catch(error => {
+        alert(error.message)
+      })
   }
   return (
     <Formik
@@ -29,7 +38,6 @@ const EditUser = ({ user, showModal, handleShowModal }) => {
       onSubmit={handleEditUser}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
-        console.log(values)
         return (
           <Root pr={1}>
             <Title>Edit User</Title>
@@ -136,7 +144,7 @@ const EditUser = ({ user, showModal, handleShowModal }) => {
                 underline
                 iconName={'arrow-right'}
                 mr={1.5}
-                onClick={handleSubmit}
+                onClick={() => handleSubmit(values)}
               />
             </Row>
           </Root>
@@ -172,4 +180,4 @@ const Title = styled.div`
   justify-content: center;
   line-height: normal;
 `
-export default EditUser
+export default compose(mutations)(EditUser)
