@@ -1,12 +1,33 @@
 import React, { Fragment, useState } from 'react'
 import { Button, th, Modal } from '../component-ui'
+import { compose } from 'recompose'
+import { mutations } from '../qraphqlClient'
+import { queries } from '../qraphqlClient'
 
-const RemoveProfessorModal = ({ manuscript }) => {
+const RemoveProfessorModal = ({ manuscript, removeEditorFromManuscript }) => {
+  const { _id } = manuscript
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
   const handleReview = () => {
     handleShowModal()
+    return removeEditorFromManuscript({
+      variables: {
+        id: _id,
+      },
+      refetchQueries: [
+        {
+          query: queries.getAssignedManuscripts,
+        },
+        {
+          query: queries.getUnassignedManuscripts,
+        },
+      ],
+    })
+      .then(() => {})
+      .catch(error => {
+        alert(error.message)
+      })
   }
   return (
     <Fragment>
@@ -28,4 +49,4 @@ const RemoveProfessorModal = ({ manuscript }) => {
   )
 }
 
-export default RemoveProfessorModal
+export default compose(mutations)(RemoveProfessorModal)

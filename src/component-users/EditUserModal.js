@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from 'react'
 import { Button, ModalComponent } from '../component-ui'
-import { compose } from 'recompose'
 import styled from 'styled-components'
 import { EditUser } from '../component-users'
 

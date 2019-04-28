@@ -41,6 +41,14 @@ const addEditorOnManuscript = gql`
     }
   }
 `
+
+const removeEditorFromManuscript = gql`
+  mutation removeEditorFromManuscript($id: String!) {
+    removeEditorFromManuscript(_id: $id) {
+      professorId
+    }
+  }
+`
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
@@ -48,4 +56,5 @@ export default compose(
   graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),
   graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
+  graphql(removeEditorFromManuscript, { name: 'removeEditorFromManuscript' }),
 )

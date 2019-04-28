@@ -10,13 +10,13 @@ module.exports = gql`
     _id: String!
     firstName: String
     lastName: String!
+    role: String!
     email: String!
     country: String
     city: String
     university: String!
     specialization: String!
     password: String!
-    role: String!
   }
   input UserInput {
     firstName: String

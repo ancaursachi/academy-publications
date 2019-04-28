@@ -27,19 +27,19 @@ const models = {
       return await Manuscript.find()
     },
     unassignedManuscripts: async () => {
-      return await Manuscript.find({ professorId: { $exists: false } })
+      return await Manuscript.find({ professorId: null })
     },
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
       const manuscripts = await Manuscript.find({
         professorId: { $exists: true, $regex: loggedInUser._id },
       })
-      const users = await User.find({
-        role: 'professor',
-      })
+      // const users = await User.find({
+      //   role: 'professor',
+      // })
 
-      const ceva = manuscripts.map(manuscript =>
-        users.find(user => user._id === manuscript.professorId),
-      )
+      // const ceva = manuscripts.map(manuscript =>
+      //   users.find(user => user._id === manuscript.professorId),
+      // )
 
       return manuscripts
     },

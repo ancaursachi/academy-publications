@@ -22,6 +22,9 @@ const ManuscriptCard = ({
         {
           query: queries.getUnassignedManuscripts,
         },
+        {
+          query: queries.getAssignedManuscripts,
+        },
       ],
     })
       .then(() => {})
