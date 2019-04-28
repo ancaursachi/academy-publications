@@ -6,7 +6,8 @@ import { mutations } from '../qraphqlClient'
 import { RemoveProfessorModal } from '../component-review'
 
 const ManuscriptCardReview = ({ manuscript }) => {
-  const { title, abstract, articleType } = manuscript
+  const { title, articleType, professorName } = manuscript
+  console.log({ professorName })
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -30,7 +31,7 @@ const ManuscriptCardReview = ({ manuscript }) => {
         <Border>
           <Title>{title}</Title>
           <ArticleType>{articleType}</ArticleType>
-          <Abstract>{abstract}</Abstract>
+          <EditorName>Professor: {professorName}</EditorName>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
             <RemoveProfessorModal manuscript={manuscript} />
             <Button
@@ -76,11 +77,12 @@ const Title = styled.div`
 `
 const ArticleType = styled.div`
   font-size: 0.9em;
+  padding-bottom: 0.7em;
 `
-const Abstract = styled.div`
+
+const EditorName = styled.div`
   font-size: 0.8em;
   width: 100%;
-  padding-top: 0.7em;
   color: ${th.colorGrey};
 `
 

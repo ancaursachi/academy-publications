@@ -24,6 +24,7 @@ const helper = props => {
   }
   if (get(props, 'decisionDash')) {
     return css`
+      padding: 0.5em 0em 0em 0em;
       width: 2em;
       height: 2em;
       background-color:${th.colorWhite}

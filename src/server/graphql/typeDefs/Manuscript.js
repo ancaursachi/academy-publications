@@ -17,6 +17,7 @@ module.exports = gql`
     professorId: String
     articleType: String!
     manuscriptFile: String
+    professorName: String
   }
   input ManuscriptInput {
     title: String!

@@ -45,6 +45,7 @@ const queries = {
         title
         created
         abstract
+        professorName
         articleType
       }
     }

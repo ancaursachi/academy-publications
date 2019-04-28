@@ -49,7 +49,7 @@ const ManuscriptCard = ({
         <Border>
           <Title>{title}</Title>
           <ArticleType>{articleType}</ArticleType>
-          <Abstract>{abstract}</Abstract>
+          <Abstract>Abstract: {abstract}</Abstract>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
             <Button iconName={'trash-alt'} decisionDash color={th.colorGrey} />
             <Button
