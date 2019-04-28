@@ -5,9 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import th from './theme'
 
-const Button = ({ name, iconName, iconLeft, type = 'button', ...props }) => {
+const Button = ({
+  name,
+  iconName,
+  iconLeft,
+  type = 'button',
+  onClick,
+  ...props
+}) => {
   return (
-    <Root {...props} type={type}>
+    <Root {...props} type={type} onClick={onClick}>
       {iconLeft && iconName && <IconLeft icon={iconName} color="inherit" />}
       <Title {...props}>{name}</Title>
       {!iconLeft && iconName && <IconRight icon={iconName} color="inherit" />}

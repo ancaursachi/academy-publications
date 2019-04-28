@@ -35,6 +35,7 @@ const models = {
         throw new Error("You can't delete your account.")
       }
       const user = await User.findOneAndRemove({ _id })
+
       if (!user) {
         throw new Error("You can't delete a non existent account")
       } else return true

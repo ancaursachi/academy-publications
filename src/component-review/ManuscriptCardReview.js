@@ -7,7 +7,6 @@ import { RemoveProfessorModal } from '../component-review'
 
 const ManuscriptCardReview = ({ manuscript }) => {
   const { title, articleType, professorName } = manuscript
-  console.log({ professorName })
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
