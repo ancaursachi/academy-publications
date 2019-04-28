@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react'
-import { th, Button, Modal, Row, InputForm, InputSelect } from '../component-ui'
+import React from 'react'
+import { th, Button, Row, InputForm, InputSelect } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { compose } from 'recompose'
 import { Formik } from 'formik'

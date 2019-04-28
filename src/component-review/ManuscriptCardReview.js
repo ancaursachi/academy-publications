@@ -3,10 +3,10 @@ import { Card, Row, th, Button, Modal } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
+import { RemoveProfessorModal } from '../component-review'
 
-const ManuscriptCardReview = ({
-  manuscript: { _id, title, abstract, articleType },
-}) => {
+const ManuscriptCardReview = ({ manuscript }) => {
+  const { title, abstract, articleType } = manuscript
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -32,6 +32,7 @@ const ManuscriptCardReview = ({
           <ArticleType>{articleType}</ArticleType>
           <Abstract>{abstract}</Abstract>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
+            <RemoveProfessorModal manuscript={manuscript} />
             <Button
               name="Review"
               iconName={'arrow-right'}

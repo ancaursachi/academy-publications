@@ -22,6 +22,7 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
         email,
         password,
       },
+      // operationName: 'login',
     })
       .then(({ data }) => {
         const token = get(data.login, 'token')

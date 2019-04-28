@@ -1,6 +1,7 @@
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
 const Manuscript = require('../../models/Manuscript')
+const User = require('../../models/User')
 const models = {
   Date: new GraphQLScalarType({
     name: 'Date',
@@ -28,8 +29,19 @@ const models = {
     unassignedManuscripts: async () => {
       return await Manuscript.find({ professorId: { $exists: false } })
     },
-    assignedManuscripts: async () => {
-      return await Manuscript.find({ professorId: { $exists: true } })
+    assignedManuscripts: async (parent, args, { loggedInUser }) => {
+      const manuscripts = await Manuscript.find({
+        professorId: { $exists: true, $regex: loggedInUser._id },
+      })
+      const users = await User.find({
+        role: 'professor',
+      })
+
+      const ceva = manuscripts.map(manuscript =>
+        users.find(user => user._id === manuscript.professorId),
+      )
+
+      return manuscripts
     },
   },
   Mutation: {
@@ -46,6 +58,13 @@ const models = {
       return await Manuscript.findOneAndUpdate(
         { _id },
         { $set: { professorId: loggedInUser._id } },
+        { new: true },
+      )
+    },
+    removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
+      return await Manuscript.findOneAndUpdate(
+        { _id },
+        { $set: { professorId: null } },
         { new: true },
       )
     },

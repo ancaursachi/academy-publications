@@ -13,9 +13,7 @@ const models = {
     loggedInUser: async (parent, args, { loggedInUser }) => {
       return loggedInUser
     },
-
     user: async (parent, args, { loggedInUser }) => {
-      console.log('context', loggedInUser)
       return await User.findOne({ _id: loggedInUser })
     },
     users: async (parent, args, { loggedInUser }) => {
@@ -32,11 +30,14 @@ const models = {
       await newUser.save()
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
-    deleteUser: (parent, { _id }, { loggedInUser }) => {
-      if (loggedInUser._id == _id) {
+    deleteUser: async (parent, { _id }, { loggedInUser }) => {
+      if (loggedInUser._id.toString() === _id) {
         throw new Error("You can't delete your account.")
       }
-      return User.findOneAndRemove({ _id })
+      const user = await User.findOneAndRemove({ _id })
+      if (!user) {
+        throw new Error("You can't delete a non existent account")
+      } else return true
     },
     editUser: async (parent, { input }, { loggedInUser }) => {
       const { _id, ...userRest } = input

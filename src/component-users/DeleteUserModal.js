@@ -3,6 +3,7 @@ import { th, Button, Modal, ModalError } from '../component-ui'
 import { mutations } from '../qraphqlClient'
 import { compose } from 'recompose'
 import styled from 'styled-components'
+import { queries } from '../qraphqlClient'
 
 const DeleteUserModal = ({ deleteUser, user }) => {
   const [error, setError] = useState('')
@@ -24,10 +25,13 @@ const DeleteUserModal = ({ deleteUser, user }) => {
       variables: {
         id: user._id,
       },
+      refetchQueries: [
+        {
+          query: queries.getUsers,
+        },
+      ],
     })
-      .then(() => {
-        window.location.reload()
-      })
+      .then(() => {})
       .catch(error => {
         handleShowModalError()
         handleSetError(error.message)

@@ -27,5 +27,6 @@ module.exports = gql`
   type Mutation {
     createManuscript(input: ManuscriptInput!): Boolean
     addEditorOnManuscript(_id: String!): Manuscript
+    removeEditorFromManuscript(_id: String!): Manuscript
   }
 `

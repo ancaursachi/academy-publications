@@ -32,7 +32,7 @@ const helper = props => {
   }
   if (get(props, 'review')) {
     return css`
-      width: 5.5em;
+      width:${props => (get(props, 'width') ? `${props.width}em` : '5.5em')};
       height: 2.3em;
       padding: 0.5em 0.5em 0em 0.5em;
       font-weight: 600;
