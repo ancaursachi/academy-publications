@@ -2,6 +2,7 @@ const { jwtSecret, jwtExpiresIn } = require('../../config')
 const { AuthenticationError, UserInputError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
+const policyRole = require('../policyRole')
 
 const createToken = async (user, secret, expiresIn) => {
   const { email, password } = user
@@ -11,16 +12,17 @@ const createToken = async (user, secret, expiresIn) => {
 const models = {
   Query: {
     loggedInUser: async (parent, args, { loggedInUser }) => {
-      console.log(loggedInUser)
       if (!loggedInUser) {
         throw new UserInputError('You have to log in to make this request')
       }
       return loggedInUser
     },
-    user: async (parent, args, { loggedInUser }) => {
-      return await User.findOne({ _id: loggedInUser })
+    user: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      return await User.findOne({ _id })
     },
     users: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
       return await User.find({})
     },
   },
@@ -35,6 +37,7 @@ const models = {
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
     deleteUser: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
       if (loggedInUser._id.toString() === _id) {
         throw new Error("You can't delete your account.")
       }
@@ -42,9 +45,10 @@ const models = {
 
       if (!user) {
         throw new Error("You can't delete a non existent account")
-      } else return true
+      } else return user
     },
     editUser: async (parent, { input }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
       const { _id, ...userRest } = input
       return await User.findOneAndUpdate(
         { _id },

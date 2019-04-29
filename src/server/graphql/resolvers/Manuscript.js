@@ -22,15 +22,43 @@ const models = {
     },
   }),
   Query: {
-    manuscript: async (parent, { _id }) => {
-      return await Manuscript.findOne({ _id })
+    manuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      const manuscript = await Manuscript.findOne({ _id })
+      const users = await User.find()
+
+      if (!manuscript.professorId) {
+        return manuscript
+      }
+      const findUser = users.find(
+        user => manuscript.professorId === user._id.toString(),
+      )
+      return {
+        ...manuscript._doc,
+        professorName: `${findUser.firstName} ${findUser.lastName}`,
+      }
     },
-    manuscripts: async () => {
-      return await Manuscript.find()
+    manuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      const manuscripts = await Manuscript.find()
+      const users = await User.find()
+
+      const newManuscripts = manuscripts.map(manuscript => {
+        if (!manuscript.professorId) {
+          return manuscript
+        }
+        const findUser = users.find(
+          user => manuscript.professorId === user._id.toString(),
+        )
+        return {
+          ...manuscript._doc,
+          professorName: `${findUser.firstName} ${findUser.lastName}`,
+        }
+      })
+      return newManuscripts
     },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
-
       return await Manuscript.find({ professorId: null })
     },
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
@@ -64,6 +92,15 @@ const models = {
         userId: loggedInUser._id,
       })
       await newManuscript.save()
+      return newManuscript
+    },
+    deleteManuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      const manuscript = await Manuscript.findOneAndRemove({ _id })
+
+      if (!manuscript) {
+        throw new Error("You can't delete a non existent manuscript")
+      } else return manuscript
     },
     addEditorOnManuscript: async (parent, { _id }, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
@@ -80,7 +117,7 @@ const models = {
       }
     },
     removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['professor'])
+      policyRole(loggedInUser, ['professor', 'admin'])
 
       const manuscript = await Manuscript.findOneAndUpdate(
         { _id, professorId: { $ne: null } },
