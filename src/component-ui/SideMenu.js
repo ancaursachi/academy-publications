@@ -35,7 +35,7 @@ const SideMenu = ({ history, ...props }) => {
             onClick={() => history.push('/submission')}
           />
         )}
-        {policyRole(loggedInUser, ['professor']) && (
+        {policyRole(loggedInUser, ['admin']) && (
           <Button
             mt={1}
             fontWeight="bold"
@@ -51,10 +51,21 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="Review Process"
-            onClick={() => history.push('/reviewProcess')}
+            name="Unreviewed manuscripts"
+            onClick={() => history.push('/unassignedManuscripts')}
           />
         )}
+        {policyRole(loggedInUser, ['professor']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Review Process"
+            onClick={() => history.push('/assignedManuscripts')}
+          />
+        )}
+
         {policyRole(loggedInUser, ['admin']) && (
           <Button
             mt={1}

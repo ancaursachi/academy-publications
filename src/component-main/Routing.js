@@ -8,7 +8,8 @@ import { AuthentificationPage } from '../component-authentification'
 import { DashboardPage } from '../component-dashboard'
 import { Header } from '../component-main'
 import { SubmissionPage } from '../component-submission'
-import { ReviewPage } from '../component-review'
+import { AssignedManuscriptsPage } from '../component-assigned-manuscripts'
+import { UnassignedManuscriptsPage } from '../component-unassigned-manuscripts'
 import { UsersPage } from '../component-users'
 import NotFoundPage from './NotFoundPage'
 import { queries } from '../qraphqlClient'
@@ -35,6 +36,7 @@ const Routing = () => {
         <LoginRoute
           exact
           path="/login"
+          loggedInUser={loggedInUser}
           policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
           component={AuthentificationPage}
         />
@@ -42,7 +44,7 @@ const Routing = () => {
           exact
           loggedInUser={loggedInUser}
           path="/dashboard"
-          policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
+          policy={policyRole(loggedInUser, ['user', 'admin'])}
           component={DashboardPage}
         />
         <PrivateRoute
@@ -55,8 +57,15 @@ const Routing = () => {
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}
-          path="/reviewProcess"
-          component={ReviewPage}
+          path="/assignedManuscripts"
+          component={AssignedManuscriptsPage}
+          policy={policyRole(loggedInUser, ['professor'])}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/unassignedManuscripts"
+          component={UnassignedManuscriptsPage}
           policy={policyRole(loggedInUser, ['professor'])}
         />
         <PrivateRoute
@@ -80,7 +89,7 @@ const PrivateRoute = ({
   policy = true,
   ...rest
 }) => {
-  console.log(policy)
+  // console.log(policy)
   return (
     <Route
       {...rest}
@@ -98,14 +107,38 @@ const PrivateRoute = ({
   )
 }
 
-const LoginRoute = ({ component: Component, policy = true, ...rest }) => {
+const LoginRoute = ({
+  component: Component,
+  loggedInUser,
+  policy = true,
+  ...rest
+}) => {
+  const role = get(loggedInUser, 'role')
+  let redirectedLink = ''
+
+  switch (role) {
+    case 'professor':
+      redirectedLink = '/unassignedManuscripts'
+      break
+    case 'user':
+      redirectedLink = '/submission'
+      break
+    case 'admin':
+      redirectedLink = '/users'
+      break
+    default:
+      redirectedLink = '/dashboard'
+  }
+  console.log(redirectedLink)
+
   return (
     <Route
       {...rest}
       component={props =>
         localStorage.getItem('authToken') && policy ? (
-          <Redirect to="/dashboard" />
+          <Redirect to={redirectedLink} />
         ) : (
+          // console.log(redirectedLink)
           <Component />
         )
       }
