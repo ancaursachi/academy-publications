@@ -38,6 +38,16 @@ const helper = props => {
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
+  if (get(props, 'decisionAdmin')) {
+    return css`
+     width:${props => (get(props, 'width') ? `${props.width}em` : '5.5em')};
+      height: 2.3em;
+      padding: 0em;
+      font-weight: 600;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
   if (get(props, 'review')) {
     return css`
       width:${props => (get(props, 'width') ? `${props.width}em` : '5.5em')};

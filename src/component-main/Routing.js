@@ -11,6 +11,7 @@ import { SubmissionPage } from '../component-submission'
 import { AssignedManuscriptsPage } from '../component-assigned-manuscripts'
 import { UnassignedManuscriptsPage } from '../component-unassigned-manuscripts'
 import { UsersPage } from '../component-users'
+import { ManuscriptsPage } from '../component-manuscripts'
 import NotFoundPage from './NotFoundPage'
 import { queries } from '../qraphqlClient'
 import { Loader } from '../component-ui'
@@ -44,8 +45,15 @@ const Routing = () => {
           exact
           loggedInUser={loggedInUser}
           path="/dashboard"
-          policy={policyRole(loggedInUser, ['user', 'admin'])}
+          policy={policyRole(loggedInUser, ['user'])}
           component={DashboardPage}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/manuscripts"
+          policy={policyRole(loggedInUser, ['admin'])}
+          component={ManuscriptsPage}
         />
         <PrivateRoute
           exact
@@ -124,12 +132,11 @@ const LoginRoute = ({
       redirectedLink = '/submission'
       break
     case 'admin':
-      redirectedLink = '/users'
+      redirectedLink = '/manuscripts'
       break
     default:
       redirectedLink = '/dashboard'
   }
-  console.log(redirectedLink)
 
   return (
     <Route
@@ -138,7 +145,6 @@ const LoginRoute = ({
         localStorage.getItem('authToken') && policy ? (
           <Redirect to={redirectedLink} />
         ) : (
-          // console.log(redirectedLink)
           <Component />
         )
       }

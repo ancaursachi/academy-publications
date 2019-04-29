@@ -1,0 +1,5 @@
+export { default as Manuscripts } from './Manuscripts'
+export { default as ManuscriptsPage } from './ManuscriptsPage'
+export { default as ManuscriptCard } from './ManuscriptCard'
+export { default as RemoveProfessorModal } from './RemoveProfessorModal'
+export { default as DeleteManuscript } from './DeleteManuscript'

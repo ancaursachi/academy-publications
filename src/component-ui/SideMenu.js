@@ -35,7 +35,7 @@ const SideMenu = ({ history, ...props }) => {
             onClick={() => history.push('/submission')}
           />
         )}
-        {policyRole(loggedInUser, ['admin']) && (
+        {policyRole(loggedInUser, ['user']) && (
           <Button
             mt={1}
             fontWeight="bold"
@@ -43,6 +43,16 @@ const SideMenu = ({ history, ...props }) => {
             sideMenu
             name="Dashboard"
             onClick={() => history.push('/dashboard')}
+          />
+        )}
+        {policyRole(loggedInUser, ['admin']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Manuscripts"
+            onClick={() => history.push('/manuscripts')}
           />
         )}
         {policyRole(loggedInUser, ['professor']) && (

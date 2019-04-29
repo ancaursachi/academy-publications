@@ -36,9 +36,13 @@ const queries = {
       manuscripts {
         _id
         title
+        userId
         created
         abstract
+        professorId
         articleType
+        manuscriptFile
+        professorName
       }
     }
   `,
