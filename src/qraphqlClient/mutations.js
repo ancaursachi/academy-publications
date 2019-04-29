@@ -31,7 +31,9 @@ const editUser = gql`
 `
 const createManuscript = gql`
   mutation createManuscript($input: ManuscriptInput!) {
-    createManuscript(input: $input)
+    createManuscript(input: $input) {
+      _id
+    }
   }
 `
 const addEditorOnManuscript = gql`

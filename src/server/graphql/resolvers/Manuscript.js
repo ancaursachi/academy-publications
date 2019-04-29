@@ -57,6 +57,26 @@ const models = {
       })
       return newManuscripts
     },
+    userManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user'])
+
+      const manuscripts = await Manuscript.find({ userId: loggedInUser._id })
+      const users = await User.find()
+
+      const newManuscripts = manuscripts.map(manuscript => {
+        if (!manuscript.professorId) {
+          return manuscript
+        }
+        const findUser = users.find(
+          user => manuscript.professorId === user._id.toString(),
+        )
+        return {
+          ...manuscript._doc,
+          professorName: `${findUser.firstName} ${findUser.lastName}`,
+        }
+      })
+      return newManuscripts
+    },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
       return await Manuscript.find({ professorId: null })
@@ -85,6 +105,7 @@ const models = {
   },
   Mutation: {
     createManuscript: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user'])
       const createdDate = new Date()
       const newManuscript = new Manuscript({
         ...args.input,
@@ -95,7 +116,7 @@ const models = {
       return newManuscript
     },
     deleteManuscript: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
+      policyRole(loggedInUser, ['admin', 'user'])
       const manuscript = await Manuscript.findOneAndRemove({ _id })
 
       if (!manuscript) {

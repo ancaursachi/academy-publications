@@ -6,6 +6,7 @@ module.exports = gql`
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
     unassignedManuscripts: [Manuscript]
+    userManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
   }
   type Manuscript {

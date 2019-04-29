@@ -46,6 +46,21 @@ const queries = {
       }
     }
   `,
+  getUserManuscripts: gql`
+    query userManuscripts {
+      userManuscripts {
+        _id
+        title
+        userId
+        created
+        abstract
+        professorId
+        articleType
+        manuscriptFile
+        professorName
+      }
+    }
+  `,
   getUnassignedManuscripts: gql`
     query unassignedManuscripts {
       unassignedManuscripts {

@@ -15,6 +15,7 @@ import { Formik } from 'formik'
 import { mutations } from '../qraphqlClient'
 import { withRouter } from 'react-router-dom'
 import { submissionValidation } from '../component-submission'
+import { queries } from '../qraphqlClient'
 
 const SubmissionForm = ({ createManuscript, history, ...rest }) => {
   const initialValues = {
@@ -28,10 +29,14 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       variables: {
         input: manuscript,
       },
+      refetchQueries: [
+        {
+          query: queries.getUserManuscripts,
+        },
+      ],
     })
       .then(() => {
         history.push('/dashboard')
-        window.location.reload()
       })
       .catch(error => alert(error))
   }
