@@ -3,7 +3,7 @@ const { ApolloServer } = require('apollo-server')
 const authorizationLogic = require('./authorization')
 const { port, dbLink } = require('./config')
 const playground = require('./playground')
-
+const cors = require('cors')
 //conect to database
 const mongoose = require('mongoose')
 const db = dbLink
@@ -20,6 +20,7 @@ const server = new ApolloServer({
   context: authorizationLogic(),
   introspection: true,
   playground: playground(),
+  cors: true,
 })
 
 server.listen({ port }, () => {

@@ -28,12 +28,16 @@ const models = {
     manuscripts: async () => {
       return await Manuscript.find()
     },
-    unassignedManuscripts: async () => {
+    unassignedManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor'])
+
       return await Manuscript.find({ professorId: null })
     },
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor'])
+
       const manuscripts = await Manuscript.find({
-        professorId: { $exists: true, $regex: loggedInUser._id },
+        professorId: { $ne: null, $regex: loggedInUser._id },
       })
       const users = await User.find({
         role: 'professor',
@@ -76,11 +80,19 @@ const models = {
       }
     },
     removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
-      return await Manuscript.findOneAndUpdate(
-        { _id },
+      policyRole(loggedInUser, ['professor'])
+
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id, professorId: { $ne: null } },
         { $set: { professorId: null } },
         { new: true },
       )
+
+      if (!manuscript) {
+        throw new Error('Manuscript was not found.')
+      } else {
+        return manuscript
+      }
     },
   },
 }

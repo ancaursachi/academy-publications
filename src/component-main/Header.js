@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 import { th, Button } from '../component-ui'
 import { withRouter } from 'react-router-dom'
 
-const Header = ({ history }) => {
+const Header = ({ history, loggedInUser }) => {
+  const { firstName, lastName } = loggedInUser
   const handleLogout = () => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('user')
@@ -18,6 +19,9 @@ const Header = ({ history }) => {
         <StyledLink to="/dashboard">Academy Publication</StyledLink>
       </Logo>
       <Column>
+        <User>
+          Hello, {firstName} {lastName}
+        </User>
         <Button
           name="Logout"
           color={th.colorBlueLight}
@@ -42,6 +46,10 @@ const Row = styled.nav`
   top: 0;
   left: 0;
   width: 100%;
+`
+const User = styled.div`
+  font-size: 0.8em;
+  padding-right: 2em;
 `
 const Logo = styled.div`
   display: flex;

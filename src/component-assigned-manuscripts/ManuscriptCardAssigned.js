@@ -3,9 +3,9 @@ import { Card, Row, th, Button, Modal } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
-import { RemoveProfessorModal } from '../component-review'
+import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 
-const ManuscriptCardReview = ({ manuscript }) => {
+const ManuscriptCardAssigned = ({ manuscript }) => {
   const { title, articleType, professorName } = manuscript
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
@@ -85,4 +85,4 @@ const EditorName = styled.div`
   color: ${th.colorGrey};
 `
 
-export default compose(mutations)(ManuscriptCardReview)
+export default compose(mutations)(ManuscriptCardAssigned)

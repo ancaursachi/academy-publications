@@ -1,43 +1,70 @@
 import React from 'react'
 import styled from 'styled-components'
-import { th, Button } from '../component-ui'
+import { get } from 'lodash'
+import { th, Button, Loader } from '../component-ui'
+import { queries } from '../qraphqlClient'
+import { useQuery } from 'react-apollo-hooks'
+
+const policyRole = (loggedInUser, roles) => {
+  const role = get(loggedInUser, 'role', null)
+  return roles.includes(role)
+}
 
 const SideMenu = ({ history, ...props }) => {
+  const { data, loading } = useQuery(queries.getLoggedInUser)
+  if (loading) {
+    return (
+      <Root {...props}>
+        <Content>
+          <Loader />
+        </Content>
+      </Root>
+    )
+  }
+  const { loggedInUser } = data
   return (
     <Root {...props}>
       <Content>
-        <Button
-          fontWeight="bold"
-          fontSize="1.2em"
-          sideMenu
-          iconName="plus"
-          name="Create manuscript"
-          onClick={() => history.push('/submission')}
-        />
-        <Button
-          mt={1}
-          fontWeight="bold"
-          fontSize="1.2em"
-          sideMenu
-          name="Dashboard"
-          onClick={() => history.push('/dashboard')}
-        />
-        <Button
-          mt={1}
-          fontWeight="bold"
-          fontSize="1.2em"
-          sideMenu
-          name="Review Process"
-          onClick={() => history.push('/reviewProcess')}
-        />
-        <Button
-          mt={1}
-          fontWeight="bold"
-          fontSize="1.2em"
-          sideMenu
-          name="Users"
-          onClick={() => history.push('/users')}
-        />
+        {policyRole(loggedInUser, ['user']) && (
+          <Button
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            iconName="plus"
+            name="Create manuscript"
+            onClick={() => history.push('/submission')}
+          />
+        )}
+        {policyRole(loggedInUser, ['professor']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Dashboard"
+            onClick={() => history.push('/dashboard')}
+          />
+        )}
+        {policyRole(loggedInUser, ['professor']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Review Process"
+            onClick={() => history.push('/reviewProcess')}
+          />
+        )}
+        {policyRole(loggedInUser, ['admin']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Users"
+            onClick={() => history.push('/users')}
+          />
+        )}
       </Content>
     </Root>
   )

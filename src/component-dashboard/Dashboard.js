@@ -10,13 +10,6 @@ import styled from 'styled-components'
 const Dashboard = ({ ...rest }) => {
   const { data, loading } = useQuery(queries.getUnassignedManuscripts)
 
-  const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'unassignedManuscripts', [])
-  const sortedManuscripts = sortBy(
-    manuscripts,
-    manuscript => -manuscript.created,
-  )
-
   if (loading) {
     return (
       <Root {...rest}>
@@ -24,6 +17,13 @@ const Dashboard = ({ ...rest }) => {
       </Root>
     )
   }
+  const initialValues = { searchValue: '', searchType: 'title' }
+  const manuscripts = get(data, 'unassignedManuscripts', [])
+  const sortedManuscripts = sortBy(
+    manuscripts,
+    manuscript => -manuscript.created,
+  )
+
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {

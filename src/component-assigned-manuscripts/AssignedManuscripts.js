@@ -4,10 +4,10 @@ import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
 import { th, Loader, SearchBar } from '../component-ui'
-import { ManuscriptCardReview } from '../component-review'
+import { ManuscriptCardAssigned } from '../component-assigned-manuscripts'
 import styled from 'styled-components'
 
-const ReviewManuscripts = ({ ...rest }) => {
+const AssignedManuscripts = ({ ...rest }) => {
   const { data, loading } = useQuery(queries.getAssignedManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
@@ -43,7 +43,7 @@ const ReviewManuscripts = ({ ...rest }) => {
                     .includes(values.searchValue.toLowerCase()),
                 )
                 .map(manuscript => (
-                  <ManuscriptCardReview
+                  <ManuscriptCardAssigned
                     key={manuscript._id}
                     manuscript={manuscript}
                   />
@@ -70,4 +70,4 @@ const TitlePage = styled.div`
   padding-bottom: 1em;
   color: ${th.colorBlue};
 `
-export default ReviewManuscripts
+export default AssignedManuscripts

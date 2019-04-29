@@ -11,6 +11,10 @@ const createToken = async (user, secret, expiresIn) => {
 const models = {
   Query: {
     loggedInUser: async (parent, args, { loggedInUser }) => {
+      console.log(loggedInUser)
+      if (!loggedInUser) {
+        throw new UserInputError('You have to log in to make this request')
+      }
       return loggedInUser
     },
     user: async (parent, args, { loggedInUser }) => {

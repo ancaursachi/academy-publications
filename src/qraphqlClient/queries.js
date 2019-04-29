@@ -1,8 +1,23 @@
 import gql from 'graphql-tag'
 
 const queries = {
+  getLoggedInUser: gql`
+    query loggedInUser {
+      loggedInUser {
+        _id
+        firstName
+        lastName
+        email
+        role
+        country
+        city
+        university
+        specialization
+      }
+    }
+  `,
   getUsers: gql`
-    query {
+    query users {
       users {
         _id
         firstName
@@ -17,7 +32,7 @@ const queries = {
     }
   `,
   getManuscripts: gql`
-    query {
+    query manuscripts {
       manuscripts {
         _id
         title
@@ -28,7 +43,7 @@ const queries = {
     }
   `,
   getUnassignedManuscripts: gql`
-    query {
+    query unassignedManuscripts {
       unassignedManuscripts {
         _id
         title
@@ -39,7 +54,7 @@ const queries = {
     }
   `,
   getAssignedManuscripts: gql`
-    query {
+    query assignedManuscripts {
       assignedManuscripts {
         _id
         title
