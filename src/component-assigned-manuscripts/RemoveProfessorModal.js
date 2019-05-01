@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import styled from 'styled-components'
 import { Button, th, Modal } from '../component-ui'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
@@ -31,7 +32,7 @@ const RemoveProfessorModal = ({ manuscript, removeEditorFromManuscript }) => {
   }
   return (
     <Fragment>
-      <Button
+      <ButtonStyled
         iconName={'times'}
         width={2}
         color={th.colorBrick}
@@ -48,5 +49,11 @@ const RemoveProfessorModal = ({ manuscript, removeEditorFromManuscript }) => {
     </Fragment>
   )
 }
+
+const ButtonStyled = styled(Button)`
+  position: absolute;
+  bottom: -5px;
+  right: 15px;
+`
 
 export default compose(mutations)(RemoveProfessorModal)

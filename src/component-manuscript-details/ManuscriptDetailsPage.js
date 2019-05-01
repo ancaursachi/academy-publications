@@ -1,17 +1,14 @@
 import React from 'react'
-
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
-import { AssignedManuscripts } from '../component-assigned-manuscripts'
-
 import { SideMenu } from '../component-ui'
-
-const AssignedManuscriptsPage = ({ history }) => {
+import { ManuscriptDetails } from '../component-manuscript-details'
+const ManuscriptDetailsPage = ({ history }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <AssignedManuscripts pt={6} history={history} />
+      <ManuscriptDetails pt={6} />
     </Root>
   )
 }
@@ -23,4 +20,4 @@ const Root = styled.div`
   grid-template-columns: 18% 82%;
 `
 
-export default compose(withRouter)(AssignedManuscriptsPage)
+export default compose(withRouter)(ManuscriptDetailsPage)

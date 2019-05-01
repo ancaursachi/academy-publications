@@ -5,13 +5,11 @@ import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 
-const ManuscriptCardAssigned = ({ manuscript }) => {
-  const { title, articleType, professorName } = manuscript
-  const [showModal, setShowModal] = useState(false)
-  const handleShowModal = () => setShowModal(!showModal)
+const ManuscriptCardAssigned = ({ manuscript, history }) => {
+  const { _id, title, articleType, professorName } = manuscript
 
   const handleReview = () => {
-    handleShowModal()
+    history.push(`/manuscriptsDetails/${_id}`)
   }
 
   return (
@@ -22,34 +20,22 @@ const ManuscriptCardAssigned = ({ manuscript }) => {
       mt={0.5}
       mb={0.5}
       pt={1}
-      pr={1}
-      pl={1}
+      pr={0.5}
+      pl={0.5}
       pb={1}
     >
-      <Content>
-        <Border>
-          <Title>{title}</Title>
-          <ArticleType>{articleType}</ArticleType>
-          <EditorName>Professor: {professorName}</EditorName>
-          <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
-            <RemoveProfessorModal manuscript={manuscript} />
-            <Button
-              name="Review"
-              iconName={'arrow-right'}
-              review
-              color={th.colorGrey}
-              onClick={handleShowModal}
-            />
-          </Row>
-        </Border>
-      </Content>
-      <Modal
-        showModal={showModal}
-        handleShowModal={handleShowModal}
-        title={'Do you want to review this manuscript?'}
-        buttonName={'Review'}
-        onClickSubmit={handleReview}
-      />
+      <ButtonCard onClick={handleReview}>
+        <Content>
+          <Border>
+            <Title>{title}</Title>
+            <ArticleType>{articleType}</ArticleType>
+            <EditorName>Professor: {professorName}</EditorName>
+          </Border>
+        </Content>
+      </ButtonCard>
+      <RowStyled justify="flex-end" alignItems="flex-end" mt={0.5}>
+        <RemoveProfessorModal manuscript={manuscript} />
+      </RowStyled>
     </Card>
   )
 }
@@ -59,6 +45,20 @@ const Content = styled.div`
   height: 100%;
   align-items: center;
   flex-wrap: wrap;
+`
+const RowStyled = styled(Row)`
+  position: relative;
+`
+const ButtonCard = styled.button`
+  height: 100%;
+  width: 100%;
+  text-align: initial;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  :focus {
+    outline: none;
+  }
 `
 const Border = styled.div`
   height: 100%;

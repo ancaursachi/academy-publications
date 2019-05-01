@@ -13,6 +13,7 @@ import { UnassignedManuscriptsPage } from '../component-unassigned-manuscripts'
 import { UsersPage } from '../component-users'
 import { ManuscriptsPage } from '../component-manuscripts'
 import { UserManuscriptsPage } from '../component-user-manuscripts'
+import { ManuscriptDetailsPage } from '../component-manuscript-details'
 import NotFoundPage from './NotFoundPage'
 import { queries } from '../qraphqlClient'
 import { Loader } from '../component-ui'
@@ -62,6 +63,13 @@ const Routing = () => {
           path="/manuscripts"
           policy={policyRole(loggedInUser, ['admin'])}
           component={ManuscriptsPage}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/manuscriptsDetails/:manuscriptId"
+          policy={policyRole(loggedInUser, ['professor'])}
+          component={ManuscriptDetailsPage}
         />
         <PrivateRoute
           exact
@@ -133,7 +141,7 @@ const LoginRoute = ({
 
   switch (role) {
     case 'professor':
-      redirectedLink = '/unassignedManuscripts'
+      redirectedLink = '/assignedManuscripts'
       break
     case 'user':
       redirectedLink = '/userManuscripts'
