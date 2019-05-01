@@ -3,43 +3,39 @@ import { Formik } from 'formik'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
-import { InputForm, InputSelect, th } from '../component-ui'
-import { ManuscriptCard } from '.'
+import { th, Loader, SearchBar } from '../component-ui'
+import { ManuscriptCard } from '../component-dashboard'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Dashboard = ({ ...rest }) => {
-  const { data } = useQuery(queries.getManuscripts)
+  const { data, loading } = useQuery(queries.getUnassignedManuscripts)
+
+  if (loading) {
+    return (
+      <Root {...rest}>
+        <Loader />
+      </Root>
+    )
+  }
   const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'manuscripts', [])
+  const manuscripts = get(data, 'unassignedManuscripts', [])
   const sortedManuscripts = sortBy(
     manuscripts,
     manuscript => -manuscript.created,
   )
+
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {
         return (
           <Root {...rest}>
             <Content>
-              <SearchBar>
-                <SearchIcon icon="search" color="#818284" />
-                <InputForm
-                  name="searchValue"
-                  value={values.searchValue}
-                  onChange={handleChange}
-                />
-                <InputSelect
-                  name="searchType"
-                  type="text"
-                  options={['title', 'abstract', 'articleType']}
-                  widthInput={10}
-                  width={10}
-                  ml={0.5}
-                  value={values.searchType}
-                  onChange={handleChange}
-                />
-              </SearchBar>
+              <TitlePage>Dashboard</TitlePage>
+              <SearchBar
+                values={values}
+                handleChange={handleChange}
+                options={['title', 'abstract', 'articleType']}
+              />
               {sortedManuscripts
                 .filter(manuscript =>
                   manuscript[values.searchType]
@@ -68,15 +64,11 @@ const Root = styled.div`
   ${th.paddingHelper};
 `
 const Content = styled.div``
-const SearchBar = styled.div`
-  display: flex;
+const TitlePage = styled.div`
+  font-size: 1.6em;
+  font-weight: 600;
+  width: 100%;
   padding-bottom: 1em;
+  color: ${th.colorBlue};
 `
-const SearchIcon = styled(FontAwesomeIcon)`
-  display: flex;
-  align-self: center;
-  margin-right: 0.5em;
-  font-size: 1.5em;
-`
-
 export default Dashboard

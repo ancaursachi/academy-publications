@@ -6,6 +6,7 @@ const Card = styled.div`
     props.backgroundColor ? props.backgroundColor : 'white'};
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
   width: ${props => (props.width ? `${props.width}em` : '25em')};
+  height: 100%;
   height: ${props => (props.height ? `${props.height}em` : '25em')};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '0px')};
 

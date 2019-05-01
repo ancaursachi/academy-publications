@@ -16,13 +16,55 @@ const login = gql`
     }
   }
 `
+const deleteUser = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(_id: $id)
+  }
+`
+const editUser = gql`
+  mutation editUser($input: UserEditInput!) {
+    editUser(input: $input) {
+      _id
+      firstName
+    }
+  }
+`
 const createManuscript = gql`
   mutation createManuscript($input: ManuscriptInput!) {
-    createManuscript(input: $input)
+    createManuscript(input: $input) {
+      _id
+    }
+  }
+`
+const addEditorOnManuscript = gql`
+  mutation addEditorOnManuscript($id: String!) {
+    addEditorOnManuscript(_id: $id) {
+      professorId
+    }
+  }
+`
+
+const removeEditorFromManuscript = gql`
+  mutation removeEditorFromManuscript($id: String!) {
+    removeEditorFromManuscript(_id: $id) {
+      professorId
+    }
+  }
+`
+const deleteManuscript = gql`
+  mutation deleteManuscript($id: String!) {
+    deleteManuscript(_id: $id) {
+      _id
+    }
   }
 `
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
+  graphql(deleteUser, { name: 'deleteUser' }),
+  graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),
+  graphql(deleteManuscript, { name: 'deleteManuscript' }),
+  graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
+  graphql(removeEditorFromManuscript, { name: 'removeEditorFromManuscript' }),
 )

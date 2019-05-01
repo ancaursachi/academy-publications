@@ -32,14 +32,15 @@ const InputSelect = ({
 
 const renameSelectOption = option => {
   switch (option) {
-    case 'title':
-      return 'Title'
-    case 'abstract':
-      return 'Abstract'
     case 'articleType':
       return 'Article Type'
+    case 'firstName':
+      return 'First Name'
+    case 'lastName':
+      return 'Last Name'
+
     default:
-      return option
+      return option.charAt(0).toUpperCase() + option.slice(1)
   }
 }
 
@@ -51,15 +52,15 @@ const Label = ({ labelName, required }) => (
 )
 
 const Root = styled.div`
+  position: relative;
   ${th.marginHelper}
   ${th.paddingHelper}
-  width: ${props => (props.width ? `${props.width}em` : '19em')};
 `
 const StyledLabel = styled.label`
   margin: 0;
 `
 const Select = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '19em')};
+  width: ${props => (props.widthinput ? `${props.widthinput}em` : '100%')};
   height: 2.5em;
   padding: 0.5em 0.5em;
   margin: 0;

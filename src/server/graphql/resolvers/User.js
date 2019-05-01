@@ -1,7 +1,8 @@
-const { jwtSecret } = require('../../config')
+const { jwtSecret, jwtExpiresIn } = require('../../config')
 const { AuthenticationError, UserInputError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
+const policyRole = require('../policyRole')
 
 const createToken = async (user, secret, expiresIn) => {
   const { email, password } = user
@@ -11,31 +12,51 @@ const createToken = async (user, secret, expiresIn) => {
 const models = {
   Query: {
     loggedInUser: async (parent, args, { loggedInUser }) => {
+      if (!loggedInUser) {
+        throw new UserInputError('You have to log in to make this request')
+      }
       return loggedInUser
     },
-
-    user: async (parent, args, { logInUser }) => {
-      console.log('context', logInUser)
-      return await User.findOne({ _id: logInUser })
+    user: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      return await User.findOne({ _id })
     },
-    users: async (parent, args, { logInUser }) => {
+    users: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
       return await User.find({})
     },
   },
   Mutation: {
-    signUp: async (parent, args) => {
-      const user = await User.findByLogin(args.input.email)
+    signUp: async (parent, { input }) => {
+      const user = await User.findByLogin(input.email)
       if (user) {
         throw new UserInputError('This email already exist.')
       }
-      const newUser = new User(args.input)
+      const newUser = new User({ ...input, role: 'user' })
       await newUser.save()
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
-    deleteUser: (parent, args) => {
-      return User.findOneAndRemove(args)
+    deleteUser: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      if (loggedInUser._id.toString() === _id) {
+        throw new Error("You can't delete your account.")
+      }
+      const user = await User.findOneAndRemove({ _id })
+
+      if (!user) {
+        throw new Error("You can't delete a non existent account")
+      } else return user
     },
-    login: async (parent, { email, password }, { logInUser }) => {
+    editUser: async (parent, { input }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      const { _id, ...userRest } = input
+      return await User.findOneAndUpdate(
+        { _id },
+        { $set: userRest },
+        { new: true },
+      )
+    },
+    login: async (parent, { email, password }, { loggedInUser }) => {
       const user = await User.findByLogin(email)
       if (!user) {
         throw new UserInputError('No user found with this login credentials.')
@@ -44,7 +65,7 @@ const models = {
       if (!isValid) {
         throw new AuthenticationError('Invalid password.')
       }
-      return { token: createToken(user, jwtSecret, '300m') }
+      return { token: createToken(user, jwtSecret, jwtExpiresIn) }
     },
   },
 }

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {
   th,
   Row,
+  Card,
   Button,
   InputFile,
   InputForm,
@@ -14,8 +15,9 @@ import { Formik } from 'formik'
 import { mutations } from '../qraphqlClient'
 import { withRouter } from 'react-router-dom'
 import { submissionValidation } from '../component-submission'
+import { queries } from '../qraphqlClient'
 
-const SubmissionForm = ({ createManuscript, history }) => {
+const SubmissionForm = ({ createManuscript, history, ...rest }) => {
   const initialValues = {
     title: '',
     articleType: 'Research article',
@@ -27,10 +29,14 @@ const SubmissionForm = ({ createManuscript, history }) => {
       variables: {
         input: manuscript,
       },
+      refetchQueries: [
+        {
+          query: queries.getUserManuscripts,
+        },
+      ],
     })
       .then(() => {
         history.push('/dashboard')
-        window.location.reload()
       })
       .catch(error => alert(error))
   }
@@ -43,66 +49,77 @@ const SubmissionForm = ({ createManuscript, history }) => {
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
-          <Root>
-            <Title>Manuscript Details</Title>
-            <Row mt={2}>
-              <InputForm
-                label="Manuscript Title"
-                name="title"
-                type="text"
-                required
-                widthInput={21}
-                value={values.title}
-                onChange={handleChange}
-                error={errors.title}
-              />
-              <InputSelect
-                label="Manuscript Type"
-                name="articleType"
-                type="text"
-                options={['Research article', 'Review article']}
+          <Root {...rest}>
+            <Card
+              height={35}
+              borderRadius={'5px 5px 5px 5px'}
+              width={40}
+              mb={4}
+              pt={2.2}
+              pr={2}
+              pl={2}
+              pb={2}
+            >
+              <Title>Manuscript Details</Title>
+              <Row mt={2}>
+                <InputForm
+                  label="Manuscript Title"
+                  name="title"
+                  type="text"
+                  required
+                  widthInput={21}
+                  value={values.title}
+                  onChange={handleChange}
+                  error={errors.title}
+                />
+                <InputSelect
+                  label="Manuscript Type"
+                  name="articleType"
+                  type="text"
+                  options={['Research article', 'Review article']}
+                  widthInput={14}
+                  width={14}
+                  required
+                  value={values.articleType}
+                  onChange={handleChange}
+                  error={errors.articleType}
+                />
+              </Row>
+              <InputTextarea
+                label="Abstract"
+                name="abstract"
+                type="textarea"
                 widthInput={14}
                 width={14}
+                mt={1}
                 required
-                value={values.articleType}
+                value={values.abstract}
                 onChange={handleChange}
-                error={errors.articleType}
+                error={errors.abstract}
               />
-            </Row>
-            <InputTextarea
-              label="Abstract"
-              name="abstract"
-              type="textarea"
-              widthInput={14}
-              width={14}
-              mt={1}
-              required
-              value={values.abstract}
-              onChange={handleChange}
-              error={errors.abstract}
-            />
-            <InputFile
-              label="Manuscript File"
-              name="manuscriptFile"
-              widthInput={14}
-              width={14}
-              mt={1}
-              required
-              value={values.manuscriptFile}
-              onChange={handleChange}
-              error={errors.manuscriptFile}
-            />
-            <Row mt={1} mr={20} justify="flex-end">
-              <Button
-                underline
-                name="Submit"
-                type="submit"
-                fontSize={1.2}
-                color={th.colorBlueLight}
-                iconName={'arrow-right'}
-                onClick={handleSubmit}
+              <InputFile
+                label="Manuscript File"
+                name="manuscriptFile"
+                widthInput={14}
+                width={14}
+                mt={1}
+                required
+                value={values.manuscriptFile}
+                onChange={handleChange}
+                error={errors.manuscriptFile}
               />
-            </Row>
+              <Row mt={2} mr={20} justify="flex-end">
+                <Button
+                  underline
+                  name="Submit"
+                  type="submit"
+                  fontSize={1.2}
+                  color={th.colorBlueLight}
+                  iconName={'arrow-right'}
+                  onClick={handleSubmit}
+                />
+              </Row>
+            </Card>
           </Root>
         )
       }}
@@ -116,10 +133,11 @@ export default compose(
 )(SubmissionForm)
 
 const Root = styled.div`
-  margin: 2em 2em;
-  color: ${th.colorDark};
+  display: flex;
+  justify-content: center;
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
-
 const Title = styled.div`
   font-size: 1.7em;
   display: flex;

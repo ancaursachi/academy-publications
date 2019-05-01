@@ -5,6 +5,9 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    unassignedManuscripts: [Manuscript]
+    userManuscripts: [Manuscript]
+    assignedManuscripts: [Manuscript]
   }
   type Manuscript {
     _id: String!
@@ -12,8 +15,10 @@ module.exports = gql`
     userId: String!
     created: Date
     abstract: String!
+    professorId: String
     articleType: String!
     manuscriptFile: String
+    professorName: String
   }
   input ManuscriptInput {
     title: String!
@@ -21,8 +26,10 @@ module.exports = gql`
     articleType: String!
     manuscriptFile: String
   }
-
   type Mutation {
-    createManuscript(input: ManuscriptInput!): Boolean
+    createManuscript(input: ManuscriptInput!): Manuscript
+    addEditorOnManuscript(_id: String!): Manuscript
+    removeEditorFromManuscript(_id: String!): Manuscript
+    deleteManuscript(_id: String!): Manuscript
   }
 `

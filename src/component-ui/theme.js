@@ -4,9 +4,11 @@ import { get } from 'lodash'
 const colors = {
   colorBlue: '#1c5367',
   colorBlueLight: '#3E6977',
+  colorBlueGray: '#698996',
   colorOrange: '#da9f88',
   colorRed: '#A74143',
   colorGrey: '#5D656C',
+  colorGreyLight: '#c1c1c1',
   colorBrick: '#BA6049',
   colorDark: '#222327',
   colorCrem: '#d4c098',

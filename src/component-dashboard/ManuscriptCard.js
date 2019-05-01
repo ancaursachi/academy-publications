@@ -1,10 +1,38 @@
 import React, { useState } from 'react'
 import { Card, Row, th, Button, Modal } from '../component-ui'
 import styled from 'styled-components'
+import { compose } from 'recompose'
+import { mutations } from '../qraphqlClient'
+import { queries } from '../qraphqlClient'
 
-const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
+const ManuscriptCard = ({
+  manuscript: { _id, title, abstract, articleType },
+  addEditorOnManuscript,
+}) => {
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
+
+  const handleReview = () => {
+    handleShowModal()
+    return addEditorOnManuscript({
+      variables: {
+        id: _id,
+      },
+      refetchQueries: [
+        {
+          query: queries.getUnassignedManuscripts,
+        },
+        {
+          query: queries.getAssignedManuscripts,
+        },
+      ],
+    })
+    // .then(() => {})
+    // .catch(error => {
+    //   alert(error.message)
+    // })
+  }
+
   return (
     <Card
       borderRadius={'5px 5px 5px 5px'}
@@ -21,9 +49,9 @@ const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
         <Border>
           <Title>{title}</Title>
           <ArticleType>{articleType}</ArticleType>
-          <Abstract>{abstract}</Abstract>
+          <Abstract>Abstract: {abstract}</Abstract>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
-            <Button iconName={'trash-alt'} decisionDash />
+            <Button iconName={'trash-alt'} decisionDash color={th.colorGrey} />
             <Button
               iconName={'check'}
               decisionDash
@@ -37,6 +65,8 @@ const ManuscriptCard = ({ manuscript: { title, abstract, articleType } }) => {
         showModal={showModal}
         handleShowModal={handleShowModal}
         title={'Do you want to review this manuscript?'}
+        buttonName={'Review'}
+        onClickSubmit={handleReview}
       />
     </Card>
   )
@@ -58,19 +88,18 @@ const Border = styled.div`
   padding: 1em;
 `
 const Title = styled.div`
-  font-size: 1.5em;
+  font-size: 1.3em;
   width: 100%;
   color: ${th.colorBlue};
 `
-
 const ArticleType = styled.div`
-  font-size: 1.1em;
+  font-size: 0.9em;
 `
-
 const Abstract = styled.div`
-  font-size: 1em;
+  font-size: 0.8em;
   width: 100%;
+  padding-top: 0.7em;
   color: ${th.colorGrey};
 `
 
-export default ManuscriptCard
+export default compose(mutations)(ManuscriptCard)

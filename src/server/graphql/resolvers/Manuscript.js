@@ -1,6 +1,9 @@
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
+const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
+const User = require('../../models/User')
+
 const models = {
   Date: new GraphQLScalarType({
     name: 'Date',
@@ -19,16 +22,90 @@ const models = {
     },
   }),
   Query: {
-    manuscript: async (parent, { _id }) => {
-      return await Manuscript.findOne({ _id })
+    manuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      const manuscript = await Manuscript.findOne({ _id })
+      const users = await User.find()
+
+      if (!manuscript.professorId) {
+        return manuscript
+      }
+      const findUser = users.find(
+        user => manuscript.professorId === user._id.toString(),
+      )
+      return {
+        ...manuscript._doc,
+        professorName: `${findUser.firstName} ${findUser.lastName}`,
+      }
     },
-    manuscripts: async () => {
-      return await Manuscript.find({})
+    manuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin'])
+      const manuscripts = await Manuscript.find()
+      const users = await User.find()
+
+      const newManuscripts = manuscripts.map(manuscript => {
+        if (!manuscript.professorId) {
+          return manuscript
+        }
+        const findUser = users.find(
+          user => manuscript.professorId === user._id.toString(),
+        )
+        return {
+          ...manuscript._doc,
+          professorName: `${findUser.firstName} ${findUser.lastName}`,
+        }
+      })
+      return newManuscripts
+    },
+    userManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user'])
+
+      const manuscripts = await Manuscript.find({ userId: loggedInUser._id })
+      const users = await User.find()
+
+      const newManuscripts = manuscripts.map(manuscript => {
+        if (!manuscript.professorId) {
+          return manuscript
+        }
+        const findUser = users.find(
+          user => manuscript.professorId === user._id.toString(),
+        )
+        return {
+          ...manuscript._doc,
+          professorName: `${findUser.firstName} ${findUser.lastName}`,
+        }
+      })
+      return newManuscripts
+    },
+    unassignedManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor'])
+      return await Manuscript.find({ professorId: null })
+    },
+    assignedManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor'])
+
+      const manuscripts = await Manuscript.find({
+        professorId: { $ne: null, $regex: loggedInUser._id },
+      })
+      const users = await User.find({
+        role: 'professor',
+      })
+
+      const newManuscripts = manuscripts.map(manuscript => {
+        const findUser = users.find(
+          user => user._id.toString() === manuscript.professorId,
+        )
+        return {
+          ...manuscript._doc,
+          professorName: `${findUser.firstName} ${findUser.lastName}`,
+        }
+      })
+      return newManuscripts
     },
   },
   Mutation: {
     createManuscript: async (parent, args, { loggedInUser }) => {
-      console.log('user', loggedInUser._id)
+      policyRole(loggedInUser, ['user'])
       const createdDate = new Date()
       const newManuscript = new Manuscript({
         ...args.input,
@@ -36,6 +113,44 @@ const models = {
         userId: loggedInUser._id,
       })
       await newManuscript.save()
+      return newManuscript
+    },
+    deleteManuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user'])
+      const manuscript = await Manuscript.findOneAndRemove({ _id })
+
+      if (!manuscript) {
+        throw new Error("You can't delete a non existent manuscript")
+      } else return manuscript
+    },
+    addEditorOnManuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor'])
+
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id: _id, professorId: null },
+        { $set: { professorId: loggedInUser._id } },
+        { new: true },
+      )
+      if (!manuscript) {
+        throw new Error('This manuscript already have an editor.')
+      } else {
+        return manuscript
+      }
+    },
+    removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor', 'admin'])
+
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id, professorId: { $ne: null } },
+        { $set: { professorId: null } },
+        { new: true },
+      )
+
+      if (!manuscript) {
+        throw new Error('Manuscript was not found.')
+      } else {
+        return manuscript
+      }
     },
   },
 }

@@ -2,15 +2,14 @@ import React from 'react'
 import { compose } from 'recompose'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
-import { Card } from '../component-ui'
+import { SideMenu } from '../component-ui'
 import { SubmissionForm } from '../component-submission'
 
 const SubmissionPage = ({ history }) => {
   return (
     <Root>
-      <Card height={35} width={40}>
-        <SubmissionForm />
-      </Card>
+      <SideMenu history={history} pt={6} />
+      <SubmissionForm pt={6} />
     </Root>
   )
 }
@@ -18,10 +17,9 @@ const SubmissionPage = ({ history }) => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  display: grid;
+  grid-template-columns: 18% 82%;
 `
 
 export default compose(withRouter)(SubmissionPage)

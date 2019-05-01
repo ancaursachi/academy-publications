@@ -6,7 +6,7 @@ import { get } from 'lodash'
 import { withRouter } from 'react-router-dom'
 
 import { mutations } from '../qraphqlClient'
-import { th, Modal } from '../component-ui'
+import { th, ModalError } from '../component-ui'
 import {
   SignUpStep0,
   SignUpStep1,
@@ -68,7 +68,7 @@ const SignUp = ({ handleChangePage, history, signUp, login }) => {
     firstName: '',
     lastName: '',
     email: '',
-    country: '',
+    country: 'Romania',
     city: '',
     university: '',
     specialization: '',
@@ -103,10 +103,9 @@ const SignUp = ({ handleChangePage, history, signUp, login }) => {
                 handleChangeSignUpPage={handleChangeSignUpPage}
               />
             )}
-            <Modal
+            <ModalError
               handleShowModal={handleShowModal}
               showModal={showModal}
-              title={error}
               error={error}
             />
           </Root>

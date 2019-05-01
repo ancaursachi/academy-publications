@@ -1,51 +1,15 @@
 import React from 'react'
-import { Card, Button, Row } from '../component-ui'
+import { Card, Button, Row } from '../../component-ui'
 import styled from 'styled-components'
-import th from './theme'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import th from '../theme'
 
-const ModalError = ({ showModal, handleShowModal, error }) => {
-  return (
-    <Wrapper showModal={showModal}>
-      <Root showModal={showModal}>
-        <Card
-          borderRadius={'5px 5px 5px 5px'}
-          pt={0.5}
-          pr={0.5}
-          pl={1.5}
-          pb={1.5}
-          width={26}
-          height={7}
-        >
-          <CloseItem>
-            <Button
-              iconName={'times'}
-              decisionDash
-              onClick={handleShowModal}
-              color={th.colorGrey}
-            />
-          </CloseItem>
-
-          <Error>
-            <Icon color={th.colorError} icon={'exclamation-triangle'} />
-            {error}
-          </Error>
-        </Card>
-      </Root>
-    </Wrapper>
-  )
-}
-
-const Modal = ({ showModal, handleShowModal, title, error = false }) => {
-  if (error) {
-    return (
-      <ModalError
-        showModal={showModal}
-        handleShowModal={handleShowModal}
-        error={error}
-      />
-    )
-  }
+const Modal = ({
+  handleShowModal,
+  onClickSubmit,
+  buttonName,
+  showModal,
+  title,
+}) => {
   return (
     <Wrapper showModal={showModal}>
       <Root showModal={showModal}>
@@ -67,14 +31,14 @@ const Modal = ({ showModal, handleShowModal, title, error = false }) => {
             />
           </CloseItem>
           <Title>{title}</Title>
-          <Row mt={2} align="flex-end">
+          <Row mt={0.5} align="flex-end">
             <Button name="Close" underline onClick={handleShowModal} />
             <Button
-              name="Review"
+              name={buttonName || 'Review'}
               underline
               iconName={'arrow-right'}
               mr={1.5}
-              // onClick={handleSubmit}
+              onClick={onClickSubmit}
             />
           </Row>
         </Card>
@@ -100,8 +64,9 @@ const Root = styled.div`
   position: fixed;
   display: ${props => (props.showModal ? 'block' : 'none')};
   background-color: ${th.colorWhite};
+  border-radius: 5px;
   left: 33%;
-  top: 35%;
+  top: ${props => (props.top ? props.top : '35%')};
 `
 
 const CloseItem = styled.div`
@@ -118,19 +83,6 @@ const Title = styled.div`
   text-align: center;
   justify-content: center;
   line-height: normal;
-`
-const Error = styled.div`
-  display: flex;
-  padding-right: 1.5em;
-  padding-bottom: 1em;
-  text-align: center;
-  justify-content: center;
-  color: ${th.colorError};
-  line-height: normal;
-`
-
-const Icon = styled(FontAwesomeIcon)`
-  padding-right: 0.5em;
 `
 
 export default Modal

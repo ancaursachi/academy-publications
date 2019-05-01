@@ -5,9 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import th from './theme'
 
-const Button = ({ name, iconName, iconLeft, type = 'button', ...props }) => {
+const Button = ({
+  name,
+  iconName,
+  iconLeft,
+  type = 'button',
+  onClick,
+  ...props
+}) => {
   return (
-    <Root {...props} type={type}>
+    <Root {...props} type={type} onClick={onClick}>
       {iconLeft && iconName && <IconLeft icon={iconName} color="inherit" />}
       <Title {...props}>{name}</Title>
       {!iconLeft && iconName && <IconRight icon={iconName} color="inherit" />}
@@ -24,23 +31,55 @@ const helper = props => {
   }
   if (get(props, 'decisionDash')) {
     return css`
+      padding: 0.5em 0em 0em 0em;
       width: 2em;
       height: 2em;
       background-color:${th.colorWhite}
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
+  if (get(props, 'decisionAdmin')) {
+    return css`
+     width:${props => (get(props, 'width') ? `${props.width}em` : '5.5em')};
+      height: 2.3em;
+      padding: 0em;
+      font-weight: 600;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
+  if (get(props, 'review')) {
+    return css`
+      width:${props => (get(props, 'width') ? `${props.width}em` : '5.5em')};
+      height: 2.3em;
+      padding: 0.5em 0.5em 0em 0.5em;
+      font-weight: 600;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
+  if (get(props, 'usersTable')) {
+    return css`
+      width: 2em;
+      height: 2em;
+      display: flex;
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
   if (get(props, 'sideMenu')) {
     return css`
-      background-color: ${th.colorBlueLight};
       transition: all 0.4s ease 0s;
       width: 100%;
       display: flex;
-      justify-content: center;
+      font-size: 0.9em;
+      justify-content: flex-start;
       color: ${th.colorWhite};
       padding: 0.3em;
       :hover {
-        box-shadow: 0em 0.3em 1em rgba(0, 0, 0, 0.4);
+        color: ${th.colorCremLight};
+      }
+      :active {
+        color: ${th.colorCremLight};
       }
     `
   }

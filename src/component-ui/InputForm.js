@@ -47,7 +47,7 @@ const StyledLabel = styled.label`
   margin: 0;
 `
 const Input = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '20em')};
+  width: ${props => (props.widthinput ? `${props.widthinput}em` : '100%')};
   height: 2.5em;
   padding: 0.5em 0.5em;
   display: inline-block;

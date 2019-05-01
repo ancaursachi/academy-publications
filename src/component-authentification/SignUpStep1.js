@@ -36,6 +36,7 @@ const SignUpStep1 = ({
         name="university"
         type="text"
         label="University"
+        widthInput={21}
         onChange={handleChange}
         value={values.university}
         error={errors.university}
@@ -44,6 +45,7 @@ const SignUpStep1 = ({
         mt={0.5}
         mb={0.5}
         required
+        widthInput={21}
         type="text"
         name="specialization"
         label="Faculty/Specialization"
@@ -55,6 +57,7 @@ const SignUpStep1 = ({
         mt={0.5}
         mb={0.5}
         required
+        widthInput={21}
         name="password"
         type="password"
         label="Password"

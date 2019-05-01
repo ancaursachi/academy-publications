@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
-import { InputForm, Button, Row, Modal } from '../component-ui'
+import { InputForm, Button, Row, ModalError } from '../component-ui'
 import { LoginValidation } from '../component-authentification'
 import { mutations } from '../qraphqlClient'
 import { get } from 'lodash'
@@ -22,6 +22,7 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
         email,
         password,
       },
+      // operationName: 'login',
     })
       .then(({ data }) => {
         const token = get(data.login, 'token')
@@ -84,10 +85,9 @@ const Login = ({ handleChangePage, history, login, ...props }) => {
                 onClick={handleSubmit}
               />
             </Row>
-            <Modal
+            <ModalError
               handleShowModal={handleShowModal}
               showModal={showModal}
-              title={error}
               error={error}
             />
           </Root>
