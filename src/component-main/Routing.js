@@ -67,7 +67,7 @@ const Routing = () => {
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}
-          path="/manuscriptsDetails/:manuscriptId"
+          path="/manuscriptsDetails/:submissionId"
           policy={policyRole(loggedInUser, ['professor'])}
           component={ManuscriptDetailsPage}
         />

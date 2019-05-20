@@ -15,10 +15,13 @@ module.exports = gql`
     userId: String!
     created: Date
     abstract: String!
+    userComment: String
     professorId: String
     articleType: String!
-    manuscriptFile: String
+    submissionId: String!
+    manuscriptFile: String!
     professorName: String
+    professorComment: String
   }
   input ManuscriptInput {
     title: String!

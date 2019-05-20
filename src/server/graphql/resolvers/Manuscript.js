@@ -3,7 +3,7 @@ const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
-
+const { ObjectId } = require('mongodb')
 const models = {
   Date: new GraphQLScalarType({
     name: 'Date',
@@ -107,8 +107,14 @@ const models = {
     createManuscript: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
       const createdDate = new Date()
+
+      let submissionId = !args.input.submissionId
+        ? ObjectId()
+        : args.input.submissionId
+
       const newManuscript = new Manuscript({
         ...args.input,
+        submissionId,
         created: createdDate,
         userId: loggedInUser._id,
       })

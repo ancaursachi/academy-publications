@@ -43,6 +43,9 @@ const queries = {
         articleType
         manuscriptFile
         professorName
+        professorComment
+        userComment
+        submissionId
       }
     }
   `,
@@ -81,6 +84,9 @@ const queries = {
         abstract
         professorName
         articleType
+        professorComment
+        userComment
+        submissionId
       }
     }
   `,

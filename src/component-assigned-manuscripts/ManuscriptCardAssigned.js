@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Card, Row, th, Button, Modal } from '../component-ui'
+import React from 'react'
+import { Card, Row, th } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 
 const ManuscriptCardAssigned = ({ manuscript, history }) => {
-  const { _id, title, articleType, professorName } = manuscript
+  const { submissionId, title, articleType, professorName } = manuscript
 
   const handleReview = () => {
-    history.push(`/manuscriptsDetails/${_id}`)
+    history.push(`/manuscriptsDetails/${submissionId}`)
   }
 
   return (
@@ -72,6 +72,9 @@ const Border = styled.div`
 const Title = styled.div`
   font-size: 1.3em;
   width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: ${th.colorBlue};
 `
 const ArticleType = styled.div`
