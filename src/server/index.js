@@ -1,9 +1,11 @@
 const schema = require('./graphql/schema')
-const { ApolloServer } = require('apollo-server')
 const authorizationLogic = require('./authorization')
 const { port, dbLink } = require('./config')
 const playground = require('./playground')
 const cors = require('cors')
+const { ApolloServer } = require('apollo-server-express')
+const express = require('express')
+
 //conect to database
 const mongoose = require('mongoose')
 const db = dbLink
@@ -23,6 +25,20 @@ const server = new ApolloServer({
   cors: true,
 })
 
-server.listen({ port }, () => {
-  console.log(`Apollo Server on http://localhost:${port}/graphql`)
+const app = express()
+server.applyMiddleware({ app })
+
+app.use(
+  cors({
+    origin: `http://localhost:1000/graphql`,
+    optionsSuccessStatus: 200,
+  }),
+)
+
+app.listen({ port }, () =>
+  console.log(`Apollo Server on http://localhost:${port}/graphql`),
+)
+
+app.get('/hello', function(req, res) {
+  res.send('Buna anca')
 })

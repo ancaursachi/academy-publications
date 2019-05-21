@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, Button, Loader, NavButton } from '../component-ui'
+import { th, Button, Loader } from '../component-ui'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 

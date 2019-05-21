@@ -1,7 +1,7 @@
 const { jwtSecret } = require('./config')
 const User = require('./models/User')
 const jwt = require('jsonwebtoken')
-const { AuthenticationError } = require('apollo-server')
+// const { AuthenticationError } = require('apollo-server')
 
 module.exports = function authorizationLogic() {
   return async ({ req }) => {
@@ -20,14 +20,14 @@ module.exports = function authorizationLogic() {
       const { email, password } = decodedToken
       const user = await User.findOne({ email, password })
       if (!user) {
-        throw new AuthenticationError('No user found with this credential.')
+        throw new Error('No user found with this credential.')
       }
       try {
         return { loggedInUser: user }
       } catch (e) {
-        throw new AuthenticationError('Your session expired. Sign in again.')
+        throw new Error('Your session expired. Sign in again.')
       }
     }
-    throw new AuthenticationError('YOU MUST PROVIDE TOKEN HACKERMANE!')
+    throw new Error('YOU MUST PROVIDE TOKEN HACKERMANE!')
   }
 }

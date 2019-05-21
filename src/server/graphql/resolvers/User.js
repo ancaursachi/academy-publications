@@ -1,5 +1,5 @@
 const { jwtSecret, jwtExpiresIn } = require('../../config')
-const { AuthenticationError, UserInputError } = require('apollo-server')
+// const { AuthenticationError, UserInputError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 const policyRole = require('../policyRole')
@@ -13,7 +13,7 @@ const models = {
   Query: {
     loggedInUser: async (parent, args, { loggedInUser }) => {
       if (!loggedInUser) {
-        throw new UserInputError('You have to log in to make this request')
+        throw new Error('You have to log in to make this request')
       }
       return loggedInUser
     },
@@ -30,7 +30,7 @@ const models = {
     signUp: async (parent, { input }) => {
       const user = await User.findByLogin(input.email)
       if (user) {
-        throw new UserInputError('This email already exist.')
+        throw new Error('This email already exist.')
       }
       const newUser = new User({ ...input, role: 'user' })
       await newUser.save()
@@ -59,11 +59,11 @@ const models = {
     login: async (parent, { email, password }, { loggedInUser }) => {
       const user = await User.findByLogin(email)
       if (!user) {
-        throw new UserInputError('No user found with this login credentials.')
+        throw new Error('No user found with this login credentials.')
       }
       const isValid = await user.validatePassword(password)
       if (!isValid) {
-        throw new AuthenticationError('Invalid password.')
+        throw new Error('Invalid password.')
       }
       return { token: createToken(user, jwtSecret, jwtExpiresIn) }
     },

@@ -48,6 +48,7 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       onSubmit={handleSubmission}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
+        console.log(values)
         return (
           <Root {...rest}>
             <Card
