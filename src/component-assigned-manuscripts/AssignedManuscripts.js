@@ -7,7 +7,7 @@ import { th, Loader, SearchBar } from '../component-ui'
 import { ManuscriptCardAssigned } from '../component-assigned-manuscripts'
 import styled from 'styled-components'
 
-const AssignedManuscripts = ({ ...rest }) => {
+const AssignedManuscripts = ({ history, ...rest }) => {
   const { data, loading } = useQuery(queries.getAssignedManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
@@ -44,6 +44,7 @@ const AssignedManuscripts = ({ ...rest }) => {
                 )
                 .map(manuscript => (
                   <ManuscriptCardAssigned
+                    history={history}
                     key={manuscript._id}
                     manuscript={manuscript}
                   />

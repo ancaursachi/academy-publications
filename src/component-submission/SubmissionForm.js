@@ -6,7 +6,6 @@ import {
   Row,
   Card,
   Button,
-  InputFile,
   InputForm,
   InputSelect,
   InputTextarea,
@@ -14,7 +13,7 @@ import {
 import { Formik } from 'formik'
 import { mutations } from '../qraphqlClient'
 import { withRouter } from 'react-router-dom'
-import { submissionValidation } from '../component-submission'
+import { submissionValidation, UploadFile } from '../component-submission'
 import { queries } from '../qraphqlClient'
 
 const SubmissionForm = ({ createManuscript, history, ...rest }) => {
@@ -48,6 +47,7 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       onSubmit={handleSubmission}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
+        console.log(values)
         return (
           <Root {...rest}>
             <Card
@@ -97,17 +97,7 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
                 onChange={handleChange}
                 error={errors.abstract}
               />
-              <InputFile
-                label="Manuscript File"
-                name="manuscriptFile"
-                widthInput={14}
-                width={14}
-                mt={1}
-                required
-                value={values.manuscriptFile}
-                onChange={handleChange}
-                error={errors.manuscriptFile}
-              />
+              <UploadFile />
               <Row mt={2} mr={20} justify="flex-end">
                 <Button
                   underline

@@ -1,10 +1,14 @@
+const s3Service = require('../../s3Service')
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
+const { ObjectId } = require('mongodb')
+const { GraphQLUpload } = require('graphql-upload')
 
 const models = {
+  Upload: GraphQLUpload,
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
@@ -107,8 +111,14 @@ const models = {
     createManuscript: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
       const createdDate = new Date()
+
+      let submissionId = !args.input.submissionId
+        ? ObjectId()
+        : args.input.submissionId
+
       const newManuscript = new Manuscript({
         ...args.input,
+        submissionId,
         created: createdDate,
         userId: loggedInUser._id,
       })
@@ -151,6 +161,23 @@ const models = {
       } else {
         return manuscript
       }
+    },
+    uploadFile: async (parent, { file, type, size }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor', 'admin', 'user'])
+
+      const fileData = await file
+      const { createReadStream, filename, mimetype } = fileData
+      const stream = createReadStream()
+      await s3Service.upload({
+        key: 'test',
+        stream,
+        mimetype,
+        metadata: {
+          filename,
+          type,
+        },
+      })
+      return fileData
     },
   },
 }

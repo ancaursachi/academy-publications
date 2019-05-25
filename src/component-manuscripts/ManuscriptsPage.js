@@ -11,7 +11,7 @@ const ManuscriptsPage = ({ history }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <Manuscripts pt={6} />
+      <Manuscripts pt={6} pb={3} />
     </Root>
   )
 }

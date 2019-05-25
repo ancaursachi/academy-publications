@@ -34,6 +34,14 @@ const SideMenu = ({ history, ...props }) => {
             name="Create manuscript"
             onClick={() => history.push('/submission')}
           />
+          // <NavButton
+          //   fontWeight="bold"
+          //   fontSize="1.2em"
+          //   sideMenu
+          //   iconName="plus"
+          //   name="Create manuscript"
+          //   onClick={() => history.push('/submission')}
+          // />
         )}
         {policyRole(loggedInUser, []) && (
           <Button
@@ -116,4 +124,31 @@ const Root = styled.div`
 const Content = styled.div`
   position: fixed;
 `
+// const NavButton = styled(NavLink)`
+//   background-color: transparent;
+//   border: none;
+//   text-decoration: none;
+//   display: flex;
+//   align-items: center;
+//   :focus {
+//     outline: none;
+//   }
+//   font-size: ${props =>
+//     get(props, 'fontSize') ? `${props.fontSize}em` : `1em`};
+//   font-weight: ${props =>
+//     get(props, 'fontWeight') ? props.fontWeight : 'normal'};
+//   transition: all 0.4s ease 0s;
+//   width: 100%;
+//   display: flex;
+//   font-size: 0.9em;
+//   justify-content: flex-start;
+//   color: ${th.colorWhite};
+//   padding: 0.3em;
+//   :hover {
+//     color: ${th.colorCremLight};
+//   }
+//   :active {
+//     color: ${th.colorCremLight};
+//   }
+// `
 export default SideMenu

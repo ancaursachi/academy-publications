@@ -73,6 +73,9 @@ const Border = styled.div`
 const Title = styled.div`
   font-size: 1.3em;
   width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: ${th.colorBlue};
 `
 const ArticleType = styled.div`
@@ -83,6 +86,9 @@ const ArticleType = styled.div`
 const Abstract = styled.div`
   font-size: 0.8em;
   width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: ${th.colorGrey};
 `
 

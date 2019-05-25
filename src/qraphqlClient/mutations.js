@@ -58,9 +58,18 @@ const deleteManuscript = gql`
     }
   }
 `
+
+const uploadFile = gql`
+  mutation uploadFile($file: Upload!, $type: String, $size: Int) {
+    uploadFile(file: $file, type: $type, size: $size) {
+      filename
+    }
+  }
+`
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
+  graphql(uploadFile, { name: 'uploadFile' }),
   graphql(deleteUser, { name: 'deleteUser' }),
   graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),
