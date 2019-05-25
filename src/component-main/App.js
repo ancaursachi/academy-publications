@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
+// import { createHttpLink } from 'apollo-link-http'
 import { createUploadLink } from 'apollo-upload-client'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'

@@ -6,7 +6,6 @@ import {
   Row,
   Card,
   Button,
-  InputFile,
   InputForm,
   InputSelect,
   InputTextarea,
@@ -98,17 +97,6 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
                 onChange={handleChange}
                 error={errors.abstract}
               />
-              {/* <InputFile
-                label="Manuscript File"
-                name="manuscriptFile"
-                widthInput={14}
-                width={14}
-                mt={1}
-                required
-                value={values.manuscriptFile}
-                onChange={handleChange}
-                error={errors.manuscriptFile}
-              /> */}
               <UploadFile />
               <Row mt={2} mr={20} justify="flex-end">
                 <Button

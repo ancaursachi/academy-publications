@@ -60,8 +60,8 @@ const deleteManuscript = gql`
 `
 
 const uploadFile = gql`
-  mutation uploadFile($file: Upload!) {
-    uploadFile(file: $file) {
+  mutation uploadFile($file: Upload!, $type: String, $size: Int) {
+    uploadFile(file: $file, type: $type, size: $size) {
       filename
     }
   }

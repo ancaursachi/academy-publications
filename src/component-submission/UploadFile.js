@@ -11,8 +11,8 @@ const UploadFile = ({ uploadFile }) => {
     uploadFile({
       variables: {
         file,
-        // type: file.type,
-        // size: file.size,
+        type: file.type,
+        size: file.size,
       },
     })
   console.log({ file })
