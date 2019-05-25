@@ -1,12 +1,36 @@
-# AcademyPublications
+# Academy Publications
 
 A web application for students where students and professors can publish different types of articles. Articles will go through a series of steps before being published.
 
 ## Configuration
 
-In .env add specified variables
+In the project root add .env with specified variables:
 
-## Available Scripts
+#### Server port:
+
+`PORT='_'`
+
+#### DB link with username and password:
+
+`DB_LINK='_'`
+
+#JWT configuration
+
+`JWT_SECRET='_'`
+
+`JWT_EXPIRES_IN='_'`
+
+#### AWS S3 configuration
+
+`AWS_REGION='_'`
+
+`ACCESS_KEY_ID='_'`
+
+`SECRET_KEY_ID='_'`
+
+`MANUSCRIPTS_BUCKET_NAME='_'`
+
+# Available Scripts
 
 In the project directory, you can run:
 
