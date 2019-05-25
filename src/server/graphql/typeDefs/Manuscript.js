@@ -2,6 +2,7 @@ const { gql } = require('apollo-server-express')
 
 module.exports = gql`
   scalar Date
+  scalar Upload
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
@@ -29,10 +30,16 @@ module.exports = gql`
     articleType: String!
     manuscriptFile: String
   }
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
   type Mutation {
     createManuscript(input: ManuscriptInput!): Manuscript
     addEditorOnManuscript(_id: String!): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
     deleteManuscript(_id: String!): Manuscript
+    uploadFile(file: Upload!): File!
   }
 `

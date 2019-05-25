@@ -4,7 +4,10 @@ const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
 const { ObjectId } = require('mongodb')
+const { GraphQLUpload } = require('graphql-upload')
+
 const models = {
+  Upload: GraphQLUpload,
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
@@ -157,6 +160,15 @@ const models = {
       } else {
         return manuscript
       }
+    },
+    uploadFile: async (parent, { file }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor', 'admin', 'user'])
+
+      const fileData = await file
+      const { createReadStream, filename, mimetype, encoding } = fileData
+      const stream = createReadStream()
+      console.log({ filename, mimetype, encoding, stream })
+      return fileData
     },
   },
 }
