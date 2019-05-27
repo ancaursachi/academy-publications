@@ -55,6 +55,8 @@ const queries = {
         _id
         title
         userId
+        status
+        version
         created
         abstract
         professorId

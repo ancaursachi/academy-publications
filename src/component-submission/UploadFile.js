@@ -4,8 +4,6 @@ import { uploadFile } from '../qraphqlClient/mutations'
 import { FilePicker, ActionLink, Icon, File } from '../component-ui'
 import { useMutation } from 'react-apollo-hooks'
 import { useFetching, Loader, th, Row } from '../component-ui'
-// import { useQuery } from 'react-apollo-hooks'
-// import { queries } from '../qraphqlClient'
 
 const useUploadFile = () => {
   const [file, setFile] = useState()

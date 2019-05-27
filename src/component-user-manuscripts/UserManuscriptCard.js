@@ -6,8 +6,7 @@ import { mutations } from '../qraphqlClient'
 import { DeleteUserManuscript } from '../component-user-manuscripts'
 
 const UserManuscriptCard = ({ manuscript }) => {
-  const { title, articleType, abstract, professorName } = manuscript
-
+  const { title, articleType, abstract, professorName, status } = manuscript
   return (
     <Card
       borderRadius={'5px 5px 5px 5px'}
@@ -22,14 +21,21 @@ const UserManuscriptCard = ({ manuscript }) => {
     >
       <Content>
         <Border>
-          <Title>{title}</Title>
+          <Row>
+            <Title>{title ? title : 'Draft'}</Title>
+            <StatusTag>{status}</StatusTag>
+          </Row>
           <ArticleType>{articleType}</ArticleType>
           {professorName ? (
             <ProfessorName>Professor: {professorName}</ProfessorName>
           ) : (
-            <Abstract>Abstract: {abstract}</Abstract>
+            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
           )}
-          <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
+          <Row
+            justify="flex-end"
+            alignItems="flex-end"
+            mt={abstract ? 0.5 : 1.8}
+          >
             <DeleteUserManuscript manuscript={manuscript} />
           </Row>
         </Border>
@@ -37,7 +43,14 @@ const UserManuscriptCard = ({ manuscript }) => {
     </Card>
   )
 }
-
+const StatusTag = styled.div`
+  background-color: ${th.colorWhite};
+  padding: 2px 3px;
+  border-radius: 4px;
+  border: 1px solid ${th.colorBlueLight};
+  font-size: 15px;
+  color: ${th.colorBlueLight};
+`
 const Content = styled.div`
   display: flex;
   height: 100%;

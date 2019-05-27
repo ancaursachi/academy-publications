@@ -16,6 +16,8 @@ module.exports = gql`
     userId: String!
     created: Date
     abstract: String
+    status: String
+    version: Int
     userComment: String
     professorId: String
     articleType: String!

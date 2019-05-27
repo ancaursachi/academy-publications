@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, Button, Loader, useFetching } from '../component-ui'
+import { th, Button, Loader } from '../component-ui'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { useMutation } from 'react-apollo-hooks'
@@ -23,6 +23,11 @@ const useCreateManuscript = () => {
   const onCreateManuscript = history => {
     useCreateManuscriptMutation({
       variables: { input: initialValues },
+      refetchQueries: [
+        {
+          query: queries.getUserManuscripts,
+        },
+      ],
     }).then(r => {
       const manuscriptId = get(r.data.createManuscript, '_id')
       const submissionId = get(r.data.createManuscript, 'submissionId')

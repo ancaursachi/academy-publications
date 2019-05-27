@@ -14,6 +14,12 @@ const ManuscriptSchema = new mongoose.Schema({
   manuscriptFile: {
     type: String,
   },
+  status: {
+    type: String,
+  },
+  version: {
+    type: Number,
+  },
   created: {
     type: Number,
   },

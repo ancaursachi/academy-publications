@@ -117,6 +117,8 @@ const models = {
         ...args.input,
         submissionId,
         created: createdDate,
+        status: 'draft',
+        version: 1,
         userId: loggedInUser._id,
       })
       await newManuscript.save()

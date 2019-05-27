@@ -31,7 +31,7 @@ const Modal = ({
             />
           </CloseItem>
           <Title>{title}</Title>
-          <Row mt={0.5} align="flex-end">
+          <Row mt={1.5} align="flex-end">
             <Button name="Close" underline onClick={handleShowModal} />
             <Button
               name={buttonName || 'Review'}
