@@ -9,9 +9,11 @@ import {
   faUserPlus,
   faTrashAlt,
   faSearch,
+  faUpload,
   faTimes,
   faCheck,
   faPlus,
+  faEye,
 } from '@fortawesome/free-solid-svg-icons'
 
 const Icons = () => {
@@ -23,9 +25,11 @@ const Icons = () => {
   library.add(faTrashAlt)
   library.add(faUserPlus)
   library.add(faSearch)
+  library.add(faUpload)
   library.add(faTimes)
   library.add(faCheck)
   library.add(faPlus)
+  library.add(faEye)
 }
 
 export default Icons

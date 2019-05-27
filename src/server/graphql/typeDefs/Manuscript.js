@@ -31,9 +31,10 @@ module.exports = gql`
     manuscriptFile: String
   }
   type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
+    filename: String
+    mimetype: String
+    encoding: String
+    size: Int
   }
   type Mutation {
     createManuscript(input: ManuscriptInput!): Manuscript

@@ -1,35 +1,62 @@
-import React, { useState, useEffect } from 'react'
-import { compose } from 'recompose'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import * as anca from '@pubsweet/ui'
-import { th } from '@pubsweet/ui-toolkit'
-import { mutations } from '../qraphqlClient'
+import { uploadFile } from '../qraphqlClient/mutations'
+import { FilePicker, ActionLink, Icon, File } from '../component-ui'
+import { useMutation } from 'react-apollo-hooks'
+import { useFetching, Loader } from '../component-ui'
 
-const UploadFile = ({ uploadFile }) => {
+export const useUploadFile = () => {
   const [file, setFile] = useState()
-  const handleChange = e => {
-    setFile(e.target.files[0])
+  const { isFetching, setFetching } = useFetching()
+  const useUploadMutation = useMutation(uploadFile)
+
+  const onUploadFile = file => {
+    setFetching(true)
+    useUploadMutation({
+      variables: { file, type: file.type, size: file.size },
+    }).then(r => {
+      setFile(r.data.uploadFile)
+      setFetching(false)
+    })
   }
 
-  useEffect(() => {
-    if (!file) return
-    uploadFile({
-      variables: {
-        file,
-        type: file.type,
-        size: file.size,
-      },
-    })
-  }, [file])
+  return { file, onUploadFile, isFetching }
+}
 
+const UploadFile = ({ uploadFile }) => {
+  const { onUploadFile, file, isFetching } = useUploadFile()
   return (
     <Root>
-      <input type="file" required onChange={handleChange} />
+      <FilePicker
+        allowedFileExtensions={['pdf', 'docx', 'doc']}
+        onUpload={onUploadFile}
+      >
+        <ActionLink fontSize="12px" fontWeight="bold" size="small">
+          <Icon icon={'upload'} mr={0.5} />
+          Upload File
+        </ActionLink>
+      </FilePicker>
+
+      {isFetching && (
+        <Wrapper>
+          <Loader iconSize={1} />
+        </Wrapper>
+      )}
+
+      {file && (
+        <File
+          mt={0.5}
+          data-test-id="form-report-file-item-actions"
+          file={file}
+        />
+      )}
     </Root>
   )
 }
+const Root = styled.div``
 
-export default compose(mutations)(UploadFile)
-const Root = styled.div`
-  height: calc(${th('gridUnit')} * 16);
+const Wrapper = styled.div`
+  padding-left: 2.5em;
 `
+
+export default UploadFile

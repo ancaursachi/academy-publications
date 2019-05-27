@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { get } from 'lodash'
 import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { th, Button } from '../component-ui'
 import { withRouter } from 'react-router-dom'
 
 const Header = ({ history, loggedInUser }) => {
-  const { firstName, lastName } = loggedInUser
+  const firstName = get(loggedInUser, 'firstName', '')
+  const lastName = get(loggedInUser, 'lastName', '')
   const handleLogout = () => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('user')

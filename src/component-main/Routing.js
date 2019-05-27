@@ -117,7 +117,8 @@ const PrivateRoute = ({
     <Route
       {...rest}
       component={props =>
-        localStorage.getItem('authToken') && policy ? (
+        //  localStorage.getItem('authToken') && policy? (
+        localStorage.getItem('authToken') ? (
           <Fragment>
             <Header loggedInUser={loggedInUser} />
             <Component />

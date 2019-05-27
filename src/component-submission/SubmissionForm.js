@@ -97,7 +97,9 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
                 onChange={handleChange}
                 error={errors.abstract}
               />
-              <UploadFile />
+              <Row mt={1}>
+                <UploadFile />
+              </Row>
               <Row mt={2} mr={20} justify="flex-end">
                 <Button
                   underline

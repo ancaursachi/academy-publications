@@ -177,7 +177,7 @@ const models = {
           type,
         },
       })
-      return fileData
+      return { size, ...fileData }
     },
   },
 }
