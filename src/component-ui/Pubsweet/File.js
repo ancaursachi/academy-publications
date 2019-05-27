@@ -22,8 +22,9 @@ const parseFileSize = file => {
 }
 const File = ({ file, history, ...rest }) => {
   const fileSize = parseFileSize(file)
+  console.log(file)
   return (
-    <Root data-test-id={`file-${file.id}`} {...rest}>
+    <Root {...rest}>
       <FileInfo>
         {file.filename}
         <FileSize ml={2}>{fileSize}</FileSize>

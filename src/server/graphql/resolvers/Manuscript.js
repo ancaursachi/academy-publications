@@ -4,6 +4,7 @@ const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
+const File = require('../../models/File')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
 
@@ -170,9 +171,10 @@ const models = {
       const fileData = await file
       const { createReadStream, filename, mimetype } = fileData
       const stream = createReadStream()
-      console.log(manuscriptId)
+
+      const providedKey = manuscriptId
       await s3Service.upload({
-        key: manuscriptId,
+        key: providedKey,
         stream,
         mimetype,
         metadata: {
@@ -180,6 +182,14 @@ const models = {
           type,
         },
       })
+
+      const newFile = new File({
+        name: filename,
+        size,
+        providedKey,
+      })
+      await newFile.save()
+
       return { size, ...fileData }
     },
   },
