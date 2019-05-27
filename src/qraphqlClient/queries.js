@@ -38,6 +38,8 @@ const queries = {
         title
         userId
         created
+        status
+        version
         abstract
         professorId
         articleType
@@ -71,6 +73,8 @@ const queries = {
       unassignedManuscripts {
         _id
         title
+        status
+        version
         created
         abstract
         articleType
@@ -82,13 +86,15 @@ const queries = {
       assignedManuscripts {
         _id
         title
+        status
+        version
         created
         abstract
-        professorName
         articleType
-        professorComment
         userComment
         submissionId
+        professorName
+        professorComment
       }
     }
   `,

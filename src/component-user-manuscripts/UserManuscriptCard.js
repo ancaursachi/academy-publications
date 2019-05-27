@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, th } from '../component-ui'
+import { Card, Row, th, StatusTag } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
@@ -23,11 +23,11 @@ const UserManuscriptCard = ({ manuscript }) => {
         <Border>
           <Row>
             <Title>{title ? title : 'Draft'}</Title>
-            <StatusTag>{status}</StatusTag>
+            <StatusTag status={status} />
           </Row>
           <ArticleType>{articleType}</ArticleType>
           {professorName ? (
-            <ProfessorName>Professor: {professorName}</ProfessorName>
+            <EditorName>Professor: {professorName}</EditorName>
           ) : (
             <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
           )}
@@ -43,14 +43,6 @@ const UserManuscriptCard = ({ manuscript }) => {
     </Card>
   )
 }
-const StatusTag = styled.div`
-  background-color: ${th.colorWhite};
-  padding: 2px 3px;
-  border-radius: 4px;
-  border: 1px solid ${th.colorBlueLight};
-  font-size: 15px;
-  color: ${th.colorBlueLight};
-`
 const Content = styled.div`
   display: flex;
   height: 100%;
@@ -88,7 +80,7 @@ const Abstract = styled.div`
   color: ${th.colorGrey};
 `
 
-const ProfessorName = styled.div`
+const EditorName = styled.div`
   font-size: 0.9em;
   width: 100%;
   color: ${th.colorBlueGray};

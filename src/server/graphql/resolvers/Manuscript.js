@@ -47,18 +47,20 @@ const models = {
       const manuscripts = await Manuscript.find()
       const users = await User.find()
 
-      const newManuscripts = manuscripts.map(manuscript => {
-        if (!manuscript.professorId) {
-          return manuscript
-        }
-        const findUser = users.find(
-          user => manuscript.professorId === user._id.toString(),
-        )
-        return {
-          ...manuscript._doc,
-          professorName: `${findUser.firstName} ${findUser.lastName}`,
-        }
-      })
+      const newManuscripts = manuscripts
+        .filter(manuscript => manuscript.status.toLowerCase() !== 'draft')
+        .map(manuscript => {
+          if (!manuscript.professorId) {
+            return manuscript
+          }
+          const findUser = users.find(
+            user => manuscript.professorId === user._id.toString(),
+          )
+          return {
+            ...manuscript._doc,
+            professorName: `${findUser.firstName} ${findUser.lastName}`,
+          }
+        })
       return newManuscripts
     },
     userManuscripts: async (parent, args, { loggedInUser }) => {
@@ -83,7 +85,12 @@ const models = {
     },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
-      return await Manuscript.find({ professorId: null })
+      const manuscripts = await Manuscript.find({ professorId: null })
+      const filteredManuscripts = manuscripts.filter(
+        manuscript => manuscript.status.toLowerCase() !== 'draft',
+      )
+
+      return filteredManuscripts
     },
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
@@ -118,7 +125,7 @@ const models = {
         ...args.input,
         submissionId,
         created: createdDate,
-        status: 'draft',
+        status: 'Draft',
         version: 1,
         userId: loggedInUser._id,
       })
@@ -138,7 +145,7 @@ const models = {
 
       const manuscript = await Manuscript.findOneAndUpdate(
         { _id: _id, professorId: null },
-        { $set: { professorId: loggedInUser._id } },
+        { $set: { professorId: loggedInUser._id, status: 'Editor Assigned' } },
         { new: true },
       )
       if (!manuscript) {
@@ -148,6 +155,21 @@ const models = {
       }
     },
 
+    removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor', 'admin'])
+
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id, professorId: { $ne: null } },
+        { $set: { professorId: null, status: 'Submitted' } },
+        { new: true },
+      )
+
+      if (!manuscript) {
+        throw new Error('Manuscript was not found.')
+      } else {
+        return manuscript
+      }
+    },
     updateManuscript: async (parent, { _id, input }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor'])
       const { title, abstract, articleType } = input
@@ -161,29 +183,13 @@ const models = {
             title,
             articleType,
             manuscriptFile: file._id,
-            status: 'submitted',
+            status: 'Submitted',
           },
         },
         { new: true },
       )
       if (!(abstract || title || articleType || file._id)) {
         throw new Error("You don't have enough parameters")
-      } else {
-        return manuscript
-      }
-    },
-
-    removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['professor', 'admin'])
-
-      const manuscript = await Manuscript.findOneAndUpdate(
-        { _id, professorId: { $ne: null } },
-        { $set: { professorId: null } },
-        { new: true },
-      )
-
-      if (!manuscript) {
-        throw new Error('Manuscript was not found.')
       } else {
         return manuscript
       }
