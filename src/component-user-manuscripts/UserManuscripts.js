@@ -7,7 +7,7 @@ import { th, Loader, SearchBar } from '../component-ui'
 import { UserManuscriptCard } from '../component-user-manuscripts'
 import styled from 'styled-components'
 
-const UserManuscripts = ({ ...rest }) => {
+const UserManuscripts = ({ history, ...rest }) => {
   const { data, loading } = useQuery(queries.getUserManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
@@ -46,6 +46,7 @@ const UserManuscripts = ({ ...rest }) => {
                   <UserManuscriptCard
                     key={manuscript._id}
                     manuscript={manuscript}
+                    history={history}
                   />
                 ))}
             </Content>

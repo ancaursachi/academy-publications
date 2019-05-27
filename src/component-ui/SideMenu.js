@@ -39,7 +39,7 @@ const useCreateManuscript = () => {
 const SideMenu = ({ history, ...props }) => {
   const { data, loading } = useQuery(queries.getLoggedInUser)
   const { onCreateManuscript } = useCreateManuscript()
-
+  console.log(history)
   if (loading) {
     return (
       <Root {...props}>

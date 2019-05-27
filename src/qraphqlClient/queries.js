@@ -61,6 +61,7 @@ const queries = {
         version
         created
         abstract
+        submissionId
         professorId
         articleType
         manuscriptFile
