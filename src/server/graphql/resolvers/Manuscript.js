@@ -160,15 +160,19 @@ const models = {
         return manuscript
       }
     },
-    uploadFile: async (parent, { file, type, size }, { loggedInUser }) => {
+    uploadFile: async (
+      parent,
+      { file, type, size, manuscriptId },
+      { loggedInUser },
+    ) => {
       policyRole(loggedInUser, ['professor', 'admin', 'user'])
 
       const fileData = await file
       const { createReadStream, filename, mimetype } = fileData
       const stream = createReadStream()
-
+      console.log(manuscriptId)
       await s3Service.upload({
-        key: 'test',
+        key: manuscriptId,
         stream,
         mimetype,
         metadata: {

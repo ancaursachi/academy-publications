@@ -10,10 +10,10 @@ const useUploadFile = () => {
   const { isFetching, setFetching } = useFetching()
   const useUploadMutation = useMutation(uploadFile)
 
-  const onUploadFile = file => {
+  const onUploadFile = (file, manuscriptId) => {
     setFetching(true)
     useUploadMutation({
-      variables: { file, type: file.type, size: file.size },
+      variables: { file, type: file.type, size: file.size, manuscriptId },
     }).then(r => {
       setFile(r.data.uploadFile)
       setFetching(false)
@@ -23,13 +23,15 @@ const useUploadFile = () => {
   return { file, onUploadFile, isFetching }
 }
 
-const UploadFile = () => {
+const UploadFile = ({ history, match }) => {
   const { onUploadFile, file, isFetching } = useUploadFile()
+  const { manuscriptId } = match.params
+
   return (
     <Root>
       <FilePicker
         allowedFileExtensions={['pdf', 'docx', 'doc']}
-        onUpload={onUploadFile}
+        onUpload={file => onUploadFile(file, manuscriptId)}
       >
         <ActionLink fontSize="12px" fontWeight="bold" size="small">
           <Row justify={'flex-start'}>

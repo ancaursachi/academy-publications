@@ -16,7 +16,7 @@ import { withRouter } from 'react-router-dom'
 import { submissionValidation, UploadFile } from '../component-submission'
 import { queries } from '../qraphqlClient'
 
-const SubmissionForm = ({ createManuscript, history, ...rest }) => {
+const SubmissionForm = ({ createManuscript, history, match, ...rest }) => {
   const initialValues = {
     title: '',
     articleType: 'Research article',
@@ -47,7 +47,6 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       onSubmit={handleSubmission}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
-        console.log(values)
         return (
           <Root {...rest}>
             <Card
@@ -98,7 +97,7 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
                 error={errors.abstract}
               />
               <Row mt={1}>
-                <UploadFile />
+                <UploadFile match={match} />
               </Row>
               <Row mt={2} mr={20} justify="flex-end">
                 <Button

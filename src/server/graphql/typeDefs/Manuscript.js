@@ -41,6 +41,11 @@ module.exports = gql`
     addEditorOnManuscript(_id: String!): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
     deleteManuscript(_id: String!): Manuscript
-    uploadFile(file: Upload!, type: String, size: Int): File!
+    uploadFile(
+      file: Upload!
+      type: String
+      size: Int
+      manuscriptId: String
+    ): File!
   }
 `
