@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { compose } from 'recompose'
+import styled from 'styled-components'
+import * as anca from '@pubsweet/ui'
+import { th } from '@pubsweet/ui-toolkit'
 import { mutations } from '../qraphqlClient'
 
 const UploadFile = ({ uploadFile }) => {
@@ -7,7 +10,9 @@ const UploadFile = ({ uploadFile }) => {
   const handleChange = e => {
     setFile(e.target.files[0])
   }
-  const onClick = () =>
+
+  useEffect(() => {
+    if (!file) return
     uploadFile({
       variables: {
         file,
@@ -15,13 +20,16 @@ const UploadFile = ({ uploadFile }) => {
         size: file.size,
       },
     })
-  console.log({ file })
+  }, [file])
+
   return (
-    <div>
+    <Root>
       <input type="file" required onChange={handleChange} />
-      <button onClick={onClick}>apasa</button>
-    </div>
+    </Root>
   )
 }
 
 export default compose(mutations)(UploadFile)
+const Root = styled.div`
+  height: calc(${th('gridUnit')} * 16);
+`
