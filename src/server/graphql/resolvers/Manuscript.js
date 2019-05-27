@@ -1,10 +1,8 @@
-const s3Service = require('../../s3Service')
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
-const File = require('../../models/File')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
 
@@ -160,37 +158,6 @@ const models = {
       } else {
         return manuscript
       }
-    },
-    uploadFile: async (
-      parent,
-      { file, type, size, manuscriptId },
-      { loggedInUser },
-    ) => {
-      policyRole(loggedInUser, ['professor', 'admin', 'user'])
-
-      const fileData = await file
-      const { createReadStream, filename, mimetype } = fileData
-      const stream = createReadStream()
-
-      const providedKey = manuscriptId
-      await s3Service.upload({
-        key: providedKey,
-        stream,
-        mimetype,
-        metadata: {
-          filename,
-          type,
-        },
-      })
-
-      const newFile = new File({
-        name: filename,
-        size,
-        providedKey,
-      })
-      await newFile.save()
-
-      return { size, ...fileData }
     },
   },
 }

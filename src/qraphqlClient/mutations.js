@@ -75,9 +75,11 @@ export const uploadFile = gql`
     ) {
       filename
       size
+      url
     }
   }
 `
+
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),

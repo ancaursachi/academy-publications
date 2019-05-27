@@ -7,7 +7,10 @@ const FileSchema = new mongoose.Schema({
   size: {
     type: Number,
   },
-  providedKey: {
+  manuscriptId: {
+    type: String,
+  },
+  url: {
     type: String,
   },
 })

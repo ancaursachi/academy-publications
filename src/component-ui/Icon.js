@@ -8,7 +8,8 @@ const Icon = ({ icon, color, onClick = () => {}, ...rest }) => (
 )
 
 const StyledIcon = styled(FontAwesomeIcon)`
-  ${th.marginHelper}
-  ${th.paddingHelper}
+  cursor: pointer;
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
 export default Icon

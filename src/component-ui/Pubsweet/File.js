@@ -20,9 +20,9 @@ const parseFileSize = file => {
   }
   return `${size} bytes`
 }
-const File = ({ file, history, ...rest }) => {
+const File = ({ file, onClick = () => {}, history, ...rest }) => {
   const fileSize = parseFileSize(file)
-  console.log(file)
+
   return (
     <Root {...rest}>
       <FileInfo>
@@ -34,7 +34,7 @@ const File = ({ file, history, ...rest }) => {
         icon={'eye'}
         mr={0.5}
         ml={0.5}
-        onClick={() => console.log('am apasat aici')}
+        onClick={() => window.open(file.url)}
       />
     </Root>
   )

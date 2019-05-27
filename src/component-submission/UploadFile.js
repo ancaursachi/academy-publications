@@ -4,6 +4,8 @@ import { uploadFile } from '../qraphqlClient/mutations'
 import { FilePicker, ActionLink, Icon, File } from '../component-ui'
 import { useMutation } from 'react-apollo-hooks'
 import { useFetching, Loader, th, Row } from '../component-ui'
+// import { useQuery } from 'react-apollo-hooks'
+// import { queries } from '../qraphqlClient'
 
 const useUploadFile = () => {
   const [file, setFile] = useState()
@@ -30,7 +32,7 @@ const UploadFile = ({ history, match }) => {
   return (
     <Root>
       <FilePicker
-        allowedFileExtensions={['pdf', 'docx', 'doc']}
+        allowedFileExtensions={['pdf']}
         onUpload={file => onUploadFile(file, manuscriptId)}
       >
         <ActionLink fontSize="12px" fontWeight="bold" size="small">
