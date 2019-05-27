@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { uploadFile } from '../qraphqlClient/mutations'
 import { FilePicker, ActionLink, Icon, File } from '../component-ui'
 import { useMutation } from 'react-apollo-hooks'
-import { useFetching, Loader } from '../component-ui'
+import { useFetching, Loader, th, Row } from '../component-ui'
 
-export const useUploadFile = () => {
+const useUploadFile = () => {
   const [file, setFile] = useState()
   const { isFetching, setFetching } = useFetching()
   const useUploadMutation = useMutation(uploadFile)
@@ -23,7 +23,7 @@ export const useUploadFile = () => {
   return { file, onUploadFile, isFetching }
 }
 
-const UploadFile = ({ uploadFile }) => {
+const UploadFile = () => {
   const { onUploadFile, file, isFetching } = useUploadFile()
   return (
     <Root>
@@ -32,8 +32,10 @@ const UploadFile = ({ uploadFile }) => {
         onUpload={onUploadFile}
       >
         <ActionLink fontSize="12px" fontWeight="bold" size="small">
-          <Icon icon={'upload'} mr={0.5} />
-          Upload File
+          <Row justify={'flex-start'}>
+            <Icon icon={'upload'} mr={0.5} />
+            Upload File <Error>*</Error>
+          </Row>
         </ActionLink>
       </FilePicker>
 
@@ -58,5 +60,8 @@ const Root = styled.div``
 const Wrapper = styled.div`
   padding-left: 2.5em;
 `
-
+const Error = styled.div`
+  color: ${th.colorError};
+  font-size: 0.8em;
+`
 export default UploadFile

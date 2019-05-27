@@ -29,10 +29,11 @@ const editUser = gql`
     }
   }
 `
-const createManuscript = gql`
-  mutation createManuscript($input: ManuscriptInput!) {
+export const createManuscript = gql`
+  mutation createManuscript($input: ManuscriptInput) {
     createManuscript(input: $input) {
       _id
+      submissionId
     }
   }
 `

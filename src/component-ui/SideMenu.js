@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, Button, Loader } from '../component-ui'
+import { th, Button, Loader, useFetching } from '../component-ui'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
+import { useMutation } from 'react-apollo-hooks'
+import { createManuscript } from '../qraphqlClient/mutations'
 
 const policyRole = (loggedInUser, roles) => {
   const role = get(loggedInUser, 'role', null)
   return roles.includes(role)
 }
 
+const useCreateManuscript = () => {
+  const useCreateManuscriptMutation = useMutation(createManuscript)
+  const initialValues = {
+    title: '',
+    articleType: 'Research article',
+    abstract: '',
+    manuscriptFile: '',
+  }
+  const onCreateManuscript = history => {
+    useCreateManuscriptMutation({
+      variables: { input: initialValues },
+    }).then(r => {
+      const manuscriptId = get(r.data.createManuscript, '_id')
+      const submissionId = get(r.data.createManuscript, 'submissionId')
+      history.push(`/submission/${submissionId}/${manuscriptId}`)
+    })
+  }
+  return { onCreateManuscript }
+}
 const SideMenu = ({ history, ...props }) => {
   const { data, loading } = useQuery(queries.getLoggedInUser)
+  const { onCreateManuscript } = useCreateManuscript()
+
   if (loading) {
     return (
       <Root {...props}>
@@ -32,7 +55,8 @@ const SideMenu = ({ history, ...props }) => {
             sideMenu
             iconName="plus"
             name="Create manuscript"
-            onClick={() => history.push('/submission')}
+            // onClick={() => history.push('/submission')}
+            onClick={() => onCreateManuscript(history)}
           />
           // <NavButton
           //   fontWeight="bold"

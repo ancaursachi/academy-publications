@@ -12,22 +12,22 @@ module.exports = gql`
   }
   type Manuscript {
     _id: String!
-    title: String!
+    title: String
     userId: String!
     created: Date
-    abstract: String!
+    abstract: String
     userComment: String
     professorId: String
     articleType: String!
     submissionId: String!
-    manuscriptFile: String!
+    manuscriptFile: String
     professorName: String
     professorComment: String
   }
   input ManuscriptInput {
-    title: String!
-    abstract: String!
-    articleType: String!
+    title: String
+    abstract: String
+    articleType: String
     manuscriptFile: String
   }
   type File {
@@ -37,7 +37,7 @@ module.exports = gql`
     size: Int
   }
   type Mutation {
-    createManuscript(input: ManuscriptInput!): Manuscript
+    createManuscript(input: ManuscriptInput): Manuscript
     addEditorOnManuscript(_id: String!): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
     deleteManuscript(_id: String!): Manuscript

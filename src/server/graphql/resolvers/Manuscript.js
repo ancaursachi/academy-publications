@@ -112,9 +112,7 @@ const models = {
       policyRole(loggedInUser, ['user'])
       const createdDate = new Date()
 
-      let submissionId = !args.input.submissionId
-        ? ObjectId()
-        : args.input.submissionId
+      let submissionId = ObjectId()
 
       const newManuscript = new Manuscript({
         ...args.input,
@@ -168,6 +166,7 @@ const models = {
       const fileData = await file
       const { createReadStream, filename, mimetype } = fileData
       const stream = createReadStream()
+
       await s3Service.upload({
         key: 'test',
         stream,
