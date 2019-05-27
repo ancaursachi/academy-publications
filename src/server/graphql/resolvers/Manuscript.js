@@ -3,6 +3,7 @@ const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
+const File = require('../../models/File')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
 
@@ -146,6 +147,32 @@ const models = {
         return manuscript
       }
     },
+
+    updateManuscript: async (parent, { _id, input }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user', 'professor'])
+      const { title, abstract, articleType } = input
+      const file = await File.findOne({ manuscriptId: _id })
+
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id },
+        {
+          $set: {
+            abstract,
+            title,
+            articleType,
+            manuscriptFile: file._id,
+            status: 'submitted',
+          },
+        },
+        { new: true },
+      )
+      if (!(abstract || title || articleType || file._id)) {
+        throw new Error("You don't have enough parameters")
+      } else {
+        return manuscript
+      }
+    },
+
     removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor', 'admin'])
 

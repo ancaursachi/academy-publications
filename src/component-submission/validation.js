@@ -10,6 +10,4 @@ export const submissionValidation = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(500, 'Too Long!')
     .required('Required'),
-
-  manuscriptFile: Yup.string().required('Required'),
 })

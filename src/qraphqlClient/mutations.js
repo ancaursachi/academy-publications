@@ -37,6 +37,15 @@ export const createManuscript = gql`
     }
   }
 `
+export const updateManuscript = gql`
+  mutation updateManuscript($id: String!, $input: ManuscriptInput) {
+    updateManuscript(_id: $id, input: $input) {
+      _id
+      submissionId
+    }
+  }
+`
+
 const addEditorOnManuscript = gql`
   mutation addEditorOnManuscript($id: String!) {
     addEditorOnManuscript(_id: $id) {
@@ -84,6 +93,7 @@ export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
   graphql(uploadFile, { name: 'uploadFile' }),
+  graphql(updateManuscript, { name: 'updateManuscript' }),
   graphql(deleteUser, { name: 'deleteUser' }),
   graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),

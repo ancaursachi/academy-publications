@@ -16,16 +16,18 @@ import { withRouter } from 'react-router-dom'
 import { submissionValidation, UploadFile } from '../component-submission'
 import { queries } from '../qraphqlClient'
 
-const SubmissionForm = ({ createManuscript, history, match, ...rest }) => {
+const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
   const initialValues = {
     title: '',
     articleType: 'Research article',
     abstract: '',
     manuscriptFile: '',
   }
+  const { manuscriptId } = match.params
   const handleSubmission = manuscript => {
-    return createManuscript({
+    return updateManuscript({
       variables: {
+        id: manuscriptId,
         input: manuscript,
       },
       refetchQueries: [
@@ -35,7 +37,7 @@ const SubmissionForm = ({ createManuscript, history, match, ...rest }) => {
       ],
     })
       .then(() => {
-        history.push('/dashboard')
+        history.push('/userManuscripts')
       })
       .catch(error => alert(error))
   }
