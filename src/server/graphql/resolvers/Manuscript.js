@@ -172,7 +172,7 @@ const models = {
     },
     updateManuscript: async (parent, { _id, input }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor'])
-      const { title, abstract, articleType } = input
+      const { title, abstract, articleType, userComment } = input
       const file = await File.findOne({ manuscriptId: _id })
 
       const manuscript = await Manuscript.findOneAndUpdate(
@@ -183,6 +183,7 @@ const models = {
             title,
             articleType,
             manuscriptFile: file._id,
+            userComment,
             status: 'Submitted',
           },
         },

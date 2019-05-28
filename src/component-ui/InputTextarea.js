@@ -13,7 +13,7 @@ const InputTextarea = ({
   required,
   validate,
   error = null,
-  widthInput = null,
+  heightinput = null,
   type = 'text',
   ...props
 }) => (
@@ -22,7 +22,7 @@ const InputTextarea = ({
     <Textarea
       name={name}
       type={type}
-      widthinput={widthInput}
+      heightinput={heightinput}
       value={value}
       onChange={onChange}
       validate={validate}
@@ -50,10 +50,9 @@ const StyledLabel = styled.label`
 const Textarea = styled(Field)`
   width: 100%;
   min-height: ${props =>
-    props.heightinput ? `${props.heightinput}em` : '10em'};
+    props.heightinput ? console.log(props) || `${props.heightinput}em` : '5em'};
   max-height: ${props =>
-    props.heightinput ? `${props.heightinput}em` : '10em'};
-  min-width: ${props => (props.widthinput ? `${props.widthinput}em` : '600em')};
+    props.heightinput ? `${props.heightinput}em` : '5em'};
   padding: 0.5em 0.5em;
   display: inline-block;
   border: 1px solid #ccc;

@@ -31,6 +31,7 @@ module.exports = gql`
     abstract: String
     articleType: String
     manuscriptFile: String
+    userComment: String
   }
   type Mutation {
     createManuscript(input: ManuscriptInput): Manuscript

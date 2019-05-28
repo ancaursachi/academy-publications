@@ -21,6 +21,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
     title: '',
     articleType: 'Research article',
     abstract: '',
+    userComment: '',
     manuscriptFile: '',
   }
   const { manuscriptId } = match.params
@@ -52,7 +53,6 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
         return (
           <Root {...rest}>
             <Card
-              height={35}
               borderRadius={'5px 5px 5px 5px'}
               width={40}
               mb={4}
@@ -90,18 +90,29 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                 label="Abstract"
                 name="abstract"
                 type="textarea"
-                widthInput={14}
                 width={14}
+                heightinput={7}
                 mt={1}
                 required
                 value={values.abstract}
                 onChange={handleChange}
                 error={errors.abstract}
               />
-              <Row mt={1}>
+              <InputTextarea
+                label="Comment (optional)"
+                name="userComment"
+                type="textarea"
+                heightinput={5}
+                width={5}
+                mt={1}
+                value={values.userComment}
+                onChange={handleChange}
+                error={errors.userComment}
+              />
+              <Row mt={1.2}>
                 <UploadFile match={match} />
               </Row>
-              <Row mt={2} mr={20} justify="flex-end">
+              <Row mt={1} mr={20} mb={0.5} justify="flex-end">
                 <Button
                   underline
                   name="Submit"
