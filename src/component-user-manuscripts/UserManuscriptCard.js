@@ -59,6 +59,7 @@ const UserManuscriptCard = ({ manuscript, history }) => {
 }
 const StyledCard = styled(Card)`
   position: relative;
+  font-family: 'Nunito';
 `
 const RowStyled = styled(Row)`
   position: absolute;

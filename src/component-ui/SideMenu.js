@@ -39,7 +39,6 @@ const useCreateManuscript = () => {
 const SideMenu = ({ history, ...props }) => {
   const { data, loading } = useQuery(queries.getLoggedInUser)
   const { onCreateManuscript } = useCreateManuscript()
-  console.log(history)
   if (loading) {
     return (
       <Root {...props}>
@@ -60,7 +59,6 @@ const SideMenu = ({ history, ...props }) => {
             sideMenu
             iconName="plus"
             name="Create manuscript"
-            // onClick={() => history.push('/submission')}
             onClick={() => onCreateManuscript(history)}
           />
           // <NavButton
@@ -139,6 +137,7 @@ const SideMenu = ({ history, ...props }) => {
 }
 
 const Root = styled.div`
+  font-family: 'Nunito';
   background-color: ${th.colorBlue};
   height: 100%;
   width: 100%;

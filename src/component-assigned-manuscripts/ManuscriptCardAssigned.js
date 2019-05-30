@@ -45,6 +45,7 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
 
 const Content = styled.div`
   display: flex;
+  font-family: 'Nunito';
   height: 100%;
   align-items: center;
   flex-wrap: wrap;

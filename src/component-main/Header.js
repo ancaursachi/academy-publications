@@ -48,12 +48,15 @@ const Row = styled.nav`
   top: 0;
   left: 0;
   width: 100%;
+  font-family: 'Nunito';
 `
 const User = styled.div`
+  font-family: 'Nunito';
   font-size: 0.8em;
   padding-right: 2em;
 `
 const Logo = styled.div`
+  font-family: 'Nunito';
   display: flex;
   align-items: center;
   font-size: 1.4em;
@@ -66,6 +69,7 @@ const Column = styled.div`
   margin-right: 1em;
 `
 const StyledLink = styled(Link)`
+  font-family: 'Nunito';
   color: ${th.colorBlueLight};
   font-weight: 600;
   text-decoration: none;

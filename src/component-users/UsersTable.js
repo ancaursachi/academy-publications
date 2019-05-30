@@ -97,6 +97,7 @@ const Content = styled.div`
   width: 90%;
 `
 const TitlePage = styled.div`
+  font-family: 'Nunito';
   font-size: 1.6em;
   font-weight: 600;
   width: 100%;

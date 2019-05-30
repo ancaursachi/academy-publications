@@ -58,6 +58,7 @@ const UserManuscripts = ({ history, ...rest }) => {
 }
 const Root = styled.div`
   display: flex;
+  font-family: 'Nunito';
   justify-content: center;
   flex-wrap: wrap;
   ${th.marginHelper};
@@ -65,6 +66,7 @@ const Root = styled.div`
 `
 const Content = styled.div``
 const TitlePage = styled.div`
+  font-family: 'Nunito';
   font-size: 1.6em;
   font-weight: 600;
   width: 100%;

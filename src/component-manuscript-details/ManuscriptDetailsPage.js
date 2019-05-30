@@ -4,11 +4,11 @@ import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { SideMenu } from '../component-ui'
 import { ManuscriptDetails } from '../component-manuscript-details'
-const ManuscriptDetailsPage = ({ history }) => {
+const ManuscriptDetailsPage = ({ history, match }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <ManuscriptDetails pt={6} />
+      <ManuscriptDetails pt={6} pb={3} match={match} />
     </Root>
   )
 }
