@@ -11,7 +11,7 @@ const ManuscriptSchema = new mongoose.Schema({
   abstract: {
     type: String,
   },
-  manuscriptFile: {
+  fileId: {
     type: String,
   },
   status: {

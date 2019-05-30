@@ -27,8 +27,9 @@ const models = {
       const { createReadStream, filename, mimetype } = fileData
       const stream = createReadStream()
 
+      const providerKey = manuscriptId
       await s3Service.upload({
-        key: manuscriptId,
+        key: providerKey,
         stream,
         mimetype,
         metadata: {
@@ -36,16 +37,16 @@ const models = {
           type,
         },
       })
-      const url = await s3Service.getSignedUrl(manuscriptId)
+      const url = await s3Service.getSignedUrl(providerKey)
 
       const newFile = new File({
-        name: filename,
+        filename,
         size,
         manuscriptId,
-        url,
+        providerKey,
       })
       await newFile.save()
-      return { size, manuscriptId, url, ...fileData }
+      return { size, url, ...fileData }
     },
   },
 }

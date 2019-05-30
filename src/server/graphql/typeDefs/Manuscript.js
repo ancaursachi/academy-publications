@@ -6,6 +6,7 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    getSubmission(submissionId: ID!): [Submission]
     unassignedManuscripts: [Manuscript]
     userManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
@@ -22,15 +23,35 @@ module.exports = gql`
     professorId: String
     articleType: String!
     submissionId: String!
-    manuscriptFile: String
+    fileId: String
     professorName: String
     professorComment: String
+  }
+
+  type Submission {
+    _id: String!
+    title: String
+    userId: String!
+    created: Date
+    abstract: String
+    status: String
+    version: Int
+    userComment: String
+    professorId: String
+    articleType: String!
+    submissionId: String!
+    fileId: String
+    professorName: String
+    professorComment: String
+    filename: String
+    size: String
+    url: String
   }
   input ManuscriptInput {
     title: String
     abstract: String
     articleType: String
-    manuscriptFile: String
+    fileId: String
     userComment: String
   }
   type Mutation {

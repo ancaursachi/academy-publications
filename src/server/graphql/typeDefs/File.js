@@ -7,9 +7,9 @@ module.exports = gql`
   }
   type FileDB {
     _id: String
-    name: String
+    filename: String
     size: Int
-    url: String
+    providerKey: String
     manuscriptId: String
   }
   type File {
@@ -17,7 +17,6 @@ module.exports = gql`
     mimetype: String
     encoding: String
     size: Int
-    manuscriptId: String
     url: String
   }
   type Mutation {

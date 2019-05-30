@@ -6,6 +6,7 @@ const User = require('../../models/User')
 const File = require('../../models/File')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
+const s3Service = require('../../s3Service')
 
 const models = {
   Upload: GraphQLUpload,
@@ -61,6 +62,25 @@ const models = {
             professorName: `${findUser.firstName} ${findUser.lastName}`,
           }
         })
+      return newManuscripts
+    },
+    getSubmission: async (parent, { submissionId }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      const files = await File.find()
+      const manuscripts = await Manuscript.find({ submissionId })
+
+      const newManuscripts = manuscripts.map(async manuscript => {
+        const findFile = files.find(
+          file => manuscript.fileId === file._id.toString(),
+        )
+        const url = await s3Service.getSignedUrl(findFile.providerKey)
+        return {
+          ...manuscript._doc,
+          filename: findFile.filename,
+          size: findFile.size,
+          url,
+        }
+      })
       return newManuscripts
     },
     userManuscripts: async (parent, args, { loggedInUser }) => {
@@ -154,7 +174,6 @@ const models = {
         return manuscript
       }
     },
-
     removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor', 'admin'])
 
@@ -182,8 +201,8 @@ const models = {
             abstract,
             title,
             articleType,
-            manuscriptFile: file._id,
             userComment,
+            fileId: file._id,
             status: 'Submitted',
           },
         },

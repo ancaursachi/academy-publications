@@ -18,7 +18,7 @@ const useCreateManuscript = () => {
     title: '',
     articleType: 'Research article',
     abstract: '',
-    manuscriptFile: '',
+    fileId: '',
   }
   const onCreateManuscript = history => {
     useCreateManuscriptMutation({

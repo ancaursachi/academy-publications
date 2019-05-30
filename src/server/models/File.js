@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const FileSchema = new mongoose.Schema({
-  name: {
+  filename: {
     type: String,
   },
   size: {
@@ -10,7 +10,7 @@ const FileSchema = new mongoose.Schema({
   manuscriptId: {
     type: String,
   },
-  url: {
+  providerKey: {
     type: String,
   },
 })

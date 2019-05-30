@@ -35,6 +35,7 @@ const queries = {
     query manuscripts {
       manuscripts {
         _id
+        fileId
         title
         userId
         created
@@ -43,7 +44,29 @@ const queries = {
         abstract
         professorId
         articleType
-        manuscriptFile
+        professorName
+        professorComment
+        userComment
+        submissionId
+      }
+    }
+  `,
+  getSubmission: gql`
+    query getSubmission($submissionId: ID!) {
+      getSubmission(submissionId: $submissionId) {
+        _id
+        fileId
+        filename
+        size
+        url
+        title
+        userId
+        created
+        status
+        version
+        abstract
+        professorId
+        articleType
         professorName
         professorComment
         userComment
@@ -55,6 +78,7 @@ const queries = {
     query userManuscripts {
       userManuscripts {
         _id
+        fileId
         title
         userId
         status
@@ -64,7 +88,6 @@ const queries = {
         submissionId
         professorId
         articleType
-        manuscriptFile
         professorName
       }
     }

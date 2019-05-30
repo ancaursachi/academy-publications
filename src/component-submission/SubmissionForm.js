@@ -22,7 +22,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
     articleType: 'Research article',
     abstract: '',
     userComment: '',
-    manuscriptFile: '',
+    fileId: '',
   }
   const { manuscriptId } = match.params
   const handleSubmission = manuscript => {
