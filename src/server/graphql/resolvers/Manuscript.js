@@ -1,11 +1,12 @@
-const s3Service = require('../../s3Service')
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
+const File = require('../../models/File')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
+const s3Service = require('../../s3Service')
 
 const models = {
   Upload: GraphQLUpload,
@@ -47,18 +48,51 @@ const models = {
       const manuscripts = await Manuscript.find()
       const users = await User.find()
 
-      const newManuscripts = manuscripts.map(manuscript => {
-        if (!manuscript.professorId) {
-          return manuscript
-        }
+      const newManuscripts = manuscripts
+        .filter(manuscript => manuscript.status.toLowerCase() !== 'draft')
+        .map(manuscript => {
+          if (!manuscript.professorId) {
+            return manuscript
+          }
+          const findUser = users.find(
+            user => manuscript.professorId === user._id.toString(),
+          )
+
+          return {
+            ...manuscript._doc,
+            professorName: `${findUser.firstName} ${findUser.lastName}`,
+          }
+        })
+      return newManuscripts
+    },
+    getSubmission: async (parent, { submissionId }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+
+      const files = await File.find()
+      const manuscripts = await Manuscript.find({ submissionId })
+      const users = await User.find()
+
+      const newManuscripts = manuscripts.map(async manuscript => {
+        const findFile = files.find(
+          file => manuscript.fileId === file._id.toString(),
+        )
+
         const findUser = users.find(
           user => manuscript.professorId === user._id.toString(),
         )
+
+        const url = await s3Service.getSignedUrl(findFile.providerKey)
         return {
           ...manuscript._doc,
-          professorName: `${findUser.firstName} ${findUser.lastName}`,
+          filename: findFile.filename,
+          size: findFile.size,
+          url,
+          professorName: findUser
+            ? `${findUser.firstName} ${findUser.lastName}`
+            : null,
         }
       })
+
       return newManuscripts
     },
     userManuscripts: async (parent, args, { loggedInUser }) => {
@@ -83,7 +117,12 @@ const models = {
     },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
-      return await Manuscript.find({ professorId: null })
+      const manuscripts = await Manuscript.find({ professorId: null })
+      const filteredManuscripts = manuscripts.filter(
+        manuscript => manuscript.status.toLowerCase() !== 'draft',
+      )
+
+      return filteredManuscripts
     },
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
@@ -112,14 +151,14 @@ const models = {
       policyRole(loggedInUser, ['user'])
       const createdDate = new Date()
 
-      let submissionId = !args.input.submissionId
-        ? ObjectId()
-        : args.input.submissionId
+      let submissionId = ObjectId()
 
       const newManuscript = new Manuscript({
         ...args.input,
         submissionId,
         created: createdDate,
+        status: 'Draft',
+        version: 1,
         userId: loggedInUser._id,
       })
       await newManuscript.save()
@@ -138,7 +177,7 @@ const models = {
 
       const manuscript = await Manuscript.findOneAndUpdate(
         { _id: _id, professorId: null },
-        { $set: { professorId: loggedInUser._id } },
+        { $set: { professorId: loggedInUser._id, status: 'Editor Assigned' } },
         { new: true },
       )
       if (!manuscript) {
@@ -152,7 +191,7 @@ const models = {
 
       const manuscript = await Manuscript.findOneAndUpdate(
         { _id, professorId: { $ne: null } },
-        { $set: { professorId: null } },
+        { $set: { professorId: null, status: 'Submitted' } },
         { new: true },
       )
 
@@ -162,22 +201,30 @@ const models = {
         return manuscript
       }
     },
-    uploadFile: async (parent, { file, type, size }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['professor', 'admin', 'user'])
+    updateManuscript: async (parent, { _id, input }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user', 'professor'])
+      const { title, abstract, articleType, userComment } = input
+      const file = await File.findOne({ manuscriptId: _id })
 
-      const fileData = await file
-      const { createReadStream, filename, mimetype } = fileData
-      const stream = createReadStream()
-      await s3Service.upload({
-        key: 'test',
-        stream,
-        mimetype,
-        metadata: {
-          filename,
-          type,
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id },
+        {
+          $set: {
+            abstract,
+            title,
+            articleType,
+            userComment,
+            fileId: file._id,
+            status: 'Submitted',
+          },
         },
-      })
-      return fileData
+        { new: true },
+      )
+      if (!(abstract || title || articleType || file._id)) {
+        throw new Error("You don't have enough parameters")
+      } else {
+        return manuscript
+      }
     },
   },
 }

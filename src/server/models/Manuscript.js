@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const ManuscriptSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
   },
   articleType: {
     type: String,
@@ -11,11 +10,15 @@ const ManuscriptSchema = new mongoose.Schema({
   },
   abstract: {
     type: String,
-    required: true,
   },
-  manuscriptFile: {
+  fileId: {
     type: String,
-    required: true,
+  },
+  status: {
+    type: String,
+  },
+  version: {
+    type: Number,
   },
   created: {
     type: Number,

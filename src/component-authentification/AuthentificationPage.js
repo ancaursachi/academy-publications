@@ -15,6 +15,7 @@ const AuthentificationPage = () => {
       <Card
         backgroundColor={th.colorBlue}
         width={20}
+        height={25}
         borderRadius={'5px 0px 0px 5px'}
         pl={2}
         pr={2}
@@ -23,11 +24,26 @@ const AuthentificationPage = () => {
       </Card>
 
       {logInPage ? (
-        <Card borderRadius={'0px 5px 5px 0px'} pl={2.5} pr={2} pt={2.5}>
+        <Card
+          borderRadius={'0px 5px 5px 0px'}
+          pl={2.5}
+          pr={2}
+          pt={2.5}
+          width={25}
+          height={25}
+        >
           <Login handleChangePage={handleChangePage} />
         </Card>
       ) : (
-        <Card borderRadius={'0px 5px 5px 0px'} pl={2} pr={2} pt={2} pb={2}>
+        <Card
+          borderRadius={'0px 5px 5px 0px'}
+          pl={2}
+          pr={2}
+          pt={2}
+          pb={2}
+          width={25}
+          height={25}
+        >
           <SignUp handleChangePage={handleChangePage} />
         </Card>
       )}

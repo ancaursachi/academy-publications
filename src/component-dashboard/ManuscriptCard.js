@@ -27,10 +27,6 @@ const ManuscriptCard = ({
         },
       ],
     })
-    // .then(() => {})
-    // .catch(error => {
-    //   alert(error.message)
-    // })
   }
 
   return (

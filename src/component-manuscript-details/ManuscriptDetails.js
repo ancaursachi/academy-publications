@@ -1,16 +1,41 @@
 import React from 'react'
 import styled from 'styled-components'
-import { compose } from 'recompose'
+import { get, last } from 'lodash'
+import { queries } from '../qraphqlClient'
+import { useQuery } from 'react-apollo-hooks'
+import { th, Loader } from '../component-ui'
+import { ManuscriptDetailsCard } from '../component-manuscript-details'
 
-const ManuscriptDetails = () => {
-  return <Root>anca e draguta</Root>
+const ManuscriptDetails = ({ match, ...rest }) => {
+  const { submissionId } = match.params
+  const { data, loading } = useQuery(queries.getSubmission, {
+    variables: { submissionId },
+  })
+
+  if (loading) {
+    return (
+      <Root {...rest}>
+        <Loader />
+      </Root>
+    )
+  }
+
+  const manuscript = last(get(data, 'getSubmission', []))
+
+  return (
+    <Root {...rest}>
+      {manuscript && <ManuscriptDetailsCard manuscript={manuscript} />}
+    </Root>
+  )
 }
 
 const Root = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 18% 82%;
+  display: flex;
+  font-family: 'Nunito';
+  justify-content: center;
+
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
 
-export default compose()(ManuscriptDetails)
+export default ManuscriptDetails

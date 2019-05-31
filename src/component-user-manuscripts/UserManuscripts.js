@@ -7,7 +7,7 @@ import { th, Loader, SearchBar } from '../component-ui'
 import { UserManuscriptCard } from '../component-user-manuscripts'
 import styled from 'styled-components'
 
-const UserManuscripts = ({ ...rest }) => {
+const UserManuscripts = ({ history, ...rest }) => {
   const { data, loading } = useQuery(queries.getUserManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
@@ -46,6 +46,7 @@ const UserManuscripts = ({ ...rest }) => {
                   <UserManuscriptCard
                     key={manuscript._id}
                     manuscript={manuscript}
+                    history={history}
                   />
                 ))}
             </Content>
@@ -57,6 +58,7 @@ const UserManuscripts = ({ ...rest }) => {
 }
 const Root = styled.div`
   display: flex;
+  font-family: 'Nunito';
   justify-content: center;
   flex-wrap: wrap;
   ${th.marginHelper};
@@ -64,6 +66,7 @@ const Root = styled.div`
 `
 const Content = styled.div``
 const TitlePage = styled.div`
+  font-family: 'Nunito';
   font-size: 1.6em;
   font-weight: 600;
   width: 100%;

@@ -74,7 +74,7 @@ const Routing = () => {
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}
-          path="/submission"
+          path="/submission/:submissionId/:manuscriptId"
           policy={policyRole(loggedInUser, ['user'])}
           component={SubmissionPage}
         />
@@ -117,7 +117,8 @@ const PrivateRoute = ({
     <Route
       {...rest}
       component={props =>
-        localStorage.getItem('authToken') && policy ? (
+        //  localStorage.getItem('authToken') && policy? (
+        localStorage.getItem('authToken') ? (
           <Fragment>
             <Header loggedInUser={loggedInUser} />
             <Component />

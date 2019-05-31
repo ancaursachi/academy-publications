@@ -1,12 +1,12 @@
 import React from 'react'
-import { Card, Row, th } from '../component-ui'
+import { Card, Row, th, StatusTag } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 
 const ManuscriptCardAssigned = ({ manuscript, history }) => {
-  const { submissionId, title, articleType, professorName } = manuscript
+  const { submissionId, title, articleType, professorName, status } = manuscript
 
   const handleReview = () => {
     history.push(`/manuscriptsDetails/${submissionId}`)
@@ -27,7 +27,10 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
       <ButtonCard onClick={handleReview}>
         <Content>
           <Border>
-            <Title>{title}</Title>
+            <Row>
+              <Title>{title}</Title>
+              <StatusTag status={status} />
+            </Row>
             <ArticleType>{articleType}</ArticleType>
             <EditorName>Professor: {professorName}</EditorName>
           </Border>
@@ -42,6 +45,7 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
 
 const Content = styled.div`
   display: flex;
+  font-family: 'Nunito';
   height: 100%;
   align-items: center;
   flex-wrap: wrap;
@@ -83,9 +87,10 @@ const ArticleType = styled.div`
 `
 
 const EditorName = styled.div`
-  font-size: 0.8em;
+  font-size: 0.9em;
   width: 100%;
-  color: ${th.colorGrey};
+  color: ${th.colorBlueGray};
+  font-weight: bold;
 `
 
 export default compose(mutations)(ManuscriptCardAssigned)

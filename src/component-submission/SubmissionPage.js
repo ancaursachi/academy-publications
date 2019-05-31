@@ -5,10 +5,10 @@ import { withRouter } from 'react-router-dom'
 import { SideMenu } from '../component-ui'
 import { SubmissionForm } from '../component-submission'
 
-const SubmissionPage = ({ history }) => {
+const SubmissionPage = ({ history, match }) => {
   return (
     <Root>
-      <SideMenu history={history} pt={6} />
+      <SideMenu history={history} match={match} pt={6} />
       <SubmissionForm pt={6} />
     </Root>
   )

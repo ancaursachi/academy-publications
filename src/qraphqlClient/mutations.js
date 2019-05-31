@@ -29,13 +29,23 @@ const editUser = gql`
     }
   }
 `
-const createManuscript = gql`
-  mutation createManuscript($input: ManuscriptInput!) {
+export const createManuscript = gql`
+  mutation createManuscript($input: ManuscriptInput) {
     createManuscript(input: $input) {
       _id
+      submissionId
     }
   }
 `
+export const updateManuscript = gql`
+  mutation updateManuscript($id: String!, $input: ManuscriptInput) {
+    updateManuscript(_id: $id, input: $input) {
+      _id
+      submissionId
+    }
+  }
+`
+
 const addEditorOnManuscript = gql`
   mutation addEditorOnManuscript($id: String!) {
     addEditorOnManuscript(_id: $id) {
@@ -59,17 +69,31 @@ const deleteManuscript = gql`
   }
 `
 
-const uploadFile = gql`
-  mutation uploadFile($file: Upload!, $type: String, $size: Int) {
-    uploadFile(file: $file, type: $type, size: $size) {
+export const uploadFile = gql`
+  mutation uploadFile(
+    $file: Upload!
+    $type: String
+    $size: Int
+    $manuscriptId: String
+  ) {
+    uploadFile(
+      file: $file
+      type: $type
+      size: $size
+      manuscriptId: $manuscriptId
+    ) {
       filename
+      size
+      url
     }
   }
 `
+
 export default compose(
   graphql(signUp, { name: 'signUp' }),
   graphql(login, { name: 'login' }),
   graphql(uploadFile, { name: 'uploadFile' }),
+  graphql(updateManuscript, { name: 'updateManuscript' }),
   graphql(deleteUser, { name: 'deleteUser' }),
   graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),

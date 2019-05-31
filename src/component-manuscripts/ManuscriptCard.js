@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Row, th, Modal } from '../component-ui'
+import { Card, Row, th, Modal, StatusTag } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
@@ -9,7 +9,7 @@ import {
 } from '../component-manuscripts'
 
 const ManuscriptCard = ({ manuscript }) => {
-  const { title, abstract, articleType, professorName } = manuscript
+  const { title, abstract, articleType, professorName, status } = manuscript
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -30,7 +30,10 @@ const ManuscriptCard = ({ manuscript }) => {
     >
       <Content>
         <Border>
-          <Title>{title}</Title>
+          <Row>
+            <Title>{title}</Title>
+            <StatusTag status={status} />
+          </Row>
           <ArticleType>{articleType}</ArticleType>
           {professorName ? (
             <ProfessorName>Professor: {professorName}</ProfessorName>

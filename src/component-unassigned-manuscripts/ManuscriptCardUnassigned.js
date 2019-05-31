@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Card, Row, th, Button, Modal } from '../component-ui'
+import { Card, Row, th, Button, Modal, StatusTag } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 import { queries } from '../qraphqlClient'
 
 const ManuscriptCardUnassigned = ({
-  manuscript: { _id, title, abstract, articleType },
+  manuscript: { _id, title, abstract, articleType, status },
   addEditorOnManuscript,
 }) => {
   const [showModal, setShowModal] = useState(false)
@@ -47,7 +47,10 @@ const ManuscriptCardUnassigned = ({
     >
       <Content>
         <Border>
-          <Title>{title}</Title>
+          <Row>
+            <Title>{title}</Title>
+            <StatusTag status={status} />
+          </Row>
           <ArticleType>{articleType}</ArticleType>
           <Abstract>Abstract: {abstract}</Abstract>
           <Row justify="flex-end" alignItems="flex-end" mt={0.5}>

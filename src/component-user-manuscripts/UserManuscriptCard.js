@@ -1,43 +1,71 @@
 import React from 'react'
-import { Card, Row, th } from '../component-ui'
+import { Card, Row, th, StatusTag } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 import { DeleteUserManuscript } from '../component-user-manuscripts'
 
-const UserManuscriptCard = ({ manuscript }) => {
-  const { title, articleType, abstract, professorName } = manuscript
+const UserManuscriptCard = ({ manuscript, history }) => {
+  const {
+    _id,
+    title,
+    articleType,
+    abstract,
+    professorName,
+    status,
+    submissionId,
+  } = manuscript
+  const handleReview = () => {
+    if (status.toLowerCase() === 'draft')
+      history.push(`/submission/${submissionId}/${_id}`)
+    else {
+      history.push(`/manuscriptsDetails/${submissionId}`)
+    }
+  }
 
   return (
-    <Card
+    <StyledCard
       borderRadius={'5px 5px 5px 5px'}
       width={45}
       height={10}
       mt={0.5}
       mb={0.5}
       pt={1}
-      pr={1}
-      pl={1}
+      pr={0.5}
+      pl={0.5}
       pb={1}
     >
-      <Content>
-        <Border>
-          <Title>{title}</Title>
-          <ArticleType>{articleType}</ArticleType>
-          {professorName ? (
-            <ProfessorName>Professor: {professorName}</ProfessorName>
-          ) : (
-            <Abstract>Abstract: {abstract}</Abstract>
-          )}
-          <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
-            <DeleteUserManuscript manuscript={manuscript} />
-          </Row>
-        </Border>
-      </Content>
-    </Card>
+      <ButtonCard onClick={handleReview}>
+        <Content>
+          <Border>
+            <Row>
+              <Title>{title ? title : 'Draft'}</Title>
+              <StatusTag status={status} />
+            </Row>
+            <ArticleType>{articleType}</ArticleType>
+            {professorName ? (
+              <EditorName>Professor: {professorName}</EditorName>
+            ) : (
+              <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
+            )}
+          </Border>
+        </Content>
+      </ButtonCard>
+      <RowStyled justify="flex-end" alignItems="flex-end">
+        <DeleteUserManuscript manuscript={manuscript} />
+      </RowStyled>
+    </StyledCard>
   )
 }
-
+const StyledCard = styled(Card)`
+  position: relative;
+  font-family: 'Nunito';
+`
+const RowStyled = styled(Row)`
+  position: absolute;
+  right: 37px;
+  bottom: 2px;
+`
 const Content = styled.div`
   display: flex;
   height: 100%;
@@ -65,7 +93,17 @@ const ArticleType = styled.div`
   font-size: 0.9em;
   padding-bottom: 0.7em;
 `
-
+const ButtonCard = styled.button`
+  height: 100%;
+  width: 100%;
+  text-align: initial;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  :focus {
+    outline: none;
+  }
+`
 const Abstract = styled.div`
   font-size: 0.8em;
   width: 100%;
@@ -75,7 +113,7 @@ const Abstract = styled.div`
   color: ${th.colorGrey};
 `
 
-const ProfessorName = styled.div`
+const EditorName = styled.div`
   font-size: 0.9em;
   width: 100%;
   color: ${th.colorBlueGray};

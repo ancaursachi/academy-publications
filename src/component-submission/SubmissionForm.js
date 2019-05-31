@@ -16,16 +16,19 @@ import { withRouter } from 'react-router-dom'
 import { submissionValidation, UploadFile } from '../component-submission'
 import { queries } from '../qraphqlClient'
 
-const SubmissionForm = ({ createManuscript, history, ...rest }) => {
+const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
   const initialValues = {
     title: '',
     articleType: 'Research article',
     abstract: '',
-    manuscriptFile: '',
+    userComment: '',
+    fileId: '',
   }
+  const { manuscriptId } = match.params
   const handleSubmission = manuscript => {
-    return createManuscript({
+    return updateManuscript({
       variables: {
+        id: manuscriptId,
         input: manuscript,
       },
       refetchQueries: [
@@ -35,7 +38,7 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       ],
     })
       .then(() => {
-        history.push('/dashboard')
+        history.push('/userManuscripts')
       })
       .catch(error => alert(error))
   }
@@ -47,11 +50,9 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
       onSubmit={handleSubmission}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
-        console.log(values)
         return (
           <Root {...rest}>
             <Card
-              height={35}
               borderRadius={'5px 5px 5px 5px'}
               width={40}
               mb={4}
@@ -89,16 +90,29 @@ const SubmissionForm = ({ createManuscript, history, ...rest }) => {
                 label="Abstract"
                 name="abstract"
                 type="textarea"
-                widthInput={14}
                 width={14}
+                heightinput={7}
                 mt={1}
                 required
                 value={values.abstract}
                 onChange={handleChange}
                 error={errors.abstract}
               />
-              <UploadFile />
-              <Row mt={2} mr={20} justify="flex-end">
+              <InputTextarea
+                label="Comment (optional)"
+                name="userComment"
+                type="textarea"
+                heightinput={5}
+                width={5}
+                mt={1}
+                value={values.userComment}
+                onChange={handleChange}
+                error={errors.userComment}
+              />
+              <Row mt={1.2}>
+                <UploadFile match={match} />
+              </Row>
+              <Row mt={1} mr={20} mb={0.5} justify="flex-end">
                 <Button
                   underline
                   name="Submit"
