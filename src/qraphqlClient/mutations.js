@@ -45,6 +45,17 @@ export const updateManuscript = gql`
     }
   }
 `
+export const addProfessorDecision = gql`
+  mutation addProfessorDecision(
+    $submissionId: String!
+    $input: ProfessorDecision
+  ) {
+    addProfessorDecision(submissionId: $submissionId, input: $input) {
+      professorDecision
+      professorComment
+    }
+  }
+`
 
 const addEditorOnManuscript = gql`
   mutation addEditorOnManuscript($id: String!) {

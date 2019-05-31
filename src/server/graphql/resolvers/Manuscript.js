@@ -1,5 +1,6 @@
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
+const { last } = require('lodash')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
@@ -68,6 +69,7 @@ const models = {
     getSubmission: async (parent, { submissionId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
 
+      const { role } = loggedInUser
       const files = await File.find()
       const manuscripts = await Manuscript.find({ submissionId })
       const users = await User.find()
@@ -87,9 +89,10 @@ const models = {
           filename: findFile.filename,
           size: findFile.size,
           url,
-          professorName: findUser
-            ? `${findUser.firstName} ${findUser.lastName}`
-            : null,
+          professorName:
+            findUser && role !== 'user'
+              ? `${findUser.firstName} ${findUser.lastName}`
+              : null,
         }
       })
 
@@ -225,6 +228,26 @@ const models = {
       } else {
         return manuscript
       }
+    },
+    addProfessorDecision: async (
+      parent,
+      { submissionId, input },
+      { loggedInUser },
+    ) => {
+      policyRole(loggedInUser, ['professor'])
+      const { professorDecision, professorComment } = input
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { submissionId },
+        {
+          $set: {
+            professorDecision,
+            professorComment,
+            status: 'Professor Submitted',
+          },
+        },
+        { new: true },
+      )
+      return manuscript
     },
   },
 }

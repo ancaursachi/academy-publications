@@ -4,7 +4,10 @@ import { get, last } from 'lodash'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { th, Loader } from '../component-ui'
-import { ManuscriptDetailsCard } from '../component-manuscript-details'
+import {
+  ManuscriptDetailsCard,
+  ProfessorMakeDecisionCard,
+} from '../component-manuscript-details'
 
 const ManuscriptDetails = ({ match, ...rest }) => {
   const { submissionId } = match.params
@@ -24,7 +27,10 @@ const ManuscriptDetails = ({ match, ...rest }) => {
 
   return (
     <Root {...rest}>
-      {manuscript && <ManuscriptDetailsCard manuscript={manuscript} />}
+      <Container>
+        {manuscript && <ManuscriptDetailsCard manuscript={manuscript} pb={2} />}
+        {<ProfessorMakeDecisionCard />}
+      </Container>
     </Root>
   )
 }
@@ -37,5 +43,6 @@ const Root = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
+const Container = styled.div``
 
 export default ManuscriptDetails

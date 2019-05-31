@@ -26,6 +26,7 @@ module.exports = gql`
     fileId: String
     professorName: String
     professorComment: String
+    professorDecision: String
   }
 
   type Submission {
@@ -41,8 +42,9 @@ module.exports = gql`
     articleType: String!
     submissionId: String!
     fileId: String
-    professorComment: String
     professorName: String
+    professorComment: String
+    professorDecision: String
     filename: String
     size: String
     url: String
@@ -54,11 +56,20 @@ module.exports = gql`
     fileId: String
     userComment: String
   }
+
+  input ProfessorDecision {
+    professorDecision: String
+    professorComment: String
+  }
   type Mutation {
     createManuscript(input: ManuscriptInput): Manuscript
     addEditorOnManuscript(_id: String!): Manuscript
     updateManuscript(_id: String, input: ManuscriptInput): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
     deleteManuscript(_id: String!): Manuscript
+    addProfessorDecision(
+      submissionId: String
+      input: ProfessorDecision
+    ): Manuscript
   }
 `

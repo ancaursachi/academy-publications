@@ -43,6 +43,9 @@ const ManuscriptSchema = new mongoose.Schema({
   professorComment: {
     type: String,
   },
+  professorDecision: {
+    type: String,
+  },
 })
 
 const Manuscript = mongoose.model('Manuscript', ManuscriptSchema)

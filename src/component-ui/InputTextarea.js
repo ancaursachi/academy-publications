@@ -50,7 +50,7 @@ const StyledLabel = styled.label`
 const Textarea = styled(Field)`
   width: 100%;
   min-height: ${props =>
-    props.heightinput ? console.log(props) || `${props.heightinput}em` : '5em'};
+    props.heightinput ? `${props.heightinput}em` : '5em'};
   max-height: ${props =>
     props.heightinput ? `${props.heightinput}em` : '5em'};
   padding: 0.5em 0.5em;
