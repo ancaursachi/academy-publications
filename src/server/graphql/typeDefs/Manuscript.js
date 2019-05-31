@@ -41,8 +41,8 @@ module.exports = gql`
     articleType: String!
     submissionId: String!
     fileId: String
-    professorName: String
     professorComment: String
+    professorName: String
     filename: String
     size: String
     url: String

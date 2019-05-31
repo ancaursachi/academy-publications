@@ -57,6 +57,7 @@ const models = {
           const findUser = users.find(
             user => manuscript.professorId === user._id.toString(),
           )
+
           return {
             ...manuscript._doc,
             professorName: `${findUser.firstName} ${findUser.lastName}`,
@@ -66,21 +67,32 @@ const models = {
     },
     getSubmission: async (parent, { submissionId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
+
       const files = await File.find()
       const manuscripts = await Manuscript.find({ submissionId })
+      const users = await User.find()
 
       const newManuscripts = manuscripts.map(async manuscript => {
         const findFile = files.find(
           file => manuscript.fileId === file._id.toString(),
         )
+
+        const findUser = users.find(
+          user => manuscript.professorId === user._id.toString(),
+        )
+
         const url = await s3Service.getSignedUrl(findFile.providerKey)
         return {
           ...manuscript._doc,
           filename: findFile.filename,
           size: findFile.size,
           url,
+          professorName: findUser
+            ? `${findUser.firstName} ${findUser.lastName}`
+            : null,
         }
       })
+
       return newManuscripts
     },
     userManuscripts: async (parent, args, { loggedInUser }) => {
