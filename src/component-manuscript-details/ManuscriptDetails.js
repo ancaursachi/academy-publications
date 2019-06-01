@@ -7,6 +7,7 @@ import { th, Loader } from '../component-ui'
 import {
   ManuscriptDetailsCard,
   ProfessorMakeDecisionCard,
+  ProfessorDecisionCard,
 } from '../component-manuscript-details'
 
 const ManuscriptDetails = ({ match, ...rest }) => {
@@ -34,6 +35,7 @@ const ManuscriptDetails = ({ match, ...rest }) => {
         {!professorDecision && userRole === 'professor' && (
           <ProfessorMakeDecisionCard manuscript={manuscript} />
         )}
+        {professorDecision && <ProfessorDecisionCard manuscript={manuscript} />}
       </Container>
     </Root>
   )

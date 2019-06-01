@@ -9,25 +9,36 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
     size: get(manuscript, 'size'),
     url: get(manuscript, 'url'),
   }
+
+  const title = get(manuscript, 'title', '')
+  const status = get(manuscript, 'status', '')
+  const articleType = get(manuscript, 'articleType', '')
+  const version = get(manuscript, 'version', '')
+  const abstract = get(manuscript, 'abstract', '')
+  const professorName = get(manuscript, 'professorName', null)
+
   return (
     <Root {...rest}>
       <Card pt={2} pr={2} pl={2} pb={2}>
         <Row>
-          <Title>{get(manuscript, 'title')}</Title>
-          <StatusTag status={`Version ${get(manuscript, 'version')}`} />
+          <Title>{title}</Title>
+          <StatusTag status={status} />
         </Row>
 
-        <ArticleType>{get(manuscript, 'articleType')}</ArticleType>
+        <Row>
+          <ArticleType>{articleType}</ArticleType>
+          <VersionTag>Version {version}</VersionTag>
+        </Row>
 
-        {get(manuscript, 'professorName') && (
+        {professorName && (
           <Fragment>
             <Label>Professor</Label>
-            <Abstract>{get(manuscript, 'professorName')}</Abstract>
+            <Abstract>{professorName}</Abstract>
           </Fragment>
         )}
 
         <Label>Abstract</Label>
-        <Abstract>{get(manuscript, 'abstract')}</Abstract>
+        <Abstract>{abstract}</Abstract>
 
         <Label>File</Label>
         <File file={file} />
@@ -67,6 +78,10 @@ const ArticleType = styled.div`
   white-space: nowrap;
   color: ${th.colorGrey};
   text-overflow: ellipsis;
+`
+const VersionTag = styled.div`
+  color: ${th.colorGrey};
+  white-space: nowrap;
 `
 const Abstract = styled.div`
   font-size: 16px;

@@ -4,3 +4,5 @@ export { default as ManuscriptDetailsCard } from './ManuscriptDetailsCard'
 export {
   default as ProfessorMakeDecisionCard,
 } from './ProfessorMakeDecisionCard'
+
+export { default as ProfessorDecisionCard } from './ProfessorDecisionCard'
