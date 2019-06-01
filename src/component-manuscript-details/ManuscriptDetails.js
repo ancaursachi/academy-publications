@@ -24,12 +24,16 @@ const ManuscriptDetails = ({ match, ...rest }) => {
   }
 
   const manuscript = last(get(data, 'getSubmission', []))
+  const professorDecision = get(manuscript, 'professorDecision', null)
+  const userRole = get(manuscript, 'userRole', null)
 
   return (
     <Root {...rest}>
       <Container>
         {manuscript && <ManuscriptDetailsCard manuscript={manuscript} pb={2} />}
-        {<ProfessorMakeDecisionCard />}
+        {!professorDecision && userRole === 'professor' && (
+          <ProfessorMakeDecisionCard manuscript={manuscript} />
+        )}
       </Container>
     </Root>
   )

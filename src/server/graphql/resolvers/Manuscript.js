@@ -79,7 +79,7 @@ const models = {
           file => manuscript.fileId === file._id.toString(),
         )
 
-        const findUser = users.find(
+        const findProfessor = users.find(
           user => manuscript.professorId === user._id.toString(),
         )
 
@@ -89,9 +89,10 @@ const models = {
           filename: findFile.filename,
           size: findFile.size,
           url,
+          userRole: role,
           professorName:
-            findUser && role !== 'user'
-              ? `${findUser.firstName} ${findUser.lastName}`
+            findProfessor && role !== 'user'
+              ? `${findProfessor.firstName} ${findProfessor.lastName}`
               : null,
         }
       })

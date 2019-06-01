@@ -1,6 +1,8 @@
 import React from 'react'
 import { compose } from 'recompose'
 import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
+import { Formik } from 'formik'
 import {
   th,
   Row,
@@ -10,11 +12,8 @@ import {
   InputSelect,
   InputTextarea,
 } from '../component-ui'
-import { Formik } from 'formik'
-import { mutations } from '../qraphqlClient'
-import { withRouter } from 'react-router-dom'
+import { mutations, queries } from '../qraphqlClient'
 import { submissionValidation, UploadFile } from '../component-submission'
-import { queries } from '../qraphqlClient'
 
 const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
   const initialValues = {

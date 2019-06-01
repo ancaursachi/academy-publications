@@ -109,6 +109,7 @@ export default compose(
   graphql(editUser, { name: 'editUser' }),
   graphql(createManuscript, { name: 'createManuscript' }),
   graphql(deleteManuscript, { name: 'deleteManuscript' }),
+  graphql(addProfessorDecision, { name: 'addProfessorDecision' }),
   graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
   graphql(removeEditorFromManuscript, { name: 'removeEditorFromManuscript' }),
 )

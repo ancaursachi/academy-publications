@@ -64,10 +64,12 @@ const queries = {
         created
         status
         version
+        userRole
         abstract
         professorId
         articleType
         professorName
+        professorDecision
         professorComment
         userComment
         submissionId

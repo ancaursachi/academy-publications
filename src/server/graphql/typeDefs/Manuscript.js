@@ -37,6 +37,7 @@ module.exports = gql`
     abstract: String
     status: String
     version: Int
+    userRole: String
     userComment: String
     professorId: String
     articleType: String!

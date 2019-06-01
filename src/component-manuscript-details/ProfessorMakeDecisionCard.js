@@ -1,16 +1,32 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { get } from 'lodash'
 import { th, Row, Button, InputSelect, InputTextarea } from '../component-ui'
 import { Formik } from 'formik'
+import { compose } from 'recompose'
+import { mutations, queries } from '../qraphqlClient'
 
-const ProfessorMakeDecisionCard = ({ ...rest }) => {
+const ProfessorMakeDecisionCard = ({
+  addProfessorDecision,
+  manuscript,
+  ...rest
+}) => {
   const initialValues = {
     professorDecision: 'publish',
     professorComment: '',
   }
   const handleSubmission = input => {
-    console.log(input)
+    return addProfessorDecision({
+      variables: {
+        submissionId: manuscript.submissionId,
+        input,
+      },
+      refetchQueries: [
+        {
+          query: queries.getSubmission,
+          variables: { submissionId: manuscript.submissionId },
+        },
+      ],
+    })
   }
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmission}>
@@ -45,7 +61,7 @@ const ProfessorMakeDecisionCard = ({ ...rest }) => {
               <Row mt={1} mr={20} mb={0.5} justify="flex-end">
                 <Button
                   underline
-                  name="Submit Decision"
+                  name="Make Decision"
                   type="submit"
                   fontSize={1.2}
                   color={th.colorBlueLight}
@@ -84,4 +100,4 @@ const Title = styled.div`
   font-size: 22px;
   font-weight: 600;
 `
-export default ProfessorMakeDecisionCard
+export default compose(mutations)(ProfessorMakeDecisionCard)
