@@ -11,40 +11,48 @@ module.exports = gql`
     userManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
   }
+
+  type Author {
+    id: String
+    comment: String
+  }
+
+  input AuthorInput {
+    comment: String
+  }
+
   type Manuscript {
     _id: String!
     title: String
-    userId: String!
     created: Date
     abstract: String
     status: String
     version: Int
-    userComment: String
     professorId: String
     articleType: String!
     submissionId: String!
     professorName: String
     professorComment: String
     professorDecision: String
+    author: Author
     file: File
   }
 
   type Submission {
     _id: String!
     title: String
-    userId: String!
     created: Date
     abstract: String
     status: String
     version: Int
     userRole: String
-    userComment: String
     professorId: String
     articleType: String!
     submissionId: String!
     professorName: String
     professorComment: String
     professorDecision: String
+    author: Author
     file: File
   }
 
@@ -53,12 +61,13 @@ module.exports = gql`
     name: String
     size: Int
   }
+
   input ManuscriptInput {
     title: String
     abstract: String
     articleType: String
-    userComment: String
     file: FileInput
+    author: AuthorInput
   }
 
   input ProfessorDecision {

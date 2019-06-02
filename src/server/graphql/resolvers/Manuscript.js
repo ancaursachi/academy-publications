@@ -1,12 +1,10 @@
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
-const { last } = require('lodash')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
-const s3Service = require('../../s3Service')
 
 const models = {
   Upload: GraphQLUpload,
@@ -91,7 +89,9 @@ const models = {
     userManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
 
-      const manuscripts = await Manuscript.find({ userId: loggedInUser._id })
+      const manuscripts = await Manuscript.find({
+        'author.id': loggedInUser._id,
+      })
       const users = await User.find()
 
       const newManuscripts = manuscripts.map(manuscript => {
@@ -142,15 +142,23 @@ const models = {
   Mutation: {
     createManuscript: async (parent, { input }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
+      const {
+        author: { comment },
+        ...restInput
+      } = input
 
       const newManuscript = new Manuscript({
-        ...input,
         submissionId: ObjectId(),
         created: new Date(),
         status: 'Submitted',
         version: 1,
-        userId: loggedInUser._id,
+        ...restInput,
+        author: {
+          id: loggedInUser._id,
+          comment,
+        },
       })
+
       await newManuscript.save()
       return newManuscript
     },
@@ -161,13 +169,21 @@ const models = {
     ) => {
       policyRole(loggedInUser, ['user'])
 
+      const {
+        author: { comment },
+        ...restInput
+      } = input
+
       const newManuscript = new Manuscript({
-        ...input,
         submissionId: oldManuscript.submissionId,
         created: new Date(),
         status: 'Revision Submitted',
         version: oldManuscript.version + 1,
-        userId: loggedInUser._id,
+        ...restInput,
+        author: {
+          id: loggedInUser._id,
+          comment,
+        },
       })
 
       await newManuscript.save()

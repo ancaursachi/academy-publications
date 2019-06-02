@@ -22,7 +22,9 @@ const useCreateManuscript = () => {
   const onCreateManuscript = (input, file, history) => {
     if (file) {
       useCreateManuscriptMutation({
-        variables: { input: { file, ...input } },
+        variables: {
+          input: { file, ...input },
+        },
         refetchQueries: [
           {
             query: queries.getUserManuscripts,
@@ -41,7 +43,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
     title: '',
     articleType: 'Research article',
     abstract: '',
-    userComment: '',
+    author: { comment: '' },
   }
   const [file, setFile] = useState(null)
 
@@ -102,12 +104,12 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
               />
               <InputTextarea
                 label="Comment (optional)"
-                name="userComment"
+                name="author.comment"
                 type="textarea"
                 heightinput={5}
                 width={5}
                 mt={1}
-                value={values.userComment}
+                value={values.author.comment}
                 onChange={handleChange}
                 error={errors.userComment}
               />

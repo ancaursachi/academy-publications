@@ -55,7 +55,7 @@ const RevisionManuscriptCard = ({
     title: get(manuscript, 'title', ''),
     articleType: get(manuscript, 'articleType', ''),
     abstract: get(manuscript, 'abstract', ''),
-    userComment: '',
+    author: { comment: '' },
   }
 
   const [file, setFile] = useState(get(manuscript, 'file', null))
@@ -111,15 +111,16 @@ const RevisionManuscriptCard = ({
               />
               <InputTextarea
                 label="Comment (optional)"
-                name="userComment"
+                name="author.comment"
                 type="textarea"
                 heightinput={5}
                 width={5}
                 mt={1}
-                value={values.userComment}
+                value={values.author.comment}
                 onChange={handleChange}
                 error={errors.userComment}
               />
+
               <Row mt={1.2}>
                 <UploadFile match={match} setFile={setFile} file={file} />
               </Row>

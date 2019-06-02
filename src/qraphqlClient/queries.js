@@ -36,7 +36,6 @@ const queries = {
       manuscripts {
         _id
         title
-        userId
         created
         status
         version
@@ -45,7 +44,6 @@ const queries = {
         articleType
         professorName
         professorComment
-        userComment
         submissionId
       }
     }
@@ -60,7 +58,6 @@ const queries = {
           providerKey
         }
         title
-        userId
         created
         status
         version
@@ -71,7 +68,6 @@ const queries = {
         professorName
         professorDecision
         professorComment
-        userComment
         submissionId
       }
     }
@@ -86,7 +82,6 @@ const queries = {
       userManuscripts {
         _id
         title
-        userId
         status
         version
         created
@@ -121,7 +116,6 @@ const queries = {
         created
         abstract
         articleType
-        userComment
         submissionId
         professorName
         professorComment

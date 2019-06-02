@@ -20,13 +20,6 @@ const ManuscriptSchema = new mongoose.Schema({
   created: {
     type: Number,
   },
-  userId: {
-    type: String,
-    required: true,
-  },
-  userComment: {
-    type: String,
-  },
   professorId: {
     type: String,
   },
@@ -42,6 +35,16 @@ const ManuscriptSchema = new mongoose.Schema({
   },
   professorDecision: {
     type: String,
+  },
+  author: {
+    type: {
+      id: {
+        type: String,
+      },
+      comment: {
+        type: String,
+      },
+    },
   },
   file: {
     type: {
