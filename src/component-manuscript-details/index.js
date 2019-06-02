@@ -6,3 +6,4 @@ export {
 } from './ProfessorMakeDecisionCard'
 
 export { default as ProfessorDecisionCard } from './ProfessorDecisionCard'
+export { default as RevisionManuscriptCard } from './RevisionManuscriptCard'

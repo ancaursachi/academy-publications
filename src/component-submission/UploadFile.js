@@ -9,7 +9,6 @@ const useUploadFile = () => {
   const [file, setFile] = useState()
   const { isFetching, setFetching } = useFetching()
   const useUploadMutation = useMutation(uploadFile)
-
   const onUploadFile = (file, manuscriptId) => {
     setFetching(true)
     useUploadMutation({
@@ -23,10 +22,9 @@ const useUploadFile = () => {
   return { file, onUploadFile, isFetching }
 }
 
-const UploadFile = ({ history, match }) => {
+const UploadFile = ({ history, match, manuscriptId, currentFile }) => {
   const { onUploadFile, file, isFetching } = useUploadFile()
-  const { manuscriptId } = match.params
-
+  const actualFile = file ? file : currentFile
   return (
     <Root>
       <FilePicker
@@ -47,11 +45,11 @@ const UploadFile = ({ history, match }) => {
         </Wrapper>
       )}
 
-      {file && (
+      {actualFile && (
         <File
           mt={0.5}
           data-test-id="form-report-file-item-actions"
-          file={file}
+          file={actualFile}
         />
       )}
     </Root>

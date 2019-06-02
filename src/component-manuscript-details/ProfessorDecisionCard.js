@@ -14,10 +14,12 @@ const ProfessorDecisionCard = ({ manuscript, ...rest }) => {
   return (
     <Root {...rest}>
       <Card pt={2} pr={2} pl={2} pb={2}>
+        <Title>Editor response</Title>
+
         <Label>Decision</Label>
         <Data>{parseText(professorDecision)}</Data>
 
-        <Label>Professor Comment</Label>
+        <Label>Comment</Label>
         <Data>{parseText(professorComment)}</Data>
       </Card>
     </Root>
@@ -42,6 +44,11 @@ const Root = styled.div`
 
   ${th.marginHelper};
   ${th.paddingHelper};
+`
+const Title = styled.div`
+  font-size: 25px;
+  font-weight: 600;
+  color: ${th.colorBlueLight};
 `
 const Data = styled.div`
   font-size: 16px;

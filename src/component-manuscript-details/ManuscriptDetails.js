@@ -8,6 +8,7 @@ import {
   ManuscriptDetailsCard,
   ProfessorMakeDecisionCard,
   ProfessorDecisionCard,
+  RevisionManuscriptCard,
 } from '../component-manuscript-details'
 
 const ManuscriptDetails = ({ match, ...rest }) => {
@@ -33,9 +34,14 @@ const ManuscriptDetails = ({ match, ...rest }) => {
       <Container>
         {manuscript && <ManuscriptDetailsCard manuscript={manuscript} pb={2} />}
         {!professorDecision && userRole === 'professor' && (
-          <ProfessorMakeDecisionCard manuscript={manuscript} />
+          <ProfessorMakeDecisionCard manuscript={manuscript} pb={2} />
         )}
-        {professorDecision && <ProfessorDecisionCard manuscript={manuscript} />}
+        {professorDecision && (
+          <ProfessorDecisionCard manuscript={manuscript} pb={2} />
+        )}
+        {userRole === 'user' && (
+          <RevisionManuscriptCard manuscript={manuscript} pb={2} />
+        )}
       </Container>
     </Root>
   )

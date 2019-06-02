@@ -109,7 +109,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                 error={errors.userComment}
               />
               <Row mt={1.2}>
-                <UploadFile match={match} />
+                <UploadFile match={match} manuscriptId={manuscriptId} />
               </Row>
               <Row mt={1} mr={20} mb={0.5} justify="flex-end">
                 <Button
