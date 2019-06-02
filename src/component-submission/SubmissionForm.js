@@ -24,29 +24,29 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
     fileId: '',
   }
   const { manuscriptId } = match.params
-  const handleSubmission = manuscript => {
-    return updateManuscript({
-      variables: {
-        id: manuscriptId,
-        input: manuscript,
-      },
-      refetchQueries: [
-        {
-          query: queries.getUserManuscripts,
-        },
-      ],
-    })
-      .then(() => {
-        history.push('/userManuscripts')
-      })
-      .catch(error => alert(error))
-  }
+  // const handleSubmission = manuscript => {
+  //   return updateManuscript({
+  //     variables: {
+  //       id: manuscriptId,
+  //       input: manuscript,
+  //     },
+  //     refetchQueries: [
+  //       {
+  //         query: queries.getUserManuscripts,
+  //       },
+  //     ],
+  //   })
+  //     .then(() => {
+  //       history.push('/userManuscripts')
+  //     })
+  //     .catch(error => alert(error))
+  // }
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={submissionValidation}
-      onSubmit={handleSubmission}
+      // onSubmit={handleSubmission}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (

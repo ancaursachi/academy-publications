@@ -2,22 +2,14 @@ const { gql } = require('apollo-server-express')
 
 module.exports = gql`
   type Query {
-    file(_id: ID!): FileDB!
-    files: [FileDB]
-  }
-  type FileDB {
-    _id: String
-    filename: String
-    size: Int
-    providerKey: String
-    manuscriptId: String
+    file(_id: ID!): File!
+    files: [File]
+    signedUrl(providerKey: String): String
   }
   type File {
-    filename: String
-    mimetype: String
-    encoding: String
+    providerKey: String
+    name: String
     size: Int
-    url: String
   }
   type Mutation {
     uploadFile(

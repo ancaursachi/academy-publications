@@ -23,7 +23,6 @@ module.exports = gql`
     professorId: String
     articleType: String!
     submissionId: String!
-    fileId: String
     professorName: String
     professorComment: String
     professorDecision: String
@@ -42,13 +41,10 @@ module.exports = gql`
     professorId: String
     articleType: String!
     submissionId: String!
-    fileId: String
     professorName: String
     professorComment: String
     professorDecision: String
-    filename: String
-    size: String
-    url: String
+    file: File
   }
   input ManuscriptInput {
     title: String

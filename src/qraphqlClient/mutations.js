@@ -93,9 +93,9 @@ export const uploadFile = gql`
       size: $size
       manuscriptId: $manuscriptId
     ) {
-      filename
+      providerKey
+      name
       size
-      url
     }
   }
 `

@@ -12,33 +12,32 @@ const policyRole = (loggedInUser, roles) => {
   return roles.includes(role)
 }
 
-const useCreateManuscript = () => {
-  const useCreateManuscriptMutation = useMutation(createManuscript)
-  const initialValues = {
-    title: '',
-    articleType: 'Research article',
-    abstract: '',
-    fileId: '',
-  }
-  const onCreateManuscript = history => {
-    useCreateManuscriptMutation({
-      variables: { input: initialValues },
-      refetchQueries: [
-        {
-          query: queries.getUserManuscripts,
-        },
-      ],
-    }).then(r => {
-      const manuscriptId = get(r.data.createManuscript, '_id')
-      const submissionId = get(r.data.createManuscript, 'submissionId')
-      history.push(`/submission/${submissionId}/${manuscriptId}`)
-    })
-  }
-  return { onCreateManuscript }
-}
+// const useCreateManuscript = () => {
+//   const useCreateManuscriptMutation = useMutation(createManuscript)
+//   const initialValues = {
+//     title: '',
+//     articleType: 'Research article',
+//     abstract: '',
+//     fileId: '',
+//   }
+//   const onCreateManuscript = history => {
+//     useCreateManuscriptMutation({
+//       variables: { input: initialValues },
+//       refetchQueries: [
+//         {
+//           query: queries.getUserManuscripts,
+//         },
+//       ],
+//     }).then(r => {
+//       const manuscriptId = get(r.data.createManuscript, '_id')
+//       const submissionId = get(r.data.createManuscript, 'submissionId')
+//       history.push(`/submission/${submissionId}/${manuscriptId}`)
+//     })
+//   }
+//   return { onCreateManuscript }
+// }
 const SideMenu = ({ history, ...props }) => {
   const { data, loading } = useQuery(queries.getLoggedInUser)
-  const { onCreateManuscript } = useCreateManuscript()
   if (loading) {
     return (
       <Root {...props}>
@@ -59,7 +58,7 @@ const SideMenu = ({ history, ...props }) => {
             sideMenu
             iconName="plus"
             name="Create manuscript"
-            onClick={() => onCreateManuscript(history)}
+            onClick={() => history.push('/submission')}
           />
           // <NavButton
           //   fontWeight="bold"
@@ -179,4 +178,5 @@ const Content = styled.div`
 //     color: ${th.colorCremLight};
 //   }
 // `
+
 export default SideMenu

@@ -76,6 +76,11 @@ const queries = {
       }
     }
   `,
+  getSignedUrl: gql`
+    query signedUrl($providerKey: String) {
+      signedUrl(providerKey: $providerKey)
+    }
+  `,
   getUserManuscripts: gql`
     query userManuscripts {
       userManuscripts {

@@ -74,7 +74,7 @@ const Routing = () => {
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}
-          path="/submission/:submissionId/:manuscriptId"
+          path="/submission"
           policy={policyRole(loggedInUser, ['user'])}
           component={SubmissionPage}
         />

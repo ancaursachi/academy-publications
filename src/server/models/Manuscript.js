@@ -46,6 +46,19 @@ const ManuscriptSchema = new mongoose.Schema({
   professorDecision: {
     type: String,
   },
+  file: {
+    type: {
+      providerKey: {
+        type: String,
+      },
+      name: {
+        type: String,
+      },
+      size: {
+        type: Number,
+      },
+    },
+  },
 })
 
 const Manuscript = mongoose.model('Manuscript', ManuscriptSchema)

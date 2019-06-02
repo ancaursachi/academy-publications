@@ -1,6 +1,6 @@
 const policyRole = require('../policyRole')
-const File = require('../../models/File')
 const s3Service = require('../../s3Service')
+const uuidv4 = require('uuid/v4')
 
 const models = {
   Query: {
@@ -14,6 +14,10 @@ const models = {
 
       return await File.find({})
     },
+    signedUrl: async (parent, { providerKey }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      return await s3Service.getSignedUrl(providerKey)
+    },
   },
   Mutation: {
     uploadFile: async (
@@ -26,8 +30,8 @@ const models = {
       const fileData = await file
       const { createReadStream, filename, mimetype } = fileData
       const stream = createReadStream()
+      const providerKey = uuidv4()
 
-      const providerKey = manuscriptId
       await s3Service.upload({
         key: providerKey,
         stream,
@@ -37,16 +41,8 @@ const models = {
           type,
         },
       })
-      const url = await s3Service.getSignedUrl(providerKey)
 
-      const newFile = new File({
-        filename,
-        size,
-        manuscriptId,
-        providerKey,
-      })
-      await newFile.save()
-      return { size, url, ...fileData }
+      return { providerKey, type, size, name: filename }
     },
   },
 }
