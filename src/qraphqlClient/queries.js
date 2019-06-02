@@ -35,7 +35,6 @@ const queries = {
     query manuscripts {
       manuscripts {
         _id
-        fileId
         title
         userId
         created
@@ -55,7 +54,6 @@ const queries = {
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
-        fileId
         filename
         size
         url
@@ -85,7 +83,6 @@ const queries = {
     query userManuscripts {
       userManuscripts {
         _id
-        fileId
         title
         userId
         status

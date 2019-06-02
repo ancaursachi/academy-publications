@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { compose } from 'recompose'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
@@ -14,39 +14,42 @@ import {
 } from '../component-ui'
 import { mutations, queries } from '../qraphqlClient'
 import { submissionValidation, UploadFile } from '../component-submission'
+import { useMutation } from 'react-apollo-hooks'
+import { createManuscript } from '../qraphqlClient/mutations'
+
+const useCreateManuscript = () => {
+  const useCreateManuscriptMutation = useMutation(createManuscript)
+  const onCreateManuscript = (input, file, history) => {
+    if (file) {
+      useCreateManuscriptMutation({
+        variables: { input: { file, ...input } },
+        refetchQueries: [
+          {
+            query: queries.getUserManuscripts,
+          },
+        ],
+      }).then(r => history.push(`/userManuscripts`))
+    }
+  }
+  return { onCreateManuscript }
+}
 
 const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
+  const { onCreateManuscript } = useCreateManuscript()
+
   const initialValues = {
     title: '',
     articleType: 'Research article',
     abstract: '',
     userComment: '',
-    fileId: '',
   }
-  const { manuscriptId } = match.params
-  // const handleSubmission = manuscript => {
-  //   return updateManuscript({
-  //     variables: {
-  //       id: manuscriptId,
-  //       input: manuscript,
-  //     },
-  //     refetchQueries: [
-  //       {
-  //         query: queries.getUserManuscripts,
-  //       },
-  //     ],
-  //   })
-  //     .then(() => {
-  //       history.push('/userManuscripts')
-  //     })
-  //     .catch(error => alert(error))
-  // }
+  const [file, setFile] = useState(null)
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={submissionValidation}
-      // onSubmit={handleSubmission}
+      onSubmit={input => onCreateManuscript(input, file, history)}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
@@ -108,9 +111,11 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                 onChange={handleChange}
                 error={errors.userComment}
               />
+
               <Row mt={1.2}>
-                <UploadFile match={match} manuscriptId={manuscriptId} />
+                <UploadFile match={match} setFile={setFile} file={file} />
               </Row>
+
               <Row mt={1} mr={20} mb={0.5} justify="flex-end">
                 <Button
                   underline

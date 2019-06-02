@@ -46,12 +46,17 @@ module.exports = gql`
     professorDecision: String
     file: File
   }
+  input FileInput {
+    providerKey: String
+    name: String
+    size: Int
+  }
   input ManuscriptInput {
     title: String
     abstract: String
     articleType: String
-    fileId: String
     userComment: String
+    file: FileInput
   }
 
   input ProfessorDecision {

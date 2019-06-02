@@ -160,7 +160,7 @@ const models = {
         ...args.input,
         submissionId,
         created: createdDate,
-        status: 'Draft',
+        status: 'Submitted',
         version: 1,
         userId: loggedInUser._id,
       })

@@ -42,7 +42,7 @@ const models = {
         },
       })
 
-      return { providerKey, type, size, name: filename }
+      return { providerKey, size, name: filename }
     },
   },
 }
