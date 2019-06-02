@@ -5,6 +5,7 @@ const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
+const { chain, last } = require('lodash')
 
 const models = {
   Upload: GraphQLUpload,
@@ -92,21 +93,13 @@ const models = {
       const manuscripts = await Manuscript.find({
         'author.id': loggedInUser._id,
       })
-      const users = await User.find()
 
-      const newManuscripts = manuscripts.map(manuscript => {
-        if (!manuscript.professorId) {
-          return manuscript
-        }
-        const findUser = users.find(
-          user => manuscript.professorId === user._id.toString(),
-        )
-        return {
-          ...manuscript._doc,
-          professorName: `${findUser.firstName} ${findUser.lastName}`,
-        }
-      })
-      return newManuscripts
+      return chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
     },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])

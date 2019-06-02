@@ -11,7 +11,7 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
   const abstract = get(manuscript, 'abstract', '')
   const professorName = get(manuscript, 'professorName', null)
   const file = get(manuscript, 'file', null)
-
+  const authorComment = get(manuscript, 'user.comment', null)
   return (
     <Root {...rest}>
       <Card pt={2} pr={2} pl={2} pb={2}>
@@ -37,6 +37,13 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
 
         <Label>File</Label>
         <File file={file} />
+
+        {authorComment && (
+          <Fragment>
+            <Label>Abstract</Label>
+            <Abstract>{authorComment}</Abstract>
+          </Fragment>
+        )}
       </Card>
     </Root>
   )

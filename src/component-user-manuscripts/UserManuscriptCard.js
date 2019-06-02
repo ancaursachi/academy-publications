@@ -43,11 +43,7 @@ const UserManuscriptCard = ({ manuscript, history }) => {
               <StatusTag status={status} />
             </Row>
             <ArticleType>{articleType}</ArticleType>
-            {professorName ? (
-              <EditorName>Professor: {professorName}</EditorName>
-            ) : (
-              <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
-            )}
+            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
           </Border>
         </Content>
       </ButtonCard>
