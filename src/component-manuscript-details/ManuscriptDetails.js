@@ -28,6 +28,7 @@ const ManuscriptDetails = ({ match, ...rest }) => {
   const manuscript = last(get(data, 'getSubmission', []))
   const professorDecision = get(manuscript, 'professorDecision', null)
   const userRole = get(manuscript, 'userRole', null)
+  const status = get(manuscript, 'status', null)
 
   return (
     <Root {...rest}>
@@ -39,7 +40,7 @@ const ManuscriptDetails = ({ match, ...rest }) => {
         {professorDecision && (
           <ProfessorDecisionCard manuscript={manuscript} pb={2} />
         )}
-        {userRole === 'user' && (
+        {userRole === 'user' && status === 'revision' && (
           <RevisionManuscriptCard manuscript={manuscript} pb={2} />
         )}
       </Container>

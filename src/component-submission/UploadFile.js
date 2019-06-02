@@ -24,7 +24,6 @@ const useUploadFile = () => {
 
 const UploadFile = ({ history, match, currentFile, setFile, file }) => {
   const { onUploadFile, updatedFile, isFetching } = useUploadFile()
-  const actualFile = file ? file : currentFile
 
   useEffect(() => {
     if (!updatedFile) return
@@ -51,11 +50,11 @@ const UploadFile = ({ history, match, currentFile, setFile, file }) => {
         </Wrapper>
       )}
 
-      {actualFile && (
+      {file && (
         <File
           mt={0.5}
           data-test-id="form-report-file-item-actions"
-          file={actualFile}
+          file={file}
         />
       )}
     </Root>

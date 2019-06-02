@@ -17,7 +17,7 @@ const ProfessorMakeDecisionCard = ({
   const handleSubmission = input => {
     return addProfessorDecision({
       variables: {
-        submissionId: manuscript.submissionId,
+        manuscriptId: manuscript._id,
         input,
       },
       refetchQueries: [

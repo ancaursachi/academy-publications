@@ -54,9 +54,11 @@ const queries = {
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
-        filename
-        size
-        url
+        file {
+          name
+          size
+          providerKey
+        }
         title
         userId
         created

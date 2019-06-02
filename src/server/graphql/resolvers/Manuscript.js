@@ -69,25 +69,15 @@ const models = {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
 
       const { role } = loggedInUser
-      const files = await File.find()
       const manuscripts = await Manuscript.find({ submissionId })
       const users = await User.find()
 
       const newManuscripts = manuscripts.map(async manuscript => {
-        const findFile = files.find(
-          file => manuscript.fileId === file._id.toString(),
-        )
-
         const findProfessor = users.find(
           user => manuscript.professorId === user._id.toString(),
         )
-
-        const url = await s3Service.getSignedUrl(findFile.providerKey)
         return {
           ...manuscript._doc,
-          filename: findFile.filename,
-          size: findFile.size,
-          url,
           userRole: role,
           professorName:
             findProfessor && role !== 'user'
@@ -150,20 +140,36 @@ const models = {
     },
   },
   Mutation: {
-    createManuscript: async (parent, args, { loggedInUser }) => {
+    createManuscript: async (parent, { input }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
-      const createdDate = new Date()
-
-      let submissionId = ObjectId()
 
       const newManuscript = new Manuscript({
-        ...args.input,
-        submissionId,
-        created: createdDate,
+        ...input,
+        submissionId: ObjectId(),
+        created: new Date(),
         status: 'Submitted',
         version: 1,
         userId: loggedInUser._id,
       })
+      await newManuscript.save()
+      return newManuscript
+    },
+    createRevision: async (
+      parent,
+      { oldManuscript, input },
+      { loggedInUser },
+    ) => {
+      policyRole(loggedInUser, ['user'])
+
+      const newManuscript = new Manuscript({
+        ...input,
+        submissionId: oldManuscript.submissionId,
+        created: new Date(),
+        status: 'Revision Submitted',
+        version: oldManuscript.version + 1,
+        userId: loggedInUser._id,
+      })
+
       await newManuscript.save()
       return newManuscript
     },
@@ -231,18 +237,18 @@ const models = {
     },
     addProfessorDecision: async (
       parent,
-      { submissionId, input },
+      { manuscriptId, input },
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['professor'])
       const { professorDecision, professorComment } = input
       const manuscript = await Manuscript.findOneAndUpdate(
-        { submissionId },
+        { _id: manuscriptId },
         {
           $set: {
             professorDecision,
             professorComment,
-            status: 'Professor Submitted',
+            status: professorDecision,
           },
         },
         { new: true },

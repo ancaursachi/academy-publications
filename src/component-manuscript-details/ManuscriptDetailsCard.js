@@ -4,18 +4,13 @@ import { get } from 'lodash'
 import { th, File, Row, StatusTag } from '../component-ui'
 
 const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
-  const file = {
-    filename: get(manuscript, 'filename'),
-    size: get(manuscript, 'size'),
-    url: get(manuscript, 'url'),
-  }
-
   const title = get(manuscript, 'title', '')
   const status = get(manuscript, 'status', '')
   const articleType = get(manuscript, 'articleType', '')
   const version = get(manuscript, 'version', '')
   const abstract = get(manuscript, 'abstract', '')
   const professorName = get(manuscript, 'professorName', null)
+  const file = get(manuscript, 'file', null)
 
   return (
     <Root {...rest}>

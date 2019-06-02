@@ -37,6 +37,18 @@ export const createManuscript = gql`
     }
   }
 `
+
+export const createRevision = gql`
+  mutation createRevision(
+    $oldManuscript: OldManuscript
+    $input: ManuscriptInput
+  ) {
+    createRevision(oldManuscript: $oldManuscript, input: $input) {
+      _id
+    }
+  }
+`
+
 export const updateManuscript = gql`
   mutation updateManuscript($id: String!, $input: ManuscriptInput) {
     updateManuscript(_id: $id, input: $input) {
@@ -47,10 +59,10 @@ export const updateManuscript = gql`
 `
 export const addProfessorDecision = gql`
   mutation addProfessorDecision(
-    $submissionId: String!
+    $manuscriptId: String!
     $input: ProfessorDecision
   ) {
-    addProfessorDecision(submissionId: $submissionId, input: $input) {
+    addProfessorDecision(manuscriptId: $manuscriptId, input: $input) {
       professorDecision
       professorComment
     }
