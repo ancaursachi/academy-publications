@@ -40,11 +40,14 @@ const queries = {
         status
         version
         abstract
-        professorId
         articleType
-        professorName
-        professorComment
         submissionId
+        editor {
+          id
+          name
+          decision
+          comment
+        }
       }
     }
   `,
@@ -52,23 +55,29 @@ const queries = {
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
-        file {
-          name
-          size
-          providerKey
-        }
         title
         created
         status
         version
         userRole
         abstract
-        professorId
         articleType
-        professorName
-        professorDecision
-        professorComment
         submissionId
+        author {
+          id
+          comment
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+        file {
+          name
+          size
+          providerKey
+        }
       }
     }
   `,
@@ -87,9 +96,7 @@ const queries = {
         created
         abstract
         submissionId
-        professorId
         articleType
-        professorName
       }
     }
   `,
@@ -117,8 +124,10 @@ const queries = {
         abstract
         articleType
         submissionId
-        professorName
-        professorComment
+        editor {
+          id
+          name
+        }
       }
     }
   `,

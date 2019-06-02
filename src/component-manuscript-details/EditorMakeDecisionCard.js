@@ -5,14 +5,14 @@ import { Formik } from 'formik'
 import { compose } from 'recompose'
 import { mutations, queries } from '../qraphqlClient'
 
-const ProfessorMakeDecisionCard = ({
+const EditorMakeDecisionCard = ({
   addProfessorDecision,
   manuscript,
   ...rest
 }) => {
   const initialValues = {
-    professorDecision: 'publish',
-    professorComment: '',
+    decision: 'publish',
+    comment: '',
   }
   const handleSubmission = input => {
     return addProfessorDecision({
@@ -37,24 +37,24 @@ const ProfessorMakeDecisionCard = ({
               <Title>Your Decision</Title>
               <InputSelect
                 label="Decision"
-                name="professorDecision"
+                name="decision"
                 type="text"
                 options={['publish', 'revision', 'reject']}
                 widthInput={14}
                 width={14}
                 required
-                value={values.professorDecision}
+                value={values.decision}
                 onChange={handleChange}
               />
               <InputTextarea
                 label="Comment"
-                name="professorComment"
+                name="comment"
                 type="textarea"
                 width={14}
                 heightinput={7}
                 mt={1}
                 required
-                value={values.professorComment}
+                value={values.comment}
                 onChange={handleChange}
               />
 
@@ -100,4 +100,4 @@ const Title = styled.div`
   font-size: 22px;
   font-weight: 600;
 `
-export default compose(mutations)(ProfessorMakeDecisionCard)
+export default compose(mutations)(EditorMakeDecisionCard)

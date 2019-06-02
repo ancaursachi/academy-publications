@@ -6,8 +6,8 @@ import { useQuery } from 'react-apollo-hooks'
 import { th, Loader } from '../component-ui'
 import {
   ManuscriptDetailsCard,
-  ProfessorMakeDecisionCard,
-  ProfessorDecisionCard,
+  EditorMakeDecisionCard,
+  EditorDecisionCard,
   RevisionManuscriptCard,
 } from '../component-manuscript-details'
 
@@ -26,7 +26,7 @@ const ManuscriptDetails = ({ match, ...rest }) => {
   }
 
   const manuscript = last(get(data, 'getSubmission', []))
-  const professorDecision = get(manuscript, 'professorDecision', null)
+  const editorDecision = get(manuscript, 'editor.decision', null)
   const userRole = get(manuscript, 'userRole', null)
   const status = get(manuscript, 'status', null)
 
@@ -34,11 +34,11 @@ const ManuscriptDetails = ({ match, ...rest }) => {
     <Root {...rest}>
       <Container>
         {manuscript && <ManuscriptDetailsCard manuscript={manuscript} pb={2} />}
-        {!professorDecision && userRole === 'professor' && (
-          <ProfessorMakeDecisionCard manuscript={manuscript} pb={2} />
+        {!editorDecision && userRole === 'professor' && (
+          <EditorMakeDecisionCard manuscript={manuscript} pb={2} />
         )}
-        {professorDecision && (
-          <ProfessorDecisionCard manuscript={manuscript} pb={2} />
+        {editorDecision && (
+          <EditorDecisionCard manuscript={manuscript} pb={2} />
         )}
         {userRole === 'user' && status === 'revision' && (
           <RevisionManuscriptCard manuscript={manuscript} pb={2} />

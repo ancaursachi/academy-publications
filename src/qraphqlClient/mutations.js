@@ -58,13 +58,12 @@ export const updateManuscript = gql`
   }
 `
 export const addProfessorDecision = gql`
-  mutation addProfessorDecision(
-    $manuscriptId: String!
-    $input: ProfessorDecision
-  ) {
+  mutation addProfessorDecision($manuscriptId: String!, $input: EditorInput) {
     addProfessorDecision(manuscriptId: $manuscriptId, input: $input) {
-      professorDecision
-      professorComment
+      editor {
+        decision
+        comment
+      }
     }
   }
 `
@@ -72,7 +71,10 @@ export const addProfessorDecision = gql`
 const addEditorOnManuscript = gql`
   mutation addEditorOnManuscript($id: String!) {
     addEditorOnManuscript(_id: $id) {
-      professorId
+      editor {
+        id
+        name
+      }
     }
   }
 `
@@ -80,7 +82,10 @@ const addEditorOnManuscript = gql`
 const removeEditorFromManuscript = gql`
   mutation removeEditorFromManuscript($id: String!) {
     removeEditorFromManuscript(_id: $id) {
-      professorId
+      editor {
+        id
+        name
+      }
     }
   }
 `

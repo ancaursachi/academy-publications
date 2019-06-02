@@ -7,9 +7,9 @@ const parseText = string => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-const ProfessorDecisionCard = ({ manuscript, ...rest }) => {
-  const professorDecision = get(manuscript, 'professorDecision', null)
-  const professorComment = get(manuscript, 'professorComment', null)
+const EditorDecisionCard = ({ manuscript, ...rest }) => {
+  const editorDecision = get(manuscript, 'editor.decision', null)
+  const editorComment = get(manuscript, 'editor.comment', null)
 
   return (
     <Root {...rest}>
@@ -17,10 +17,10 @@ const ProfessorDecisionCard = ({ manuscript, ...rest }) => {
         <Title>Editor response</Title>
 
         <Label>Decision</Label>
-        <Data>{parseText(professorDecision)}</Data>
+        <Data>{parseText(editorDecision)}</Data>
 
         <Label>Comment</Label>
-        <Data>{parseText(professorComment)}</Data>
+        <Data>{parseText(editorComment)}</Data>
       </Card>
     </Root>
   )
@@ -59,4 +59,4 @@ const Label = styled.div`
   font-weight: 600;
   padding: 16px 0px 0px;
 `
-export default ProfessorDecisionCard
+export default EditorDecisionCard

@@ -35,6 +35,9 @@ const useCreateRevision = () => {
             query: queries.getSubmission,
             variables: { submissionId: manuscript.submissionId },
           },
+          {
+            query: queries.getUserManuscripts,
+          },
         ],
       })
     }

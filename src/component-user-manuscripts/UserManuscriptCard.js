@@ -6,15 +6,8 @@ import { mutations } from '../qraphqlClient'
 import { DeleteUserManuscript } from '../component-user-manuscripts'
 
 const UserManuscriptCard = ({ manuscript, history }) => {
-  const {
-    _id,
-    title,
-    articleType,
-    abstract,
-    professorName,
-    status,
-    submissionId,
-  } = manuscript
+  const { _id, title, articleType, abstract, status, submissionId } = manuscript
+
   const handleReview = () => {
     if (status.toLowerCase() === 'draft')
       history.push(`/submission/${submissionId}/${_id}`)

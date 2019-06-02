@@ -6,9 +6,9 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    userManuscripts: [Manuscript]
     getSubmission(submissionId: ID!): [Submission]
     unassignedManuscripts: [Manuscript]
-    userManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
   }
 
@@ -21,6 +21,18 @@ module.exports = gql`
     comment: String
   }
 
+  type Editor {
+    id: String
+    name: String
+    decision: String
+    comment: String
+  }
+
+  input EditorInput {
+    decision: String
+    comment: String
+  }
+
   type Manuscript {
     _id: String!
     title: String
@@ -28,12 +40,9 @@ module.exports = gql`
     abstract: String
     status: String
     version: Int
-    professorId: String
     articleType: String!
     submissionId: String!
-    professorName: String
-    professorComment: String
-    professorDecision: String
+    editor: Editor
     author: Author
     file: File
   }
@@ -46,12 +55,9 @@ module.exports = gql`
     status: String
     version: Int
     userRole: String
-    professorId: String
     articleType: String!
     submissionId: String!
-    professorName: String
-    professorComment: String
-    professorDecision: String
+    editor: Editor
     author: Author
     file: File
   }
@@ -70,11 +76,6 @@ module.exports = gql`
     author: AuthorInput
   }
 
-  input ProfessorDecision {
-    professorDecision: String
-    professorComment: String
-  }
-
   input OldManuscript {
     version: Int
     submissionId: String!
@@ -90,9 +91,6 @@ module.exports = gql`
     updateManuscript(_id: String, input: ManuscriptInput): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
     deleteManuscript(_id: String!): Manuscript
-    addProfessorDecision(
-      manuscriptId: String
-      input: ProfessorDecision
-    ): Manuscript
+    addProfessorDecision(manuscriptId: String, input: EditorInput): Manuscript
   }
 `

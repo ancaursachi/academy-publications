@@ -20,21 +20,25 @@ const ManuscriptSchema = new mongoose.Schema({
   created: {
     type: Number,
   },
-  professorId: {
-    type: String,
-  },
   submissionId: {
     type: String,
     required: true,
   },
-  professorName: {
-    type: String,
-  },
-  professorComment: {
-    type: String,
-  },
-  professorDecision: {
-    type: String,
+  editor: {
+    type: {
+      id: {
+        type: String,
+      },
+      name: {
+        type: String,
+      },
+      decision: {
+        type: String,
+      },
+      comment: {
+        type: String,
+      },
+    },
   },
   author: {
     type: {
