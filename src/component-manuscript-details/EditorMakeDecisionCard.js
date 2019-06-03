@@ -1,6 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { th, Row, Button, InputSelect, InputTextarea } from '../component-ui'
+import {
+  th,
+  Row,
+  Button,
+  InputSelect,
+  InputTextarea,
+  DetailsCard,
+} from '../component-ui'
 import { Formik } from 'formik'
 import { compose } from 'recompose'
 import { mutations, queries } from '../qraphqlClient'
@@ -33,7 +40,7 @@ const EditorMakeDecisionCard = ({
       {({ values, handleChange, handleSubmit }) => {
         return (
           <Root {...rest}>
-            <Card pt={2} pr={2} pl={2} pb={2}>
+            <DetailsCard>
               <Title>Your Decision</Title>
               <InputSelect
                 label="Decision"
@@ -69,7 +76,7 @@ const EditorMakeDecisionCard = ({
                   onClick={handleSubmit}
                 />
               </Row>
-            </Card>
+            </DetailsCard>
           </Root>
         )
       }}
@@ -83,17 +90,6 @@ const Root = styled.div`
 
   ${th.marginHelper};
   ${th.paddingHelper};
-`
-const Card = styled.div`
-  background-color: white;
-  font-family: 'Nunito';
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '0px')};
-  height: fit-content;
-  width: 40px;
-  width: 50em;
-  ${th.marginHelper}
-  ${th.paddingHelper}
 `
 const Title = styled.div`
   padding-bottom: 0.6em;

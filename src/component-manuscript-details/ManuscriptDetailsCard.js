@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, File, Row, StatusTag } from '../component-ui'
+import { th, File, Row, StatusTag, DetailsCard } from '../component-ui'
 
 const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
   const title = get(manuscript, 'title', '')
@@ -15,7 +15,7 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
 
   return (
     <Root {...rest}>
-      <Card pt={2} pr={2} pl={2} pb={2}>
+      <DetailsCard pt={2} pr={2} pl={2} pb={2}>
         <Row>
           <Title>{title}</Title>
           <StatusTag status={status} />
@@ -45,21 +45,11 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
             <Abstract>{authorComment}</Abstract>
           </Fragment>
         )}
-      </Card>
+      </DetailsCard>
     </Root>
   )
 }
-const Card = styled.div`
-  background-color: white;
-  font-family: 'Nunito';
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '0px')};
-  height: fit-content;
-  width: 40px;
-  width: 50em;
-  ${th.marginHelper}
-  ${th.paddingHelper}
-`
+
 const Root = styled.div`
   display: flex;
   font-family: 'Nunito';

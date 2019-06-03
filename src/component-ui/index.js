@@ -13,6 +13,7 @@ export { default as StatusTag } from './StatusTag'
 export { default as NavButton } from './NavButton'
 export { default as InputSelect } from './InputSelect'
 export { default as InputTextarea } from './InputTextarea'
+export { default as DetailsCard } from './DetailsCard'
 
 export { default as ModalError } from './Modals/ModalError'
 export { default as ModalComponent } from './Modals/ModalComponent'
