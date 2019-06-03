@@ -41,7 +41,9 @@ const UserManuscriptCard = ({ manuscript, history }) => {
         </Content>
       </ButtonCard>
       <RowStyled justify="flex-end" alignItems="flex-end">
-        <DeleteUserManuscript manuscript={manuscript} />
+        {status.toLowerCase() === 'submitted' && (
+          <DeleteUserManuscript manuscript={manuscript} />
+        )}
       </RowStyled>
     </StyledCard>
   )

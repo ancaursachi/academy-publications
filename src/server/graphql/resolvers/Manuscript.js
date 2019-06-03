@@ -200,7 +200,7 @@ const models = {
       const newManuscript = new Manuscript({
         submissionId: oldManuscript.submissionId,
         created: new Date(),
-        status: 'submitted',
+        status: 'Submitted Revision',
         version: oldManuscript.version + 1,
         ...restInput,
         editor: {
@@ -216,13 +216,9 @@ const models = {
       return newManuscript
     },
 
-    deleteManuscript: async (parent, { _id }, { loggedInUser }) => {
+    deleteManuscript: async (parent, { submissionId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user'])
-      const manuscript = await Manuscript.findOneAndRemove({ _id })
-
-      if (!manuscript) {
-        throw new Error("You can't delete a non existent manuscript")
-      } else return manuscript
+      await Manuscript.remove({ submissionId })
     },
 
     addEditorOnManuscript: async (parent, { _id }, { loggedInUser }) => {

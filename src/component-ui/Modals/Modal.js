@@ -30,17 +30,19 @@ const Modal = ({
               color={th.colorGrey}
             />
           </CloseItem>
-          <Title>{title}</Title>
-          <Row mt={1.5} align="flex-end">
-            <Button name="Close" underline onClick={handleShowModal} />
-            <Button
-              name={buttonName || 'Review'}
-              underline
-              iconName={'arrow-right'}
-              mr={1.5}
-              onClick={onClickSubmit}
-            />
-          </Row>
+          <Field>
+            <Title>{title}</Title>
+            <Row align="flex-end">
+              <Button name="Close" underline onClick={handleShowModal} />
+              <Button
+                name={buttonName || 'Review'}
+                underline
+                iconName={'arrow-right'}
+                mr={1.5}
+                onClick={onClickSubmit}
+              />
+            </Row>
+          </Field>
         </Card>
       </Root>
     </Wrapper>
@@ -56,6 +58,13 @@ const Wrapper = styled.div`
   height: 100%;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
+`
+const Field = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  padding-bottom: 40px;
 `
 
 const Root = styled.div`

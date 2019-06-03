@@ -90,10 +90,8 @@ const removeEditorFromManuscript = gql`
   }
 `
 const deleteManuscript = gql`
-  mutation deleteManuscript($id: String!) {
-    deleteManuscript(_id: $id) {
-      _id
-    }
+  mutation deleteManuscript($submissionId: String!) {
+    deleteManuscript(submissionId: $submissionId)
   }
 `
 

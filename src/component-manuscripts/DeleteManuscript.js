@@ -5,7 +5,7 @@ import { mutations } from '../qraphqlClient'
 import { queries } from '../qraphqlClient'
 
 const DeleteManuscript = ({ manuscript, deleteManuscript }) => {
-  const { _id } = manuscript
+  const { submissionId } = manuscript
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -13,7 +13,7 @@ const DeleteManuscript = ({ manuscript, deleteManuscript }) => {
     handleShowModal()
     return deleteManuscript({
       variables: {
-        id: _id,
+        submissionId,
       },
       refetchQueries: [
         {

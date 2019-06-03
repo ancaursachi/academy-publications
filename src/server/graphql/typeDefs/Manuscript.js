@@ -96,7 +96,7 @@ module.exports = gql`
     addEditorOnManuscript(_id: String!): Manuscript
     updateManuscript(_id: String, input: ManuscriptInput): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
-    deleteManuscript(_id: String!): Manuscript
+    deleteManuscript(submissionId: String!): Boolean
     addProfessorDecision(manuscriptId: String, input: EditorInput): Manuscript
   }
 `
