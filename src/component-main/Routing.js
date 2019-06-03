@@ -68,7 +68,7 @@ const Routing = () => {
           exact
           loggedInUser={loggedInUser}
           path="/manuscriptsDetails/:submissionId"
-          policy={policyRole(loggedInUser, ['professor'])}
+          policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
           component={ManuscriptDetailsPage}
         />
         <PrivateRoute
@@ -117,8 +117,7 @@ const PrivateRoute = ({
     <Route
       {...rest}
       component={props =>
-        //  localStorage.getItem('authToken') && policy? (
-        localStorage.getItem('authToken') ? (
+        localStorage.getItem('authToken') && policy ? (
           <Fragment>
             <Header loggedInUser={loggedInUser} />
             <Component />
@@ -139,7 +138,6 @@ const LoginRoute = ({
 }) => {
   const role = get(loggedInUser, 'role')
   let redirectedLink = ''
-
   switch (role) {
     case 'professor':
       redirectedLink = '/assignedManuscripts'
