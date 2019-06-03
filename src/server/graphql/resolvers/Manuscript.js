@@ -129,7 +129,6 @@ const models = {
         })
         .value()
 
-      console.log(groupedManuscripts)
       const users = await User.find({
         role: 'professor',
       })

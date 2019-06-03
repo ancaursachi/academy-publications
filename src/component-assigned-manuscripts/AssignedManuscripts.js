@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
-import { th, Loader, SearchBar } from '../component-ui'
+import { th, Loader, SearchBar, EmptyError } from '../component-ui'
 import { ManuscriptCardAssigned } from '../component-assigned-manuscripts'
 import styled from 'styled-components'
 
@@ -49,6 +49,9 @@ const AssignedManuscripts = ({ history, ...rest }) => {
                     manuscript={manuscript}
                   />
                 ))}
+              {!manuscripts.length && (
+                <EmptyError>Choose manuscripts to review</EmptyError>
+              )}
             </Content>
           </Root>
         )

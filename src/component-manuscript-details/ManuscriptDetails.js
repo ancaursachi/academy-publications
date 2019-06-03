@@ -30,8 +30,6 @@ const ManuscriptDetails = ({ match, ...rest }) => {
   const userRole = get(manuscript, 'userRole', null)
   const status = get(manuscript, 'status', null)
 
-  console.log(manuscript)
-
   return (
     <Root {...rest}>
       <Container>
