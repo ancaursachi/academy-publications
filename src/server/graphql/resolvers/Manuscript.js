@@ -88,6 +88,12 @@ const models = {
         .map(manuscript => {
           return last(manuscript)
         })
+        .filter(
+          manuscript =>
+            manuscript.editor &&
+            manuscript.editor.decision &&
+            manuscript.editor.decision.toLowerCase() === 'publish',
+        )
         .value()
 
       const newManuscripts = groupedManuscripts.map(manuscript => {

@@ -30,8 +30,8 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="Dashboard"
-            onClick={() => history.push('/dashboard')}
+            name="Public manuscripts"
+            onClick={() => history.push('/publicManuscripts')}
           />
         )}
 

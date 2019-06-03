@@ -11,7 +11,7 @@ const DashboardPage = ({ history }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <Dashboard history={history} pt={6} />
+      <Dashboard history={history} pt={6} pb={3} />
     </Root>
   )
 }

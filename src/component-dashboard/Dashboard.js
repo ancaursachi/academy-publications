@@ -30,7 +30,7 @@ const Dashboard = ({ history, ...rest }) => {
         return (
           <Root {...rest}>
             <Content>
-              <TitlePage>Dashboard</TitlePage>
+              <TitlePage>Public manuscripts</TitlePage>
               <SearchBar
                 values={values}
                 handleChange={handleChange}

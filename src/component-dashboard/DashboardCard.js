@@ -1,12 +1,11 @@
 import React from 'react'
-import { Card, Row, th, StatusTag } from '../component-ui'
+import { Card, Row, th } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
-import { DeleteUserManuscript } from '../component-user-manuscripts'
 
 const DashboardCard = ({ manuscript, history }) => {
-  const { _id, title, articleType, abstract, status, submissionId } = manuscript
+  const { title, articleType, abstract, submissionId } = manuscript
 
   const handleReview = () => {
     history.push(`/manuscriptsDetails/${submissionId}`)
@@ -27,20 +26,12 @@ const DashboardCard = ({ manuscript, history }) => {
       <ButtonCard onClick={handleReview}>
         <Content>
           <Border>
-            <Row>
-              <Title>{title ? title : 'Draft'}</Title>
-              <StatusTag status={status} />
-            </Row>
+            <Title>{title}</Title>
             <ArticleType>{articleType}</ArticleType>
-            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
+            <Abstract>Abstract: {abstract}</Abstract>
           </Border>
         </Content>
       </ButtonCard>
-      <RowStyled justify="flex-end" alignItems="flex-end">
-        {status.toLowerCase() === 'submitted' && (
-          <DeleteUserManuscript manuscript={manuscript} />
-        )}
-      </RowStyled>
     </StyledCard>
   )
 }
