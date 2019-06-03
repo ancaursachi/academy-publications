@@ -72,16 +72,22 @@ const models = {
       const users = await User.find()
 
       const newManuscripts = manuscripts.map(async manuscript => {
-        const findProfessor = users.find(
-          user => manuscript.professorId === user._id.toString(),
+        const findEditor = users.find(
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id,
         )
+        const { editor, ...restManuscript } = manuscript._doc
+
         return {
-          ...manuscript._doc,
           userRole: role,
-          professorName:
-            findProfessor && role !== 'user'
-              ? `${findProfessor.firstName} ${findProfessor.lastName}`
+          editor: {
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
               : null,
+            ...editor,
+          },
+          ...restManuscript,
         }
       })
 
@@ -179,12 +185,12 @@ const models = {
         status: 'Revision Submitted',
         version: oldManuscript.version + 1,
         ...restInput,
+        editor: oldManuscript.editor,
         author: {
           id: loggedInUser._id,
           comment,
         },
       })
-
       await newManuscript.save()
       return newManuscript
     },

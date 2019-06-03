@@ -28,6 +28,10 @@ const useCreateRevision = () => {
           oldManuscript: {
             submissionId: manuscript.submissionId,
             version: manuscript.version,
+            editor: {
+              id: manuscript.editor.id,
+              name: manuscript.editor.name,
+            },
           },
           input: { file, ...input },
         },
@@ -63,7 +67,6 @@ const RevisionManuscriptCard = ({
   }
 
   const [file, setFile] = useState(get(manuscript, 'file', null))
-
   return (
     <Formik
       initialValues={initialValues}

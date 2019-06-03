@@ -76,9 +76,15 @@ module.exports = gql`
     author: AuthorInput
   }
 
+  input EditorInputOldManuscript {
+    id: String
+    name: String
+  }
+
   input OldManuscript {
     version: Int
     submissionId: String!
+    editor: EditorInputOldManuscript
   }
 
   type Mutation {
