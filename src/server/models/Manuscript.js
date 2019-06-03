@@ -29,9 +29,6 @@ const ManuscriptSchema = new mongoose.Schema({
       id: {
         type: String,
       },
-      name: {
-        type: String,
-      },
       decision: {
         type: String,
       },

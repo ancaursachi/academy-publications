@@ -75,10 +75,9 @@ const models = {
         const findEditor = users.find(
           user =>
             manuscript.editor &&
-            user._id.toHexString() === manuscript.editor.id,
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
         )
         const { editor, ...restManuscript } = manuscript._doc
-
         return {
           userRole: role,
           editor: {
@@ -123,19 +122,27 @@ const models = {
         'editor.id': loggedInUser._id,
       })
 
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
+
+      console.log(groupedManuscripts)
       const users = await User.find({
         role: 'professor',
       })
 
-      const newManuscripts = manuscripts.map(manuscript => {
-        const findUser = users.find(
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
           user => user._id.toHexString() === manuscript.editor.id.toHexString(),
         )
         const { editor, ...restManuscript } = manuscript._doc
 
         return {
           editor: {
-            name: `${findUser.firstName} ${findUser.lastName}`,
+            name: `${findEditor.firstName} ${findEditor.lastName}`,
             ...editor,
           },
           ...restManuscript,
@@ -185,7 +192,10 @@ const models = {
         status: 'Revision Submitted',
         version: oldManuscript.version + 1,
         ...restInput,
-        editor: oldManuscript.editor,
+        editor: {
+          id: ObjectId(oldManuscript.editor.id),
+          name: oldManuscript.editor.name,
+        },
         author: {
           id: loggedInUser._id,
           comment,
