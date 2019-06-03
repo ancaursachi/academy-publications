@@ -58,13 +58,17 @@ const models = {
 
       const newManuscripts = groupedManuscripts.map(manuscript => {
         const findEditor = users.find(
-          user => user._id.toHexString() === manuscript.editor.id.toHexString(),
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
         )
         const { editor, ...restManuscript } = manuscript._doc
 
         return {
           editor: {
-            name: `${findEditor.firstName} ${findEditor.lastName}`,
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
             ...editor,
           },
           ...restManuscript,
@@ -169,7 +173,7 @@ const models = {
       const newManuscript = new Manuscript({
         submissionId: ObjectId(),
         created: new Date(),
-        status: 'Submitted',
+        status: 'submitted',
         version: 1,
         ...restInput,
         author: {
@@ -196,7 +200,7 @@ const models = {
       const newManuscript = new Manuscript({
         submissionId: oldManuscript.submissionId,
         created: new Date(),
-        status: 'Revision Submitted',
+        status: 'submitted',
         version: oldManuscript.version + 1,
         ...restInput,
         editor: {
@@ -242,8 +246,8 @@ const models = {
       policyRole(loggedInUser, ['professor', 'admin'])
 
       const manuscript = await Manuscript.findOneAndUpdate(
-        { _id, 'editor.id': { $ne: null } },
-        { $set: { 'editor.id': null, status: 'Submitted' } },
+        { _id },
+        { $unset: { editor: 1 }, $set: { status: 'submitted' } },
         { new: true },
       )
 
@@ -267,7 +271,7 @@ const models = {
             articleType,
             userComment,
             fileId: file._id,
-            status: 'Submitted',
+            status: 'submitted',
           },
         },
         { new: true },
