@@ -76,6 +76,40 @@ const models = {
       })
       return newManuscripts
     },
+    publicManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      const manuscripts = await Manuscript.find()
+      const users = await User.find({
+        role: 'professor',
+      })
+
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
+
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
+        )
+        const { editor, ...restManuscript } = manuscript._doc
+
+        return {
+          editor: {
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
+            ...editor,
+          },
+          ...restManuscript,
+        }
+      })
+      return newManuscripts
+    },
     getSubmission: async (parent, { submissionId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
 

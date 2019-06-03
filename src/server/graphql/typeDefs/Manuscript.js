@@ -6,6 +6,7 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    publicManuscripts: [Manuscript]
     userManuscripts: [Manuscript]
     getSubmission(submissionId: ID!): [Submission]
     unassignedManuscripts: [Manuscript]
