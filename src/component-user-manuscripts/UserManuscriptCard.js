@@ -102,11 +102,4 @@ const Abstract = styled.div`
   color: ${th.colorGrey};
 `
 
-const EditorName = styled.div`
-  font-size: 0.9em;
-  width: 100%;
-  color: ${th.colorBlueGray};
-  font-weight: bold;
-`
-
 export default compose(mutations)(UserManuscriptCard)

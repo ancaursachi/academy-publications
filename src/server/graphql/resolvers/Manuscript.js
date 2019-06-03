@@ -45,23 +45,31 @@ const models = {
     manuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin'])
       const manuscripts = await Manuscript.find()
-      const users = await User.find()
+      const users = await User.find({
+        role: 'professor',
+      })
 
-      const newManuscripts = manuscripts
-        .filter(manuscript => manuscript.status.toLowerCase() !== 'draft')
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
         .map(manuscript => {
-          if (!manuscript.professorId) {
-            return manuscript
-          }
-          const findUser = users.find(
-            user => manuscript.professorId === user._id.toString(),
-          )
-
-          return {
-            ...manuscript._doc,
-            professorName: `${findUser.firstName} ${findUser.lastName}`,
-          }
+          return last(manuscript)
         })
+        .value()
+
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
+          user => user._id.toHexString() === manuscript.editor.id.toHexString(),
+        )
+        const { editor, ...restManuscript } = manuscript._doc
+
+        return {
+          editor: {
+            name: `${findEditor.firstName} ${findEditor.lastName}`,
+            ...editor,
+          },
+          ...restManuscript,
+        }
+      })
       return newManuscripts
     },
     getSubmission: async (parent, { submissionId }, { loggedInUser }) => {

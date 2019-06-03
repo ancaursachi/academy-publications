@@ -9,7 +9,7 @@ import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 const ManuscriptCardAssigned = ({ manuscript, history }) => {
   const { submissionId, title, articleType, status } = manuscript
   const editorName = get(manuscript, 'editor.name', null)
-  const handleReview = () => {
+  const handleSubmission = () => {
     history.push(`/manuscriptsDetails/${submissionId}`)
   }
 
@@ -25,7 +25,7 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
       pl={0.5}
       pb={1}
     >
-      <ButtonCard onClick={handleReview}>
+      <ButtonCard onClick={handleSubmission}>
         <Content>
           <Border>
             <Row>

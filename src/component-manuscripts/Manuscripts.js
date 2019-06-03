@@ -3,11 +3,11 @@ import { Formik } from 'formik'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
-import { th, Loader, SearchBar } from '../component-ui'
+import { th, Loader, SearchBar, EmptyError } from '../component-ui'
 import { ManuscriptCard } from '../component-manuscripts'
 import styled from 'styled-components'
 
-const Manuscripts = ({ ...rest }) => {
+const Manuscripts = ({ history, ...rest }) => {
   const { data, loading } = useQuery(queries.getManuscripts)
 
   if (loading) {
@@ -44,10 +44,14 @@ const Manuscripts = ({ ...rest }) => {
                 )
                 .map(manuscript => (
                   <ManuscriptCard
+                    history={history}
                     key={manuscript._id}
                     manuscript={manuscript}
                   />
                 ))}
+              {!manuscripts.length && (
+                <EmptyError>No manuscripts yet</EmptyError>
+              )}
             </Content>
           </Root>
         )
