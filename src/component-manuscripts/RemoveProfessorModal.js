@@ -5,7 +5,7 @@ import { mutations } from '../qraphqlClient'
 import { queries } from '../qraphqlClient'
 
 const RemoveProfessorModal = ({ manuscript, removeEditorFromManuscript }) => {
-  const { _id } = manuscript
+  const { _id, submissionId } = manuscript
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -18,6 +18,10 @@ const RemoveProfessorModal = ({ manuscript, removeEditorFromManuscript }) => {
       refetchQueries: [
         {
           query: queries.getManuscripts,
+        },
+        {
+          query: queries.getSubmission,
+          variables: { submissionId },
         },
       ],
     })

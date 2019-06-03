@@ -3,24 +3,12 @@ import { Card, Row, th, StatusTag } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
-import { get } from 'lodash'
-import {
-  RemoveProfessorModal,
-  DeleteManuscript,
-} from '../component-manuscripts'
+import { DeleteUserManuscript } from '../component-user-manuscripts'
 
-const ManuscriptCard = ({ manuscript, history }) => {
-  const {
-    title,
-    abstract,
-    articleType,
-    professorName,
-    status,
-    submissionId,
-  } = manuscript
+const DashboardCard = ({ manuscript, history }) => {
+  const { _id, title, articleType, abstract, status, submissionId } = manuscript
 
-  const editorName = get(manuscript, 'editor.name', null)
-  const handleSubmission = () => {
+  const handleReview = () => {
     history.push(`/manuscriptsDetails/${submissionId}`)
   }
 
@@ -36,36 +24,37 @@ const ManuscriptCard = ({ manuscript, history }) => {
       pl={0.5}
       pb={1}
     >
-      <ButtonCard onClick={handleSubmission}>
+      <ButtonCard onClick={handleReview}>
         <Content>
           <Border>
             <Row>
-              <Title>{title}</Title>
+              <Title>{title ? title : 'Draft'}</Title>
               <StatusTag status={status} />
             </Row>
             <ArticleType>{articleType}</ArticleType>
-            {professorName ? (
-              <EditorName>Editor: {editorName}</EditorName>
-            ) : (
-              <Abstract>Abstract: {abstract}</Abstract>
-            )}
+            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
           </Border>
         </Content>
       </ButtonCard>
-
-      <RowStyled justify="flex-end" alignItems="flex-end" mt={0.5}>
-        {editorName && <RemoveProfessorModal manuscript={manuscript} />}
-        <DeleteManuscript manuscript={manuscript} />
+      <RowStyled justify="flex-end" alignItems="flex-end">
+        {status.toLowerCase() === 'submitted' && (
+          <DeleteUserManuscript manuscript={manuscript} />
+        )}
       </RowStyled>
     </StyledCard>
   )
 }
 const StyledCard = styled(Card)`
   position: relative;
+  font-family: 'Nunito';
+`
+const RowStyled = styled(Row)`
+  position: absolute;
+  right: 37px;
+  bottom: 2px;
 `
 const Content = styled.div`
   display: flex;
-  font-family: 'Nunito';
   height: 100%;
   align-items: center;
   flex-wrap: wrap;
@@ -79,37 +68,17 @@ const Border = styled.div`
   border-radius: 5px 5px 5px 5px;
   padding: 1em;
 `
-const RowStyled = styled(Row)`
-  bottom: 2px;
-  right: 45px;
-  position: absolute;
-`
 const Title = styled.div`
   font-size: 1.3em;
   width: 100%;
+  color: ${th.colorBlue};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: ${th.colorBlue};
 `
 const ArticleType = styled.div`
   font-size: 0.9em;
   padding-bottom: 0.7em;
-`
-
-const Abstract = styled.div`
-  font-size: 0.8em;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: ${th.colorGrey};
-`
-const EditorName = styled.div`
-  font-size: 0.9em;
-  width: 100%;
-  color: ${th.colorBlueGray};
-  font-weight: bold;
 `
 const ButtonCard = styled.button`
   height: 100%;
@@ -122,5 +91,13 @@ const ButtonCard = styled.button`
     outline: none;
   }
 `
+const Abstract = styled.div`
+  font-size: 0.8em;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: ${th.colorGrey};
+`
 
-export default compose(mutations)(ManuscriptCard)
+export default compose(mutations)(DashboardCard)

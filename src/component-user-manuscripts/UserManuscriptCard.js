@@ -6,15 +6,8 @@ import { mutations } from '../qraphqlClient'
 import { DeleteUserManuscript } from '../component-user-manuscripts'
 
 const UserManuscriptCard = ({ manuscript, history }) => {
-  const {
-    _id,
-    title,
-    articleType,
-    abstract,
-    professorName,
-    status,
-    submissionId,
-  } = manuscript
+  const { _id, title, articleType, abstract, status, submissionId } = manuscript
+
   const handleReview = () => {
     if (status.toLowerCase() === 'draft')
       history.push(`/submission/${submissionId}/${_id}`)
@@ -43,16 +36,14 @@ const UserManuscriptCard = ({ manuscript, history }) => {
               <StatusTag status={status} />
             </Row>
             <ArticleType>{articleType}</ArticleType>
-            {professorName ? (
-              <EditorName>Professor: {professorName}</EditorName>
-            ) : (
-              <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
-            )}
+            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
           </Border>
         </Content>
       </ButtonCard>
       <RowStyled justify="flex-end" alignItems="flex-end">
-        <DeleteUserManuscript manuscript={manuscript} />
+        {status.toLowerCase() === 'submitted' && (
+          <DeleteUserManuscript manuscript={manuscript} />
+        )}
       </RowStyled>
     </StyledCard>
   )
@@ -111,13 +102,6 @@ const Abstract = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: ${th.colorGrey};
-`
-
-const EditorName = styled.div`
-  font-size: 0.9em;
-  width: 100%;
-  color: ${th.colorBlueGray};
-  font-weight: bold;
 `
 
 export default compose(mutations)(UserManuscriptCard)

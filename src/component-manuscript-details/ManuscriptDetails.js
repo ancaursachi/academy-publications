@@ -4,7 +4,12 @@ import { get, last } from 'lodash'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { th, Loader } from '../component-ui'
-import { ManuscriptDetailsCard } from '../component-manuscript-details'
+import {
+  ManuscriptDetailsCard,
+  EditorMakeDecisionCard,
+  EditorDecisionCard,
+  RevisionManuscriptCard,
+} from '../component-manuscript-details'
 
 const ManuscriptDetails = ({ match, ...rest }) => {
   const { submissionId } = match.params
@@ -21,10 +26,24 @@ const ManuscriptDetails = ({ match, ...rest }) => {
   }
 
   const manuscript = last(get(data, 'getSubmission', []))
+  const editorDecision = get(manuscript, 'editor.decision', null)
+  const userRole = get(manuscript, 'userRole', null)
+  const status = get(manuscript, 'status', null)
 
   return (
     <Root {...rest}>
-      {manuscript && <ManuscriptDetailsCard manuscript={manuscript} />}
+      <Container>
+        {manuscript && <ManuscriptDetailsCard manuscript={manuscript} pb={2} />}
+        {!editorDecision && userRole === 'professor' && (
+          <EditorMakeDecisionCard manuscript={manuscript} pb={2} />
+        )}
+        {editorDecision && (
+          <EditorDecisionCard manuscript={manuscript} pb={2} />
+        )}
+        {userRole === 'user' && status === 'revision' && (
+          <RevisionManuscriptCard manuscript={manuscript} pb={2} />
+        )}
+      </Container>
     </Root>
   )
 }
@@ -37,5 +56,6 @@ const Root = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
+const Container = styled.div``
 
 export default ManuscriptDetails

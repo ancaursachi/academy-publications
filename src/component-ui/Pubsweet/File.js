@@ -2,11 +2,13 @@ import React from 'react'
 import { get } from 'lodash'
 import styled from 'styled-components'
 import { withRouter } from 'react-router'
-import { Icon } from '../../component-ui'
-import th from '../theme'
+import { useQuery } from 'react-apollo-hooks'
 
-const parseFileSize = file => {
-  const size = get(file, 'size')
+import th from '../theme'
+import { Icon, Loader } from '../../component-ui'
+import { queries } from '../../qraphqlClient'
+
+const parseFileSize = size => {
   const kbSize = size / 1000
   const mbSize = kbSize / 1000
   const gbSize = mbSize / 1000
@@ -21,20 +23,35 @@ const parseFileSize = file => {
   return `${size} bytes`
 }
 const File = ({ file, onClick = () => {}, history, ...rest }) => {
-  const fileSize = parseFileSize(file)
+  const name = get(file, 'name', '')
+  const size = parseFileSize(get(file, 'size'))
+  const providerKey = get(file, 'providerKey', null)
+  const { data, loading } = useQuery(queries.getSignedUrl, {
+    variables: { providerKey },
+  })
+
+  if (loading) {
+    return (
+      <Wrapper>
+        <Loader iconSize={1} />
+      </Wrapper>
+    )
+  }
+
+  const signedUrl = get(data, 'signedUrl')
 
   return (
     <Root {...rest}>
       <FileInfo>
-        {file.filename}
-        <FileSize ml={2}>{fileSize}</FileSize>
+        {name}
+        <FileSize ml={2}>{size}</FileSize>
       </FileInfo>
 
       <Icon
         icon={'eye'}
         mr={0.5}
         ml={0.5}
-        onClick={() => window.open(file.url)}
+        onClick={() => window.open(signedUrl)}
       />
     </Root>
   )
@@ -69,4 +86,7 @@ const FileInfo = styled.div`
 const FileSize = styled.span`
   font-weight: 700;
   margin: 0px 8px;
+`
+const Wrapper = styled.div`
+  padding-left: 2.5em;
 `

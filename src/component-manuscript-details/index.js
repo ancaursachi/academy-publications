@@ -1,3 +1,6 @@
 export { default as ManuscriptDetailsPage } from './ManuscriptDetailsPage'
 export { default as ManuscriptDetails } from './ManuscriptDetails'
 export { default as ManuscriptDetailsCard } from './ManuscriptDetailsCard'
+export { default as EditorMakeDecisionCard } from './EditorMakeDecisionCard'
+export { default as EditorDecisionCard } from './EditorDecisionCard'
+export { default as RevisionManuscriptCard } from './RevisionManuscriptCard'

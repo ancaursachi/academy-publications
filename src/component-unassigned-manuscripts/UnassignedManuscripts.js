@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
-import { th, Loader, SearchBar } from '../component-ui'
+import { th, Loader, SearchBar, EmptyError } from '../component-ui'
 import { ManuscriptCardUnassigned } from '../component-unassigned-manuscripts'
 import styled from 'styled-components'
 
@@ -48,6 +48,9 @@ const UnassignedManuscripts = ({ ...rest }) => {
                     manuscript={manuscript}
                   />
                 ))}
+              {!manuscripts.length && (
+                <EmptyError>No available manuscripts to review</EmptyError>
+              )}
             </Content>
           </Root>
         )
@@ -55,6 +58,7 @@ const UnassignedManuscripts = ({ ...rest }) => {
     </Formik>
   )
 }
+
 const Root = styled.div`
   display: flex;
   justify-content: center;
@@ -71,4 +75,5 @@ const TitlePage = styled.div`
   padding-bottom: 1em;
   color: ${th.colorBlue};
 `
+
 export default UnassignedManuscripts

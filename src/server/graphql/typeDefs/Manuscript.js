@@ -6,59 +6,98 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    publicManuscripts: [Manuscript]
+    userManuscripts: [Manuscript]
     getSubmission(submissionId: ID!): [Submission]
     unassignedManuscripts: [Manuscript]
-    userManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
   }
+
+  type Author {
+    id: String
+    comment: String
+  }
+
+  input AuthorInput {
+    comment: String
+  }
+
+  type Editor {
+    id: String
+    name: String
+    decision: String
+    comment: String
+  }
+
+  input EditorInput {
+    decision: String
+    comment: String
+  }
+
   type Manuscript {
     _id: String!
     title: String
-    userId: String!
     created: Date
     abstract: String
     status: String
     version: Int
-    userComment: String
-    professorId: String
     articleType: String!
     submissionId: String!
-    fileId: String
-    professorName: String
-    professorComment: String
+    editor: Editor
+    author: Author
+    file: File
   }
 
   type Submission {
     _id: String!
     title: String
-    userId: String!
     created: Date
     abstract: String
     status: String
     version: Int
-    userComment: String
-    professorId: String
+    userRole: String
     articleType: String!
     submissionId: String!
-    fileId: String
-    professorComment: String
-    professorName: String
-    filename: String
-    size: String
-    url: String
+    editor: Editor
+    author: Author
+    file: File
   }
+
+  input FileInput {
+    providerKey: String
+    name: String
+    size: Int
+  }
+
   input ManuscriptInput {
     title: String
     abstract: String
     articleType: String
-    fileId: String
-    userComment: String
+    file: FileInput
+    author: AuthorInput
   }
+
+  input EditorInputOldManuscript {
+    id: String
+    name: String
+  }
+
+  input OldManuscript {
+    version: Int
+    submissionId: String!
+    editor: EditorInputOldManuscript
+  }
+
   type Mutation {
     createManuscript(input: ManuscriptInput): Manuscript
+    createRevision(
+      oldManuscript: OldManuscript
+      input: ManuscriptInput
+    ): Manuscript
     addEditorOnManuscript(_id: String!): Manuscript
     updateManuscript(_id: String, input: ManuscriptInput): Manuscript
     removeEditorFromManuscript(_id: String!): Manuscript
-    deleteManuscript(_id: String!): Manuscript
+    deleteManuscript(submissionId: String!): Boolean
+    addProfessorDecision(manuscriptId: String, input: EditorInput): Manuscript
   }
 `

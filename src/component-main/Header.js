@@ -10,8 +10,9 @@ const Header = ({ history, loggedInUser }) => {
   const firstName = get(loggedInUser, 'firstName', '')
   const lastName = get(loggedInUser, 'lastName', '')
   const handleLogout = () => {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('user')
+    // localStorage.removeItem('authToken')
+    // localStorage.removeItem('user')
+    localStorage.clear()
     history.push('/login')
     window.location.reload()
   }

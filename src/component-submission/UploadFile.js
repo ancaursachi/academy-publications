@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { uploadFile } from '../qraphqlClient/mutations'
 import { FilePicker, ActionLink, Icon, File } from '../component-ui'
@@ -6,32 +6,35 @@ import { useMutation } from 'react-apollo-hooks'
 import { useFetching, Loader, th, Row } from '../component-ui'
 
 const useUploadFile = () => {
-  const [file, setFile] = useState()
+  const [updatedFile, setFile] = useState()
   const { isFetching, setFetching } = useFetching()
   const useUploadMutation = useMutation(uploadFile)
-
-  const onUploadFile = (file, manuscriptId) => {
+  const onUploadFile = file => {
     setFetching(true)
     useUploadMutation({
-      variables: { file, type: file.type, size: file.size, manuscriptId },
+      variables: { file, type: file.type, size: file.size },
     }).then(r => {
       setFile(r.data.uploadFile)
       setFetching(false)
     })
   }
 
-  return { file, onUploadFile, isFetching }
+  return { updatedFile, onUploadFile, isFetching }
 }
 
-const UploadFile = ({ history, match }) => {
-  const { onUploadFile, file, isFetching } = useUploadFile()
-  const { manuscriptId } = match.params
+const UploadFile = ({ history, match, currentFile, setFile, file }) => {
+  const { onUploadFile, updatedFile, isFetching } = useUploadFile()
+
+  useEffect(() => {
+    if (!updatedFile) return
+    setFile(updatedFile)
+  }, [updatedFile])
 
   return (
     <Root>
       <FilePicker
         allowedFileExtensions={['pdf']}
-        onUpload={file => onUploadFile(file, manuscriptId)}
+        onUpload={file => onUploadFile(file)}
       >
         <ActionLink fontSize="12px" fontWeight="bold" size="small">
           <Row justify={'flex-start'}>

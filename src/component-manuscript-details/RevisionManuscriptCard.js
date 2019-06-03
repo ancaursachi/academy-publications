@@ -3,70 +3,82 @@ import { compose } from 'recompose'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { Formik } from 'formik'
+import { get } from 'lodash'
+import { useMutation } from 'react-apollo-hooks'
+
 import {
   th,
   Row,
-  Card,
   Button,
   InputForm,
   InputSelect,
+  DetailsCard,
   InputTextarea,
 } from '../component-ui'
 import { mutations, queries } from '../qraphqlClient'
 import { submissionValidation, UploadFile } from '../component-submission'
-import { useMutation } from 'react-apollo-hooks'
-import { createManuscript } from '../qraphqlClient/mutations'
+import { createRevision } from '../qraphqlClient/mutations'
 
-const useCreateManuscript = () => {
-  const useCreateManuscriptMutation = useMutation(createManuscript)
-  const onCreateManuscript = (input, file, history) => {
+const useCreateRevision = () => {
+  const useCreateRevisionMutation = useMutation(createRevision)
+  const onCreateRevision = (input, file, history, manuscript) => {
     if (file) {
-      useCreateManuscriptMutation({
+      useCreateRevisionMutation({
         variables: {
+          oldManuscript: {
+            submissionId: manuscript.submissionId,
+            version: manuscript.version,
+            editor: {
+              id: manuscript.editor.id,
+              name: manuscript.editor.name,
+            },
+          },
           input: { file, ...input },
         },
         refetchQueries: [
           {
+            query: queries.getSubmission,
+            variables: { submissionId: manuscript.submissionId },
+          },
+          {
             query: queries.getUserManuscripts,
           },
         ],
-      }).then(r => history.push(`/userManuscripts`))
+      })
     }
   }
-  return { onCreateManuscript }
+  return { onCreateRevision }
 }
 
-const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
-  const { onCreateManuscript } = useCreateManuscript()
+const RevisionManuscriptCard = ({
+  updateManuscript,
+  history,
+  match,
+  manuscript,
+  ...rest
+}) => {
+  const { onCreateRevision } = useCreateRevision()
 
   const initialValues = {
-    title: '',
-    articleType: 'Research article',
-    abstract: '',
+    title: get(manuscript, 'title', ''),
+    articleType: get(manuscript, 'articleType', ''),
+    abstract: get(manuscript, 'abstract', ''),
     author: { comment: '' },
   }
-  const [file, setFile] = useState(null)
 
+  const [file, setFile] = useState(get(manuscript, 'file', null))
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={submissionValidation}
-      onSubmit={input => onCreateManuscript(input, file, history)}
+      onSubmit={input => onCreateRevision(input, file, history, manuscript)}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
           <Root {...rest}>
-            <Card
-              borderRadius={'5px 5px 5px 5px'}
-              width={40}
-              mb={4}
-              pt={2.2}
-              pr={2}
-              pl={2}
-              pb={2}
-            >
-              <Title>Manuscript Details</Title>
-              <Row mt={2}>
+            <DetailsCard>
+              <Title>Revision</Title>
+              <Row mt={1.5} justify={'flex-start'}>
                 <InputForm
                   label="Manuscript Title"
                   name="title"
@@ -78,6 +90,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                   error={errors.title}
                 />
                 <InputSelect
+                  pl={2}
                   label="Manuscript Type"
                   name="articleType"
                   type="text"
@@ -90,6 +103,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                   error={errors.articleType}
                 />
               </Row>
+
               <InputTextarea
                 label="Abstract"
                 name="abstract"
@@ -121,7 +135,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
               <Row mt={1} mr={20} mb={0.5} justify="flex-end">
                 <Button
                   underline
-                  name="Submit"
+                  name="Revision"
                   type="submit"
                   fontSize={1.2}
                   color={th.colorBlueLight}
@@ -129,7 +143,7 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                   onClick={handleSubmit}
                 />
               </Row>
-            </Card>
+            </DetailsCard>
           </Root>
         )
       }}
@@ -140,18 +154,18 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
 export default compose(
   mutations,
   withRouter,
-)(SubmissionForm)
+)(RevisionManuscriptCard)
 
 const Root = styled.div`
   display: flex;
+  font-family: 'Nunito';
   justify-content: center;
+
   ${th.marginHelper};
   ${th.paddingHelper};
 `
 const Title = styled.div`
-  font-size: 1.7em;
-  display: flex;
-  justify-content: center;
+  font-size: 25px;
   font-weight: 600;
   color: ${th.colorBlueLight};
 `

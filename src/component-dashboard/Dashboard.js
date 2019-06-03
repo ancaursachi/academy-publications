@@ -3,12 +3,19 @@ import { Formik } from 'formik'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
-import { th, Loader, SearchBar } from '../component-ui'
-import { ManuscriptCard } from '../component-dashboard'
+import { th, Loader, SearchBar, EmptyError } from '../component-ui'
+import { DashboardCard } from '../component-dashboard'
 import styled from 'styled-components'
 
-const Dashboard = ({ ...rest }) => {
-  const { data, loading } = useQuery(queries.getUnassignedManuscripts)
+const Dashboard = ({ history, ...rest }) => {
+  const { data, loading } = useQuery(queries.getPublicManuscripts)
+
+  const initialValues = { searchValue: '', searchType: 'title' }
+  const manuscripts = get(data, 'publicManuscripts', [])
+  const sortedManuscripts = sortBy(
+    manuscripts,
+    manuscript => -manuscript.created,
+  )
 
   if (loading) {
     return (
@@ -17,13 +24,6 @@ const Dashboard = ({ ...rest }) => {
       </Root>
     )
   }
-  const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'unassignedManuscripts', [])
-  const sortedManuscripts = sortBy(
-    manuscripts,
-    manuscript => -manuscript.created,
-  )
-
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {
@@ -43,11 +43,15 @@ const Dashboard = ({ ...rest }) => {
                     .includes(values.searchValue.toLowerCase()),
                 )
                 .map(manuscript => (
-                  <ManuscriptCard
+                  <DashboardCard
                     key={manuscript._id}
                     manuscript={manuscript}
+                    history={history}
                   />
                 ))}
+              {!manuscripts.length && (
+                <EmptyError>No manuscripts published</EmptyError>
+              )}
             </Content>
           </Root>
         )
@@ -55,9 +59,9 @@ const Dashboard = ({ ...rest }) => {
     </Formik>
   )
 }
-
 const Root = styled.div`
   display: flex;
+  font-family: 'Nunito';
   justify-content: center;
   flex-wrap: wrap;
   ${th.marginHelper};
@@ -65,6 +69,7 @@ const Root = styled.div`
 `
 const Content = styled.div``
 const TitlePage = styled.div`
+  font-family: 'Nunito';
   font-size: 1.6em;
   font-weight: 600;
   width: 100%;

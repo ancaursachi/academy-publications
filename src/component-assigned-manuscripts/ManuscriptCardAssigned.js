@@ -1,14 +1,15 @@
 import React from 'react'
 import { Card, Row, th, StatusTag } from '../component-ui'
 import styled from 'styled-components'
+import { get } from 'lodash'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 
 const ManuscriptCardAssigned = ({ manuscript, history }) => {
-  const { submissionId, title, articleType, professorName, status } = manuscript
-
-  const handleReview = () => {
+  const { submissionId, title, articleType, status } = manuscript
+  const editorName = get(manuscript, 'editor.name', null)
+  const handleSubmission = () => {
     history.push(`/manuscriptsDetails/${submissionId}`)
   }
 
@@ -24,7 +25,7 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
       pl={0.5}
       pb={1}
     >
-      <ButtonCard onClick={handleReview}>
+      <ButtonCard onClick={handleSubmission}>
         <Content>
           <Border>
             <Row>
@@ -32,7 +33,7 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
               <StatusTag status={status} />
             </Row>
             <ArticleType>{articleType}</ArticleType>
-            <EditorName>Professor: {professorName}</EditorName>
+            <EditorName>Editor: {editorName}</EditorName>
           </Border>
         </Content>
       </ButtonCard>

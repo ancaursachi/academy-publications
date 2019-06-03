@@ -35,60 +35,89 @@ const queries = {
     query manuscripts {
       manuscripts {
         _id
-        fileId
         title
-        userId
         created
         status
         version
         abstract
-        professorId
         articleType
-        professorName
-        professorComment
-        userComment
         submissionId
+        editor {
+          id
+          name
+          decision
+          comment
+        }
       }
     }
   `,
+  getPublicManuscripts: gql`
+    query publicManuscripts {
+      publicManuscripts {
+        _id
+        title
+        created
+        status
+        version
+        abstract
+        articleType
+        submissionId
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+      }
+    }
+  `,
+
   getSubmission: gql`
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
-        fileId
-        filename
-        size
-        url
         title
-        userId
         created
         status
         version
+        userRole
         abstract
-        professorId
         articleType
-        professorName
-        professorComment
-        userComment
         submissionId
+        author {
+          id
+          comment
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+        file {
+          name
+          size
+          providerKey
+        }
       }
+    }
+  `,
+  getSignedUrl: gql`
+    query signedUrl($providerKey: String) {
+      signedUrl(providerKey: $providerKey)
     }
   `,
   getUserManuscripts: gql`
     query userManuscripts {
       userManuscripts {
         _id
-        fileId
         title
-        userId
         status
         version
         created
         abstract
         submissionId
-        professorId
         articleType
-        professorName
       }
     }
   `,
@@ -115,10 +144,11 @@ const queries = {
         created
         abstract
         articleType
-        userComment
         submissionId
-        professorName
-        professorComment
+        editor {
+          id
+          name
+        }
       }
     }
   `,

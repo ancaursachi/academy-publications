@@ -3,10 +3,9 @@ const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
-const File = require('../../models/File')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
-const s3Service = require('../../s3Service')
+const { chain, last } = require('lodash')
 
 const models = {
   Upload: GraphQLUpload,
@@ -46,50 +45,94 @@ const models = {
     manuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin'])
       const manuscripts = await Manuscript.find()
-      const users = await User.find()
+      const users = await User.find({
+        role: 'professor',
+      })
 
-      const newManuscripts = manuscripts
-        .filter(manuscript => manuscript.status.toLowerCase() !== 'draft')
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
         .map(manuscript => {
-          if (!manuscript.professorId) {
-            return manuscript
-          }
-          const findUser = users.find(
-            user => manuscript.professorId === user._id.toString(),
-          )
-
-          return {
-            ...manuscript._doc,
-            professorName: `${findUser.firstName} ${findUser.lastName}`,
-          }
+          return last(manuscript)
         })
+        .value()
+
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
+        )
+        const { editor, ...restManuscript } = manuscript._doc
+
+        return {
+          editor: {
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
+            ...editor,
+          },
+          ...restManuscript,
+        }
+      })
+      return newManuscripts
+    },
+    publicManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      const manuscripts = await Manuscript.find()
+      const users = await User.find({
+        role: 'professor',
+      })
+
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
+
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
+        )
+        const { editor, ...restManuscript } = manuscript._doc
+
+        return {
+          editor: {
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
+            ...editor,
+          },
+          ...restManuscript,
+        }
+      })
       return newManuscripts
     },
     getSubmission: async (parent, { submissionId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
 
-      const files = await File.find()
+      const { role } = loggedInUser
       const manuscripts = await Manuscript.find({ submissionId })
       const users = await User.find()
 
       const newManuscripts = manuscripts.map(async manuscript => {
-        const findFile = files.find(
-          file => manuscript.fileId === file._id.toString(),
+        const findEditor = users.find(
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
         )
-
-        const findUser = users.find(
-          user => manuscript.professorId === user._id.toString(),
-        )
-
-        const url = await s3Service.getSignedUrl(findFile.providerKey)
+        const { editor, ...restManuscript } = manuscript._doc
         return {
-          ...manuscript._doc,
-          filename: findFile.filename,
-          size: findFile.size,
-          url,
-          professorName: findUser
-            ? `${findUser.firstName} ${findUser.lastName}`
-            : null,
+          userRole: role,
+          editor: {
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
+            ...editor,
+          },
+          ...restManuscript,
         }
       })
 
@@ -98,26 +141,20 @@ const models = {
     userManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
 
-      const manuscripts = await Manuscript.find({ userId: loggedInUser._id })
-      const users = await User.find()
-
-      const newManuscripts = manuscripts.map(manuscript => {
-        if (!manuscript.professorId) {
-          return manuscript
-        }
-        const findUser = users.find(
-          user => manuscript.professorId === user._id.toString(),
-        )
-        return {
-          ...manuscript._doc,
-          professorName: `${findUser.firstName} ${findUser.lastName}`,
-        }
+      const manuscripts = await Manuscript.find({
+        'author.id': loggedInUser._id,
       })
-      return newManuscripts
+
+      return chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
     },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
-      const manuscripts = await Manuscript.find({ professorId: null })
+      const manuscripts = await Manuscript.find({ 'editor.id': null })
       const filteredManuscripts = manuscripts.filter(
         manuscript => manuscript.status.toLowerCase() !== 'draft',
       )
@@ -128,56 +165,104 @@ const models = {
       policyRole(loggedInUser, ['professor'])
 
       const manuscripts = await Manuscript.find({
-        professorId: { $ne: null, $regex: loggedInUser._id },
+        'editor.id': loggedInUser._id,
       })
+
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
+
       const users = await User.find({
         role: 'professor',
       })
 
-      const newManuscripts = manuscripts.map(manuscript => {
-        const findUser = users.find(
-          user => user._id.toString() === manuscript.professorId,
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
+          user => user._id.toHexString() === manuscript.editor.id.toHexString(),
         )
+        const { editor, ...restManuscript } = manuscript._doc
+
         return {
-          ...manuscript._doc,
-          professorName: `${findUser.firstName} ${findUser.lastName}`,
+          editor: {
+            name: `${findEditor.firstName} ${findEditor.lastName}`,
+            ...editor,
+          },
+          ...restManuscript,
         }
       })
       return newManuscripts
     },
   },
   Mutation: {
-    createManuscript: async (parent, args, { loggedInUser }) => {
+    createManuscript: async (parent, { input }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user'])
-      const createdDate = new Date()
-
-      let submissionId = ObjectId()
+      const {
+        author: { comment },
+        ...restInput
+      } = input
 
       const newManuscript = new Manuscript({
-        ...args.input,
-        submissionId,
-        created: createdDate,
-        status: 'Draft',
+        submissionId: ObjectId(),
+        created: new Date(),
+        status: 'submitted',
         version: 1,
-        userId: loggedInUser._id,
+        ...restInput,
+        author: {
+          id: loggedInUser._id,
+          comment,
+        },
+      })
+
+      await newManuscript.save()
+      return newManuscript
+    },
+    createRevision: async (
+      parent,
+      { oldManuscript, input },
+      { loggedInUser },
+    ) => {
+      policyRole(loggedInUser, ['user'])
+
+      const {
+        author: { comment },
+        ...restInput
+      } = input
+
+      const newManuscript = new Manuscript({
+        submissionId: oldManuscript.submissionId,
+        created: new Date(),
+        status: 'Submitted Revision',
+        version: oldManuscript.version + 1,
+        ...restInput,
+        editor: {
+          id: ObjectId(oldManuscript.editor.id),
+          name: oldManuscript.editor.name,
+        },
+        author: {
+          id: loggedInUser._id,
+          comment,
+        },
       })
       await newManuscript.save()
       return newManuscript
     },
-    deleteManuscript: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin', 'user'])
-      const manuscript = await Manuscript.findOneAndRemove({ _id })
 
-      if (!manuscript) {
-        throw new Error("You can't delete a non existent manuscript")
-      } else return manuscript
+    deleteManuscript: async (parent, { submissionId }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user'])
+      await Manuscript.remove({ submissionId })
     },
+
     addEditorOnManuscript: async (parent, { _id }, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
 
       const manuscript = await Manuscript.findOneAndUpdate(
-        { _id: _id, professorId: null },
-        { $set: { professorId: loggedInUser._id, status: 'Editor Assigned' } },
+        { _id: _id, 'editor.id': null },
+        {
+          $set: { 'editor.id': loggedInUser._id, status: 'Editor Assigned' },
+        },
         { new: true },
       )
       if (!manuscript) {
@@ -186,12 +271,13 @@ const models = {
         return manuscript
       }
     },
+
     removeEditorFromManuscript: async (parent, { _id }, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor', 'admin'])
 
       const manuscript = await Manuscript.findOneAndUpdate(
-        { _id, professorId: { $ne: null } },
-        { $set: { professorId: null, status: 'Submitted' } },
+        { _id },
+        { $unset: { editor: 1 }, $set: { status: 'submitted' } },
         { new: true },
       )
 
@@ -215,7 +301,7 @@ const models = {
             articleType,
             userComment,
             fileId: file._id,
-            status: 'Submitted',
+            status: 'submitted',
           },
         },
         { new: true },
@@ -225,6 +311,26 @@ const models = {
       } else {
         return manuscript
       }
+    },
+    addProfessorDecision: async (
+      parent,
+      { manuscriptId, input },
+      { loggedInUser },
+    ) => {
+      policyRole(loggedInUser, ['professor'])
+      const { decision, comment } = input
+      const manuscript = await Manuscript.findOneAndUpdate(
+        { _id: manuscriptId },
+        {
+          $set: {
+            'editor.decision': decision,
+            'editor.comment': comment,
+            status: decision,
+          },
+        },
+        { new: true },
+      )
+      return manuscript
     },
   },
 }

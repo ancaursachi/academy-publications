@@ -1,51 +1,55 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, File, Row, StatusTag } from '../component-ui'
+import { th, File, Row, StatusTag, DetailsCard } from '../component-ui'
 
 const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
-  const file = {
-    filename: get(manuscript, 'filename'),
-    size: get(manuscript, 'size'),
-    url: get(manuscript, 'url'),
-  }
+  const title = get(manuscript, 'title', '')
+  const status = get(manuscript, 'status', '')
+  const articleType = get(manuscript, 'articleType', '')
+  const version = get(manuscript, 'version', '')
+  const abstract = get(manuscript, 'abstract', '')
+  const professorName = get(manuscript, 'professorName', null)
+  const file = get(manuscript, 'file', null)
+  const authorComment = get(manuscript, 'author.comment', null)
+
   return (
     <Root {...rest}>
-      <Card pt={2} pr={2} pl={2} pb={2}>
+      <DetailsCard pt={2} pr={2} pl={2} pb={2}>
         <Row>
-          <Title>{get(manuscript, 'title')}</Title>
-          <StatusTag status={`Version ${get(manuscript, 'version')}`} />
+          <Title>{title}</Title>
+          <StatusTag status={status} />
         </Row>
 
-        <ArticleType>{get(manuscript, 'articleType')}</ArticleType>
+        <Row>
+          <ArticleType>{articleType}</ArticleType>
+          <VersionTag>Version {version}</VersionTag>
+        </Row>
 
-        {get(manuscript, 'professorName') && (
+        {professorName && (
           <Fragment>
             <Label>Professor</Label>
-            <Abstract>{get(manuscript, 'professorName')}</Abstract>
+            <Abstract>{professorName}</Abstract>
           </Fragment>
         )}
 
         <Label>Abstract</Label>
-        <Abstract>{get(manuscript, 'abstract')}</Abstract>
+        <Abstract>{abstract}</Abstract>
 
         <Label>File</Label>
-        <File file={file} />
-      </Card>
+        <File file={file} mb={0.8} />
+
+        {authorComment && (
+          <Fragment>
+            <Label>Author Comment</Label>
+            <Abstract>{authorComment}</Abstract>
+          </Fragment>
+        )}
+      </DetailsCard>
     </Root>
   )
 }
-const Card = styled.div`
-  background-color: white;
-  font-family: 'Nunito';
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '0px')};
-  height: fit-content;
-  width: 40px;
-  width: 50em;
-  ${th.marginHelper}
-  ${th.paddingHelper}
-`
+
 const Root = styled.div`
   display: flex;
   font-family: 'Nunito';
@@ -67,6 +71,10 @@ const ArticleType = styled.div`
   white-space: nowrap;
   color: ${th.colorGrey};
   text-overflow: ellipsis;
+`
+const VersionTag = styled.div`
+  color: ${th.colorGrey};
+  white-space: nowrap;
 `
 const Abstract = styled.div`
   font-size: 16px;
