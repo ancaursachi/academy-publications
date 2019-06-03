@@ -5,10 +5,10 @@ import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 
 const DashboardCard = ({ manuscript, history }) => {
-  const { title, articleType, abstract, submissionId } = manuscript
+  const { _id, title, articleType, abstract, submissionId } = manuscript
 
   const handleReview = () => {
-    history.push(`/manuscriptsDetails/${submissionId}`)
+    history.push(`/publicManuscripts/${_id}`)
   }
 
   return (

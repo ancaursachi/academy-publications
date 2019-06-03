@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthentificationPage } from '../component-authentification'
 import { DashboardPage } from '../component-dashboard'
+import { PdfViewerPage } from '../component-pdf-viewer'
 import { Header } from '../component-main'
 import { SubmissionPage } from '../component-submission'
 import { AssignedManuscriptsPage } from '../component-assigned-manuscripts'
@@ -49,6 +50,13 @@ const Routing = () => {
           path="/publicManuscripts"
           policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
           component={DashboardPage}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/publicManuscripts/:manuscriptId"
+          policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
+          component={PdfViewerPage}
         />
         <PrivateRoute
           exact
