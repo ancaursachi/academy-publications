@@ -41,6 +41,7 @@ module.exports = gql`
     abstract: String
     status: String
     version: Int
+    userRole: String
     articleType: String!
     submissionId: String!
     editor: Editor

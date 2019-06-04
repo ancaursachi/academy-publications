@@ -1,34 +1,24 @@
 import React from 'react'
-import { Card, Row, th } from '../component-ui'
+import { Card, th } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
 
 const DashboardCard = ({ manuscript, history }) => {
-  const { _id, title, articleType, abstract, submissionId } = manuscript
+  const { _id, title, articleType, abstract } = manuscript
 
   const handleReview = () => {
     history.push(`/publicManuscripts/${_id}`)
   }
 
   return (
-    <StyledCard
-      borderRadius={'5px 5px 5px 5px'}
-      width={45}
-      height={10}
-      mt={0.5}
-      mb={0.5}
-      pt={1}
-      pr={0.5}
-      pl={0.5}
-      pb={1}
-    >
+    <StyledCard mt={0.5} mb={0.5} pt={1} pr={0.5} pl={0.5} pb={1}>
       <ButtonCard onClick={handleReview}>
         <Content>
           <Border>
             <Title>{title}</Title>
             <ArticleType>{articleType}</ArticleType>
-            <Abstract>Abstract: {abstract}</Abstract>
+            <Abstract>{abstract}</Abstract>
           </Border>
         </Content>
       </ButtonCard>
@@ -37,13 +27,11 @@ const DashboardCard = ({ manuscript, history }) => {
 }
 const StyledCard = styled(Card)`
   position: relative;
+  border-radius: 5px;
   font-family: 'Nunito';
+  padding: 1em 0.5em;
 `
-const RowStyled = styled(Row)`
-  position: absolute;
-  right: 37px;
-  bottom: 2px;
-`
+
 const Content = styled.div`
   display: flex;
   height: 100%;
@@ -86,9 +74,6 @@ const Abstract = styled.div`
   font-size: 0.8em;
   width: 100%;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: ${th.colorGrey};
 `
 
 export default compose(mutations)(DashboardCard)

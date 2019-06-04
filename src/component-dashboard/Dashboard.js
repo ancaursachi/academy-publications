@@ -16,43 +16,45 @@ const Dashboard = ({ history, ...rest }) => {
     manuscripts,
     manuscript => -manuscript.created,
   )
-
-  if (loading) {
-    return (
-      <Root {...rest}>
-        <Loader />
-      </Root>
-    )
-  }
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {
         return (
           <Root {...rest}>
-            <Content>
-              <TitlePage>Public manuscripts</TitlePage>
-              <SearchBar
-                values={values}
-                handleChange={handleChange}
-                options={['title', 'abstract', 'articleType']}
-              />
-              {sortedManuscripts
-                .filter(manuscript =>
-                  manuscript[values.searchType]
-                    .toLowerCase()
-                    .includes(values.searchValue.toLowerCase()),
-                )
-                .map(manuscript => (
-                  <DashboardCard
-                    key={manuscript._id}
-                    manuscript={manuscript}
-                    history={history}
+            <Column />
+            <Column>
+              {loading ? (
+                <RootLoader {...rest}>
+                  <Loader iconSize={2} />
+                </RootLoader>
+              ) : (
+                <Content>
+                  <TitlePage>Public manuscripts</TitlePage>
+                  <SearchBar
+                    values={values}
+                    handleChange={handleChange}
+                    options={['title', 'abstract', 'articleType']}
                   />
-                ))}
-              {!manuscripts.length && (
-                <EmptyError>No manuscripts published</EmptyError>
+                  {sortedManuscripts
+                    .filter(manuscript =>
+                      manuscript[values.searchType]
+                        .toLowerCase()
+                        .includes(values.searchValue.toLowerCase()),
+                    )
+                    .map(manuscript => (
+                      <DashboardCard
+                        key={manuscript._id}
+                        manuscript={manuscript}
+                        history={history}
+                      />
+                    ))}
+                  {!manuscripts.length && (
+                    <EmptyError>No manuscripts published</EmptyError>
+                  )}
+                </Content>
               )}
-            </Content>
+            </Column>
+            <Column />
           </Root>
         )
       }}
@@ -60,14 +62,22 @@ const Dashboard = ({ history, ...rest }) => {
   )
 }
 const Root = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
   font-family: 'Nunito';
-  justify-content: center;
-  flex-wrap: wrap;
   ${th.marginHelper};
   ${th.paddingHelper};
 `
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
+`
+const Column = styled.div``
 const Content = styled.div``
+
 const TitlePage = styled.div`
   font-family: 'Nunito';
   font-size: 1.6em;

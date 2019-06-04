@@ -8,6 +8,6 @@ export const submissionValidation = Yup.object().shape({
 
   abstract: Yup.string()
     .min(2, 'Too Short!')
-    .max(500, 'Too Long!')
+    .max(800, 'Too Long!')
     .required('Required'),
 })

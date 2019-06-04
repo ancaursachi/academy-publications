@@ -51,6 +51,36 @@ const queries = {
       }
     }
   `,
+  getManuscript: gql`
+    query manuscript($_id: ID!) {
+      manuscript(_id: $_id) {
+        _id
+        title
+        created
+        status
+        version
+        userRole
+        abstract
+        articleType
+        submissionId
+        author {
+          id
+          comment
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+        file {
+          name
+          size
+          providerKey
+        }
+      }
+    }
+  `,
   getPublicManuscripts: gql`
     query publicManuscripts {
       publicManuscripts {

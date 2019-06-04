@@ -27,19 +27,27 @@ const models = {
   }),
   Query: {
     manuscript: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
       const manuscript = await Manuscript.findOne({ _id })
       const users = await User.find()
 
-      if (!manuscript.professorId) {
+      if (!manuscript.editor) {
         return manuscript
       }
-      const findUser = users.find(
-        user => manuscript.professorId === user._id.toString(),
+      const findEditor = users.find(
+        user =>
+          manuscript.editor &&
+          manuscript.editor.id.toHexString() === user._id.toHexString(),
       )
+      const { editor, ...restManuscript } = manuscript._doc
       return {
-        ...manuscript._doc,
-        professorName: `${findUser.firstName} ${findUser.lastName}`,
+        editor: {
+          name: findEditor
+            ? `${findEditor.firstName} ${findEditor.lastName}`
+            : null,
+          ...editor,
+        },
+        ...restManuscript,
       }
     },
     manuscripts: async (parent, args, { loggedInUser }) => {

@@ -7,11 +7,11 @@ import { withRouter } from 'react-router-dom'
 import { PdfViewer } from '../component-pdf-viewer'
 import { SideMenu } from '../component-ui'
 
-const PdfViewerPage = ({ history }) => {
+const PdfViewerPage = ({ history, match }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <PdfViewer history={history} pt={6} pb={3} />
+      <PdfViewer history={history} match={match} pt={6} pb={3} />
     </Root>
   )
 }
