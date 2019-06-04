@@ -45,7 +45,7 @@ const ManuscriptCardUnassigned = ({
         <RowStyled justify="flex-end" alignItems="flex-end">
           <Button
             iconName={'check'}
-            decisionDash
+            reviewManuscript
             color={th.colorGreenLight}
             onClick={handleShowModal}
           />

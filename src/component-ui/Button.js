@@ -33,9 +33,17 @@ const helper = props => {
     return css`
       width: 2em;
       height: 2em;
+      background-color:${th.colorWhite}
+      color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
+    `
+  }
+  if (get(props, 'reviewManuscript')) {
+    return css`
+      width: 2em;
+      height: 2em;
       bottom: -30px;
       position: absolute;
-      background-color:${th.colorWhite}
+      background-color: ${th.colorWhite};
       color: ${props => (get(props, 'color') ? props.color : th.colorDark)};
     `
   }
