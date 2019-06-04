@@ -17,14 +17,6 @@ const ManuscriptDetails = ({ match, ...rest }) => {
     variables: { submissionId },
   })
 
-  if (loading) {
-    return (
-      <Root {...rest}>
-        <Loader />
-      </Root>
-    )
-  }
-
   const manuscript = last(get(data, 'getSubmission', []))
   const editorDecision = get(manuscript, 'editor.decision', null)
   const userRole = get(manuscript, 'userRole', null)
@@ -32,30 +24,48 @@ const ManuscriptDetails = ({ match, ...rest }) => {
 
   return (
     <Root {...rest}>
-      <Container>
-        {manuscript && <ManuscriptDetailsCard manuscript={manuscript} pb={2} />}
-        {!editorDecision && userRole === 'professor' && (
-          <EditorMakeDecisionCard manuscript={manuscript} pb={2} />
-        )}
-        {editorDecision && (
-          <EditorDecisionCard manuscript={manuscript} pb={2} />
-        )}
-        {userRole === 'user' && status === 'revision' && (
-          <RevisionManuscriptCard manuscript={manuscript} pb={2} />
-        )}
-      </Container>
+      <Column />
+      {loading ? (
+        <RootLoader {...rest}>
+          <Loader iconSize={2} />
+        </RootLoader>
+      ) : (
+        <Container>
+          {manuscript && (
+            <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
+          )}
+          {!editorDecision && userRole === 'professor' && (
+            <EditorMakeDecisionCard manuscript={manuscript} mb={2} />
+          )}
+          {editorDecision && (
+            <EditorDecisionCard manuscript={manuscript} mb={2} />
+          )}
+          {userRole === 'user' && status === 'revision' && (
+            <RevisionManuscriptCard manuscript={manuscript} mb={2} />
+          )}
+        </Container>
+      )}
+      <Column />
     </Root>
   )
 }
 
 const Root = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
   font-family: 'Nunito';
-  justify-content: center;
 
   ${th.marginHelper};
   ${th.paddingHelper};
 `
 const Container = styled.div``
+const Column = styled.div``
 
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
+`
 export default ManuscriptDetails

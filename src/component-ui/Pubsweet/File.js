@@ -67,7 +67,6 @@ const Root = styled.div`
   border: 1px solid #ccc;
   height: 40px;
   width: fit-content;
-  position: relative;
   white-space: nowrap;
   ${th.marginHelper}
   ${th.paddingHelper}

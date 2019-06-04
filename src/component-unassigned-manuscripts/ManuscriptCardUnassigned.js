@@ -41,7 +41,7 @@ const ManuscriptCardUnassigned = ({
           <StatusTag status={status} />
         </Row>
         <ArticleType>{articleType}</ArticleType>
-        <Abstract>Abstract: {abstract}</Abstract>
+        <Abstract>{abstract}</Abstract>
         <RowStyled justify="flex-end" alignItems="flex-end">
           <Button
             iconName={'check'}
@@ -96,9 +96,8 @@ const ArticleType = styled.div`
 `
 
 const Abstract = styled.div`
-  font-size: 0.8em;
+  font-size: 14px;
   width: 100%;
-  overflow: hidden;
 `
 
 export default compose(mutations)(ManuscriptCardUnassigned)

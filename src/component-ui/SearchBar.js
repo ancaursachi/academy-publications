@@ -29,7 +29,7 @@ const SearchBar = ({ values, handleChange, options }) => {
 
 const Root = styled.div`
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 60% 40%;
 `
 const Column = styled.div``
 const Content = styled.div`

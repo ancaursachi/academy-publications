@@ -82,9 +82,8 @@ const ButtonCard = styled.button`
   padding: 0.5em;
 `
 const Abstract = styled.div`
-  font-size: 0.8em;
+  font-size: 14px;
   width: 100%;
-  overflow: hidden;
 `
 
 export default compose(mutations)(UserManuscriptCard)

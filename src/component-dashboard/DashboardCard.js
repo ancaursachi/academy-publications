@@ -65,7 +65,7 @@ const ButtonCard = styled.button`
   }
 `
 const Abstract = styled.div`
-  font-size: 0.8em;
+  font-size: 14px;
   width: 100%;
   overflow: hidden;
 `
