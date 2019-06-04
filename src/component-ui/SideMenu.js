@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, Button, Loader } from '../component-ui'
+import { th } from '../component-ui'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 
@@ -11,16 +11,7 @@ const policyRole = (loggedInUser, roles) => {
 }
 
 const SideMenu = ({ history, ...props }) => {
-  const { data, loading } = useQuery(queries.getLoggedInUser)
-  if (loading) {
-    return (
-      <Root {...props}>
-        <Content>
-          <Loader />
-        </Content>
-      </Root>
-    )
-  }
+  const { data } = useQuery(queries.getLoggedInUser)
   const { loggedInUser } = data
   return (
     <Root {...props}>
@@ -41,6 +32,7 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
+            iconLeft
             iconName="plus"
             name="Create manuscript"
             onClick={() => history.push('/submission')}
@@ -110,22 +102,63 @@ const SideMenu = ({ history, ...props }) => {
     </Root>
   )
 }
+const Button = ({
+  name,
+  iconName,
+  iconLeft,
+  type = 'button',
+  onClick,
+  ...props
+}) => {
+  return (
+    <RootButton type={type} onClick={onClick}>
+      <Title>{name}</Title>
+    </RootButton>
+  )
+}
+const Title = styled.p`
+  margin: 0em;
+  font-size: 1.1rem;
+`
+const RootButton = styled.button`
+  background-color: transparent;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  border: none;
+  transition: all 0.4s ease 0s;
+  width: 100%;
+  height: fit-content;
+  margin: 25px 0px;
+  padding: 0px 10px;
+  color: ${th.colorWhite};
+  :focus {
+    outline: none;
+  }
+  :hover {
+    color: ${th.colorCremLight};
+    font-weight: 600;
+  }
+  :active {
+    color: ${th.colorCremLight};
+  }
+
+  font-weight: normal;
+`
 
 const Root = styled.div`
   font-family: 'Nunito';
   background-color: ${th.colorBlue};
   height: 100%;
   width: 100%;
-  display: flex;
   box-shadow: 0em 0em 0.6em 0em rgba(0, 0, 0, 0.5);
   align-items: flex-start;
-  justify-content: center;
   ${th.marginHelper}
   ${th.paddingHelper}
 `
 
 const Content = styled.div`
-  position: fixed;
+  /* position: fixed; */
 `
 // const NavButton = styled(NavLink)`
 //   background-color: transparent;

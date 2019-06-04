@@ -17,42 +17,45 @@ const AssignedManuscripts = ({ history, ...rest }) => {
     manuscript => -manuscript.created,
   )
 
-  if (loading) {
-    return (
-      <Root {...rest}>
-        <Loader />
-      </Root>
-    )
-  }
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {
         return (
           <Root {...rest}>
-            <Content>
-              <TitlePage>Review Process</TitlePage>
-              <SearchBar
-                values={values}
-                handleChange={handleChange}
-                options={['title', 'abstract', 'articleType']}
-              />
-              {sortedManuscripts
-                .filter(manuscript =>
-                  manuscript[values.searchType]
-                    .toLowerCase()
-                    .includes(values.searchValue.toLowerCase()),
-                )
-                .map(manuscript => (
-                  <ManuscriptCardAssigned
-                    history={history}
-                    key={manuscript._id}
-                    manuscript={manuscript}
+            <Column />
+            <Column>
+              {loading ? (
+                <RootLoader {...rest}>
+                  <Loader iconSize={2} />
+                </RootLoader>
+              ) : (
+                <Content>
+                  <TitlePage>Review Process</TitlePage>
+                  <SearchBar
+                    values={values}
+                    handleChange={handleChange}
+                    options={['title', 'abstract', 'articleType']}
                   />
-                ))}
-              {!manuscripts.length && (
-                <EmptyError>Choose manuscripts to review</EmptyError>
+                  {sortedManuscripts
+                    .filter(manuscript =>
+                      manuscript[values.searchType]
+                        .toLowerCase()
+                        .includes(values.searchValue.toLowerCase()),
+                    )
+                    .map(manuscript => (
+                      <ManuscriptCardAssigned
+                        history={history}
+                        key={manuscript._id}
+                        manuscript={manuscript}
+                      />
+                    ))}
+                  {!manuscripts.length && (
+                    <EmptyError>Choose manuscripts to review</EmptyError>
+                  )}
+                </Content>
               )}
-            </Content>
+            </Column>
+            <Column />
           </Root>
         )
       }}
@@ -60,13 +63,23 @@ const AssignedManuscripts = ({ history, ...rest }) => {
   )
 }
 const Root = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  font-family: 'Nunito';
   ${th.marginHelper};
   ${th.paddingHelper};
 `
 const Content = styled.div``
+const Column = styled.div``
+
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
+`
+
 const TitlePage = styled.div`
   font-family: 'Nunito';
   font-size: 1.6em;

@@ -12,15 +12,13 @@ const DashboardCard = ({ manuscript, history }) => {
   }
 
   return (
-    <StyledCard mt={0.5} mb={0.5} pt={1} pr={0.5} pl={0.5} pb={1}>
+    <StyledCard>
       <ButtonCard onClick={handleReview}>
-        <Content>
-          <Border>
-            <Title>{title}</Title>
-            <ArticleType>{articleType}</ArticleType>
-            <Abstract>{abstract}</Abstract>
-          </Border>
-        </Content>
+        <Border>
+          <Title>{title}</Title>
+          <ArticleType>{articleType}</ArticleType>
+          <Abstract>{abstract}</Abstract>
+        </Border>
       </ButtonCard>
     </StyledCard>
   )
@@ -29,15 +27,10 @@ const StyledCard = styled(Card)`
   position: relative;
   border-radius: 5px;
   font-family: 'Nunito';
-  padding: 1em 0.5em;
+  padding: 0.5em;
+  margin: 1em 0em;
 `
 
-const Content = styled.div`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  flex-wrap: wrap;
-`
 const Border = styled.div`
   height: 100%;
   width: 100%;
@@ -60,6 +53,7 @@ const ArticleType = styled.div`
   padding-bottom: 0.7em;
 `
 const ButtonCard = styled.button`
+  padding: 0.5em;
   height: 100%;
   width: 100%;
   text-align: initial;

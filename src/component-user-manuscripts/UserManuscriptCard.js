@@ -17,28 +17,16 @@ const UserManuscriptCard = ({ manuscript, history }) => {
   }
 
   return (
-    <StyledCard
-      borderRadius={'5px 5px 5px 5px'}
-      width={45}
-      height={10}
-      mt={0.5}
-      mb={0.5}
-      pt={1}
-      pr={0.5}
-      pl={0.5}
-      pb={1}
-    >
+    <StyledCard>
       <ButtonCard onClick={handleReview}>
-        <Content>
-          <Border>
-            <Row>
-              <Title>{title ? title : 'Draft'}</Title>
-              <StatusTag status={status} />
-            </Row>
-            <ArticleType>{articleType}</ArticleType>
-            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
-          </Border>
-        </Content>
+        <Border>
+          <Row>
+            <Title>{title ? title : 'Draft'}</Title>
+            <StatusTag status={status} />
+          </Row>
+          <ArticleType>{articleType}</ArticleType>
+          <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
+        </Border>
       </ButtonCard>
       <RowStyled justify="flex-end" alignItems="flex-end">
         {status.toLowerCase() === 'submitted' && (
@@ -51,17 +39,14 @@ const UserManuscriptCard = ({ manuscript, history }) => {
 const StyledCard = styled(Card)`
   position: relative;
   font-family: 'Nunito';
+  padding: 0.5em;
+  border-radius: 5px;
+  margin: 1em 0em;
 `
 const RowStyled = styled(Row)`
   position: absolute;
   right: 37px;
   bottom: 2px;
-`
-const Content = styled.div`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  flex-wrap: wrap;
 `
 const Border = styled.div`
   height: 100%;
@@ -94,14 +79,12 @@ const ButtonCard = styled.button`
   :focus {
     outline: none;
   }
+  padding: 0.5em;
 `
 const Abstract = styled.div`
   font-size: 0.8em;
   width: 100%;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: ${th.colorGrey};
 `
 
 export default compose(mutations)(UserManuscriptCard)

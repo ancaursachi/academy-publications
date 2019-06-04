@@ -27,10 +27,9 @@ const SignUpStep0 = ({
     <Root>
       <Title>Sign Up</Title>
 
-      <Row>
+      <Row mt={0.5} mb={0.5}>
         <InputForm
-          mt={0.5}
-          mb={0.5}
+          mr={0.5}
           required
           type="text"
           name="firstName"
@@ -38,11 +37,9 @@ const SignUpStep0 = ({
           onChange={handleChange}
           value={values.firstName}
           error={errors.firstName}
-          widthInput={10}
         />
         <InputForm
-          mt={0.5}
-          mb={0.5}
+          ml={0.5}
           required
           type="text"
           name="lastName"
@@ -50,7 +47,6 @@ const SignUpStep0 = ({
           onChange={handleChange}
           value={values.lastName}
           error={errors.lastName}
-          widthInput={10}
         />
       </Row>
 
@@ -68,25 +64,21 @@ const SignUpStep0 = ({
         widthInput={21}
       />
 
-      <Row>
+      <Row mt={0.5} mb={0.5}>
         <InputForm
-          mt={0.5}
-          mb={0.5}
+          mr={0.5}
           type="text"
           label="Country"
           name="country"
-          widthInput={10}
           onChange={handleChange}
           value={values.country}
           error={errors.country}
         />
         <InputForm
-          mt={0.5}
-          mb={0.5}
+          ml={0.5}
           label="City"
           type="text"
           name="city"
-          widthInput={10}
           onChange={handleChange}
           value={values.city}
           error={errors.city}

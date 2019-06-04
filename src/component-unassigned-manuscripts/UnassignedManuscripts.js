@@ -10,13 +10,6 @@ import styled from 'styled-components'
 const UnassignedManuscripts = ({ ...rest }) => {
   const { data, loading } = useQuery(queries.getUnassignedManuscripts)
 
-  if (loading) {
-    return (
-      <Root {...rest}>
-        <Loader />
-      </Root>
-    )
-  }
   const initialValues = { searchValue: '', searchType: 'title' }
   const manuscripts = get(data, 'unassignedManuscripts', [])
   const sortedManuscripts = sortBy(
@@ -29,29 +22,39 @@ const UnassignedManuscripts = ({ ...rest }) => {
       {({ values, handleChange }) => {
         return (
           <Root {...rest}>
-            <Content>
-              <TitlePage>Unreviewed manuscripts</TitlePage>
-              <SearchBar
-                values={values}
-                handleChange={handleChange}
-                options={['title', 'abstract', 'articleType']}
-              />
-              {sortedManuscripts
-                .filter(manuscript =>
-                  manuscript[values.searchType]
-                    .toLowerCase()
-                    .includes(values.searchValue.toLowerCase()),
-                )
-                .map(manuscript => (
-                  <ManuscriptCardUnassigned
-                    key={manuscript._id}
-                    manuscript={manuscript}
+            <Column />
+            <Column>
+              {loading ? (
+                <RootLoader {...rest}>
+                  <Loader iconSize={2} />
+                </RootLoader>
+              ) : (
+                <Content>
+                  <TitlePage>Unreviewed manuscripts</TitlePage>
+                  <SearchBar
+                    values={values}
+                    handleChange={handleChange}
+                    options={['title', 'abstract', 'articleType']}
                   />
-                ))}
-              {!manuscripts.length && (
-                <EmptyError>No available manuscripts to review</EmptyError>
+                  {sortedManuscripts
+                    .filter(manuscript =>
+                      manuscript[values.searchType]
+                        .toLowerCase()
+                        .includes(values.searchValue.toLowerCase()),
+                    )
+                    .map(manuscript => (
+                      <ManuscriptCardUnassigned
+                        key={manuscript._id}
+                        manuscript={manuscript}
+                      />
+                    ))}
+                  {!manuscripts.length && (
+                    <EmptyError>No available manuscripts to review</EmptyError>
+                  )}
+                </Content>
               )}
-            </Content>
+            </Column>
+            <Column />
           </Root>
         )
       }}
@@ -60,13 +63,14 @@ const UnassignedManuscripts = ({ ...rest }) => {
 }
 
 const Root = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  font-family: 'Nunito';
   ${th.marginHelper};
   ${th.paddingHelper};
 `
 const Content = styled.div``
+const Column = styled.div``
 const TitlePage = styled.div`
   font-family: 'Nunito';
   font-size: 1.6em;
@@ -74,6 +78,13 @@ const TitlePage = styled.div`
   width: 100%;
   padding-bottom: 1em;
   color: ${th.colorBlue};
+`
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
 
 export default UnassignedManuscripts

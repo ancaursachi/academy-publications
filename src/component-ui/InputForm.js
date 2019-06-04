@@ -22,7 +22,6 @@ const InputForm = ({
     <Input
       name={name}
       type={type}
-      widthinput={widthInput}
       value={value}
       onChange={onChange}
       validate={validate}
@@ -39,6 +38,7 @@ const Label = ({ labelName, required }) => (
 )
 
 const Root = styled.div`
+  width: 100%;
   position: relative;
   ${th.marginHelper}
   ${th.paddingHelper}
@@ -47,7 +47,7 @@ const StyledLabel = styled.label`
   margin: 0;
 `
 const Input = styled(Field)`
-  width: ${props => (props.widthinput ? `${props.widthinput}em` : '100%')};
+  width: 100%;
   height: 2.5em;
   padding: 0.5em 0.5em;
   display: inline-block;

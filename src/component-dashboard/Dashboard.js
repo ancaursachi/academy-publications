@@ -63,14 +63,7 @@ const Dashboard = ({ history, ...rest }) => {
 }
 const Root = styled.div`
   display: grid;
-  grid-template-columns: 10% 80% 10%;
-  font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
-`
-const RootLoader = styled.div`
-  display: flex;
-  justify-content: center;
+  grid-template-columns: 15% 70% 15%;
   font-family: 'Nunito';
   ${th.marginHelper};
   ${th.paddingHelper};
@@ -85,5 +78,12 @@ const TitlePage = styled.div`
   width: 100%;
   padding-bottom: 1em;
   color: ${th.colorBlue};
+`
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
 export default Dashboard

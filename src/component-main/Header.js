@@ -41,9 +41,9 @@ const Row = styled.nav`
   list-style-type: none;
   height: 3em;
   background-color: ${th.colorWhite};
-  display: flex;
+  display:grid;
+  grid-template-columns:50% 50%;
   position: fixed;
-  justify-content: space-between;
   box-shadow: 0em 0em 0.1em 0em ${th.colorBlueLight}
   z-index: 1;
   top: 0;
@@ -60,13 +60,14 @@ const Logo = styled.div`
   font-family: 'Nunito';
   display: flex;
   align-items: center;
-  font-size: 1.4em;
+  font-size: 1.4rem;
   margin-left: 1em;
 `
 const Column = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1.4em;
+  justify-content: flex-end;
+  font-size: 1.4rem;
   margin-right: 1em;
 `
 const StyledLink = styled(Link)`

@@ -17,42 +17,45 @@ const UserManuscripts = ({ history, ...rest }) => {
     manuscript => -manuscript.created,
   )
 
-  if (loading) {
-    return (
-      <Root {...rest}>
-        <Loader />
-      </Root>
-    )
-  }
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {
         return (
           <Root {...rest}>
-            <Content>
-              <TitlePage>Your Manuscripts</TitlePage>
-              <SearchBar
-                values={values}
-                handleChange={handleChange}
-                options={['title', 'abstract', 'articleType']}
-              />
-              {sortedManuscripts
-                .filter(manuscript =>
-                  manuscript[values.searchType]
-                    .toLowerCase()
-                    .includes(values.searchValue.toLowerCase()),
-                )
-                .map(manuscript => (
-                  <UserManuscriptCard
-                    key={manuscript._id}
-                    manuscript={manuscript}
-                    history={history}
+            <Column />
+            <Column>
+              {loading ? (
+                <RootLoader {...rest}>
+                  <Loader iconSize={2} />
+                </RootLoader>
+              ) : (
+                <Content>
+                  <TitlePage>Your Manuscripts</TitlePage>
+                  <SearchBar
+                    values={values}
+                    handleChange={handleChange}
+                    options={['title', 'abstract', 'articleType']}
                   />
-                ))}
-              {!manuscripts.length && (
-                <EmptyError>Create a manuscript to appear here</EmptyError>
+                  {sortedManuscripts
+                    .filter(manuscript =>
+                      manuscript[values.searchType]
+                        .toLowerCase()
+                        .includes(values.searchValue.toLowerCase()),
+                    )
+                    .map(manuscript => (
+                      <UserManuscriptCard
+                        key={manuscript._id}
+                        manuscript={manuscript}
+                        history={history}
+                      />
+                    ))}
+                  {!manuscripts.length && (
+                    <EmptyError>Create a manuscript to appear here</EmptyError>
+                  )}
+                </Content>
               )}
-            </Content>
+            </Column>
+            <Column />
           </Root>
         )
       }}
@@ -60,13 +63,21 @@ const UserManuscripts = ({ history, ...rest }) => {
   )
 }
 const Root = styled.div`
-  display: flex;
   font-family: 'Nunito';
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
   ${th.marginHelper};
   ${th.paddingHelper};
 `
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
+`
+const Column = styled.div``
+
 const Content = styled.div``
 const TitlePage = styled.div`
   font-family: 'Nunito';
