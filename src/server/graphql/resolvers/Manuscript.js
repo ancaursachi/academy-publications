@@ -87,9 +87,7 @@ const models = {
     publicManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
       const manuscripts = await Manuscript.find()
-      const users = await User.find({
-        role: 'professor',
-      })
+      const users = await User.find({})
 
       const groupedManuscripts = chain(manuscripts)
         .groupBy('submissionId')
@@ -110,7 +108,12 @@ const models = {
             manuscript.editor &&
             user._id.toHexString() === manuscript.editor.id.toHexString(),
         )
-        const { editor, ...restManuscript } = manuscript._doc
+        const findAuthor = users.find(
+          user =>
+            manuscript.author &&
+            user._id.toHexString() === manuscript.author.id.toHexString(),
+        )
+        const { editor, author, ...restManuscript } = manuscript._doc
 
         return {
           editor: {
@@ -118,6 +121,12 @@ const models = {
               ? `${findEditor.firstName} ${findEditor.lastName}`
               : null,
             ...editor,
+          },
+          author: {
+            name: findAuthor
+              ? `${findAuthor.firstName} ${findAuthor.lastName}`
+              : null,
+            ...author,
           },
           ...restManuscript,
         }

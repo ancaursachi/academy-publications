@@ -45,7 +45,7 @@ const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
-          <Root pr={1}>
+          <Root pr={2} pl={1}>
             <Title>Edit User</Title>
             <RowInput>
               <InputForm
@@ -73,7 +73,6 @@ const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
             </RowInput>
             <RowInput>
               <InputForm
-                widthInput={12}
                 mb={0.5}
                 pr={0.5}
                 required
@@ -86,7 +85,6 @@ const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
               />
               <InputSelect
                 pl={0.5}
-                widthInput={12}
                 label="Role"
                 name="role"
                 type="text"
@@ -173,6 +171,7 @@ const Root = styled.div`
   ${th.paddingHelper}
 `
 const RowInput = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
 `
@@ -181,7 +180,7 @@ const Title = styled.div`
   padding-bottom: 0.5em;
   color: ${th.colorBlue};
   display: flex;
-  padding-right: 1.5em;
+  padding: 0em 1.5em 1em;
   text-align: center;
   justify-content: center;
   line-height: normal;

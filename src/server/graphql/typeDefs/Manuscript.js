@@ -15,6 +15,7 @@ module.exports = gql`
 
   type Author {
     id: String
+    name: String
     comment: String
   }
 

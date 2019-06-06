@@ -10,14 +10,7 @@ import {
 } from '../component-manuscripts'
 
 const ManuscriptCard = ({ manuscript, history }) => {
-  const {
-    title,
-    abstract,
-    articleType,
-    professorName,
-    status,
-    submissionId,
-  } = manuscript
+  const { title, status, abstract, articleType, submissionId } = manuscript
 
   const editorName = get(manuscript, 'editor.name', null)
   const handleSubmission = () => {

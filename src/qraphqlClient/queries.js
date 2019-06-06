@@ -92,6 +92,9 @@ const queries = {
         abstract
         articleType
         submissionId
+        author {
+          name
+        }
         editor {
           id
           name

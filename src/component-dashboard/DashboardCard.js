@@ -3,9 +3,13 @@ import { Card, th } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
+import { get } from 'lodash'
 
 const DashboardCard = ({ manuscript, history }) => {
   const { _id, title, articleType, abstract } = manuscript
+
+  const editorName = get(manuscript, 'editor.name', null)
+  const authorName = get(manuscript, 'author.name', null)
 
   const handleReview = () => {
     history.push(`/publicManuscripts/${_id}`)
@@ -17,6 +21,8 @@ const DashboardCard = ({ manuscript, history }) => {
         <Border>
           <Title>{title}</Title>
           <ArticleType>{articleType}</ArticleType>
+          {authorName && <AuthorName>Written by {authorName}</AuthorName>}
+          {editorName && <EditorName>Editor: {editorName}</EditorName>}
           <Abstract>{abstract}</Abstract>
         </Border>
       </ButtonCard>
@@ -68,6 +74,19 @@ const Abstract = styled.div`
   font-size: 14px;
   width: 100%;
   overflow: hidden;
+`
+const AuthorName = styled.div`
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  font-size: 0.9em;
+  width: 100%;
+  color: ${th.colorBlueGray};
+  font-weight: bold;
+`
+const EditorName = styled.div`
+  padding-bottom: 1em;
+  font-size: 0.9em;
+  width: 100%;
 `
 
 export default compose(mutations)(DashboardCard)
