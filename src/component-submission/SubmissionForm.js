@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { compose } from 'recompose'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
-import { Formik, Field } from 'formik'
+import { Formik } from 'formik'
 import {
   th,
   Row,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { get, last } from 'lodash'
+import { get } from 'lodash'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { th, Loader, Button } from '../component-ui'
