@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 import { Tabs, th } from '../../component-ui'
 
-const CheckBar = ({ children, tabButtons }) => {
+const CheckBar = ({ children, selectedTab = 0, tabButtons }) => {
   return (
-    <Tabs selectedTab={1}>
+    <Tabs selectedTab={selectedTab}>
       {({ selectedTab, changeTab }) => (
         <Fragment>
           <TabsHeader>

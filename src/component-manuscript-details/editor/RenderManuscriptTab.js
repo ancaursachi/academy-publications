@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { last } from 'lodash'
 import { th } from '../../component-ui'
-import { SideBarReview } from '../../component-manuscript-details'
+import { SideBarReview } from '..'
 
 import { PdfRender } from '../../component-pdf-viewer'
 
-const RenderManuscript = ({ submission, ...rest }) => {
+const RenderManuscriptTab = ({ submission, ...rest }) => {
   const manuscript = last(submission)
   let [totalPages, setTotalPages] = useState(0)
   let [currentPageNumber, setCurrentPageNumber] = useState(1)
@@ -47,4 +47,4 @@ const Root = styled.div`
   ${th.paddingHelper};
 `
 
-export default RenderManuscript
+export default RenderManuscriptTab

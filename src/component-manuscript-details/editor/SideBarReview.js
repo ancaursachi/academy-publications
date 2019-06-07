@@ -46,7 +46,7 @@ const Root = styled.div`
   overflow: scroll;
   padding: 10px 10px;
   background-color: white;
-  height: 100vh;
+  height: calc(100vh - 90px);
   box-shadow: 0em 0em 0em 0.3px ${th.colorBlueGray};
 `
 const Title = styled.div``

@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { th } from '../../component-ui'
 import {
   CheckBar,
-  InfoManuscript,
-  RenderManuscript,
+  InfoManuscriptTab,
+  FinalDecisionTab,
+  RenderManuscriptTab,
 } from '../../component-manuscript-details'
 
 const EditorPeerReviewPage = ({
@@ -16,22 +17,34 @@ const EditorPeerReviewPage = ({
 }) => {
   return (
     <Root {...rest}>
-      <CheckBar tabButtons={['Information Manuscript', 'Review manuscript']}>
-        <InfoManuscript
+      <CheckBar
+        tabButtons={[
+          'Information Manuscript',
+          'Review manuscript',
+          'Your Decision',
+        ]}
+      >
+        <InfoManuscriptTab
           mt={1}
           submission={submission}
           totalManuscripts={totalManuscripts}
           currentManuscript={currentManuscript}
           setCurrentManuscript={setCurrentManuscript}
         />
-        <RenderManuscript submission={submission} />
+        <RenderManuscriptTab submission={submission} />
+        <FinalDecisionTab
+          mt={3}
+          submission={submission}
+          totalManuscripts={totalManuscripts}
+          currentManuscript={currentManuscript}
+          setCurrentManuscript={setCurrentManuscript}
+        />
       </CheckBar>
     </Root>
   )
 }
 
 const Root = styled.div`
-  /* overflow: hidden; */
   height: calc(100vh);
   font-family: 'Nunito';
   ${th.paddingHelper};

@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
 import { th, Loader } from '../../component-ui'
-import {
-  ManuscriptDetailsCard,
-  EditorMakeDecisionCard,
-  EditorDecisionCard,
-  ChangePage,
-} from '..'
+import { ManuscriptDetailsCard, EditorDecisionCard, ChangePage } from '..'
 
-const InfoManuscript = ({
+const InfoManuscriptTab = ({
   submission,
   totalManuscripts,
   currentManuscript,
@@ -18,7 +13,6 @@ const InfoManuscript = ({
 }) => {
   const manuscript = submission[currentManuscript - 1]
   const editorDecision = get(manuscript, 'editor.decision', null)
-  const userRole = get(manuscript, 'userRole', null)
 
   return (
     <Root {...rest}>
@@ -40,9 +34,7 @@ const InfoManuscript = ({
             {manuscript && (
               <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
             )}
-            {!editorDecision && userRole === 'professor' && (
-              <EditorMakeDecisionCard manuscript={manuscript} mb={2} />
-            )}
+
             {editorDecision && (
               <EditorDecisionCard manuscript={manuscript} mb={2} />
             )}
@@ -76,4 +68,4 @@ const RootLoader = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
-export default InfoManuscript
+export default InfoManuscriptTab
