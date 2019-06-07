@@ -50,7 +50,7 @@ const DeleteUserModal = ({ deleteUser, user }) => {
       <Modal
         showModal={showModal}
         handleShowModal={handleShowModal}
-        title={'Are you sure you want to delete this manuscript?'}
+        title={'Are you sure you want to delete this user?'}
         buttonName={'Delete'}
         onClickSubmit={handleDeleteFinal}
         error={error}

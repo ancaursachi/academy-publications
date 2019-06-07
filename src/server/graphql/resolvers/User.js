@@ -37,18 +37,19 @@ const models = {
       return { token: createToken(newUser, jwtSecret, '30m') }
     },
     deleteUser: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
-      if (loggedInUser._id.toString() === _id) {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      const role = loggedInUser.role
+      if (loggedInUser._id.toString() === _id && role === 'admin') {
         throw new Error("You can't delete your account.")
       }
       const user = await User.findOneAndRemove({ _id })
 
       if (!user) {
         throw new Error("You can't delete a non existent account")
-      } else return user
+      }
     },
     editUser: async (parent, { input }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
+      policyRole(loggedInUser, ['admin', 'professor', 'user'])
       const { _id, ...userRest } = input
       return await User.findOneAndUpdate(
         { _id },

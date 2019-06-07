@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import th from './theme'
 
-const DetailsCard = ({ children }) => {
+const DetailsCard = ({ children, ...rest }) => {
   return (
-    <Card>
+    <Card {...rest}>
       <WrapperCard>{children}</WrapperCard>
     </Card>
   )
@@ -16,7 +17,7 @@ const Card = styled.div`
   background-color: #f8f9f9;
   font-family: 'Nunito';
   height: fit-content;
-  width: 50em;
+  ${th.marginHelper};
 `
 const WrapperCard = styled.div`
   border-radius: 3px;

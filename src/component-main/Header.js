@@ -5,7 +5,6 @@ import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { th, Button } from '../component-ui'
 import { withRouter } from 'react-router-dom'
-
 const Header = ({ history, loggedInUser }) => {
   const firstName = get(loggedInUser, 'firstName', '')
   const lastName = get(loggedInUser, 'lastName', '')
@@ -16,6 +15,7 @@ const Header = ({ history, loggedInUser }) => {
     history.push('/login')
     window.location.reload()
   }
+  const handleProfilePage = () => history.push('/profile')
   return (
     <Row>
       <Logo>
@@ -25,6 +25,8 @@ const Header = ({ history, loggedInUser }) => {
         <User>
           Hello, {firstName} {lastName}
         </User>
+
+        <ProfileButton onClick={handleProfilePage}>Profile</ProfileButton>
         <Button
           name="Logout"
           color={th.colorBlueLight}
@@ -41,9 +43,9 @@ const Row = styled.nav`
   list-style-type: none;
   height: 3em;
   background-color: ${th.colorWhite};
-  display: flex;
+  display:grid;
+  grid-template-columns:50% 50%;
   position: fixed;
-  justify-content: space-between;
   box-shadow: 0em 0em 0.1em 0em ${th.colorBlueLight}
   z-index: 1;
   top: 0;
@@ -51,22 +53,42 @@ const Row = styled.nav`
   width: 100%;
   font-family: 'Nunito';
 `
+const ProfileButton = styled.button`
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  font-family: 'Nunito';
+  font-size: 0.8em;
+  padding-right: 1em;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    color: ${th.colorCremLight};
+    font-weight: 600;
+  }
+  :active {
+    color: ${th.colorCremLight};
+  }
+`
+
 const User = styled.div`
   font-family: 'Nunito';
   font-size: 0.8em;
-  padding-right: 2em;
+  padding-right: 1em;
 `
 const Logo = styled.div`
   font-family: 'Nunito';
   display: flex;
   align-items: center;
-  font-size: 1.4em;
+  font-size: 1.4rem;
   margin-left: 1em;
 `
 const Column = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1.4em;
+  justify-content: flex-end;
+  font-size: 1.4rem;
   margin-right: 1em;
 `
 const StyledLink = styled(Link)`

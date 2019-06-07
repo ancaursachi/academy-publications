@@ -10,14 +10,7 @@ import {
 } from '../component-manuscripts'
 
 const ManuscriptCard = ({ manuscript, history }) => {
-  const {
-    title,
-    abstract,
-    articleType,
-    professorName,
-    status,
-    submissionId,
-  } = manuscript
+  const { title, status, abstract, articleType, submissionId } = manuscript
 
   const editorName = get(manuscript, 'editor.name', null)
   const handleSubmission = () => {
@@ -25,17 +18,7 @@ const ManuscriptCard = ({ manuscript, history }) => {
   }
 
   return (
-    <StyledCard
-      borderRadius={'5px 5px 5px 5px'}
-      width={45}
-      height={10}
-      mt={0.5}
-      mb={0.5}
-      pt={1}
-      pr={0.5}
-      pl={0.5}
-      pb={1}
-    >
+    <StyledCard>
       <ButtonCard onClick={handleSubmission}>
         <Content>
           <Border>
@@ -44,11 +27,8 @@ const ManuscriptCard = ({ manuscript, history }) => {
               <StatusTag status={status} />
             </Row>
             <ArticleType>{articleType}</ArticleType>
-            {professorName ? (
-              <EditorName>Editor: {editorName}</EditorName>
-            ) : (
-              <Abstract>Abstract: {abstract}</Abstract>
-            )}
+            {editorName && <EditorName>Editor: {editorName}</EditorName>}
+            <Abstract>{abstract}</Abstract>
           </Border>
         </Content>
       </ButtonCard>
@@ -62,6 +42,10 @@ const ManuscriptCard = ({ manuscript, history }) => {
 }
 const StyledCard = styled(Card)`
   position: relative;
+  border-radius: 5px;
+  font-family: 'Nunito';
+  padding: 0.5em;
+  margin: 1em 0em;
 `
 const Content = styled.div`
   display: flex;
@@ -71,6 +55,7 @@ const Content = styled.div`
   flex-wrap: wrap;
 `
 const Border = styled.div`
+  padding: 0.5em;
   height: 100%;
   width: 100%;
   border-style: solid;
@@ -98,20 +83,18 @@ const ArticleType = styled.div`
 `
 
 const Abstract = styled.div`
-  font-size: 0.8em;
+  font-size: 14px;
   width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: ${th.colorGrey};
 `
 const EditorName = styled.div`
+  padding-bottom: 0.5em;
   font-size: 0.9em;
   width: 100%;
   color: ${th.colorBlueGray};
   font-weight: bold;
 `
 const ButtonCard = styled.button`
+  padding: 0.5em;
   height: 100%;
   width: 100%;
   text-align: initial;

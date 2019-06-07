@@ -27,19 +27,27 @@ const models = {
   }),
   Query: {
     manuscript: async (parent, { _id }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
       const manuscript = await Manuscript.findOne({ _id })
       const users = await User.find()
 
-      if (!manuscript.professorId) {
+      if (!manuscript.editor) {
         return manuscript
       }
-      const findUser = users.find(
-        user => manuscript.professorId === user._id.toString(),
+      const findEditor = users.find(
+        user =>
+          manuscript.editor &&
+          manuscript.editor.id.toHexString() === user._id.toHexString(),
       )
+      const { editor, ...restManuscript } = manuscript._doc
       return {
-        ...manuscript._doc,
-        professorName: `${findUser.firstName} ${findUser.lastName}`,
+        editor: {
+          name: findEditor
+            ? `${findEditor.firstName} ${findEditor.lastName}`
+            : null,
+          ...editor,
+        },
+        ...restManuscript,
       }
     },
     manuscripts: async (parent, args, { loggedInUser }) => {
@@ -76,8 +84,8 @@ const models = {
       })
       return newManuscripts
     },
-    publicManuscripts: async (parent, args, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+    reviewedManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['professor'])
       const manuscripts = await Manuscript.find()
       const users = await User.find({
         role: 'professor',
@@ -88,6 +96,13 @@ const models = {
         .map(manuscript => {
           return last(manuscript)
         })
+        .filter(
+          manuscript =>
+            manuscript.editor &&
+            manuscript.editor.decision &&
+            (manuscript.editor.decision.toLowerCase() === 'publish' ||
+              manuscript.editor.decision.toLowerCase() === 'reject'),
+        )
         .value()
 
       const newManuscripts = groupedManuscripts.map(manuscript => {
@@ -104,6 +119,55 @@ const models = {
               ? `${findEditor.firstName} ${findEditor.lastName}`
               : null,
             ...editor,
+          },
+          ...restManuscript,
+        }
+      })
+      return newManuscripts
+    },
+    publicManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      const manuscripts = await Manuscript.find()
+      const users = await User.find({})
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .filter(
+          manuscript =>
+            manuscript.public === true &&
+            manuscript.editor &&
+            manuscript.editor.decision &&
+            manuscript.editor.decision.toLowerCase() === 'publish',
+        )
+        .value()
+
+      const newManuscripts = groupedManuscripts.map(manuscript => {
+        const findEditor = users.find(
+          user =>
+            manuscript.editor &&
+            user._id.toHexString() === manuscript.editor.id.toHexString(),
+        )
+        const findAuthor = users.find(
+          user =>
+            manuscript.author &&
+            user._id.toHexString() === manuscript.author.id.toHexString(),
+        )
+        const { editor, author, ...restManuscript } = manuscript._doc
+
+        return {
+          editor: {
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
+            ...editor,
+          },
+          author: {
+            name: findAuthor
+              ? `${findAuthor.firstName} ${findAuthor.lastName}`
+              : null,
+            ...author,
           },
           ...restManuscript,
         }
@@ -173,6 +237,9 @@ const models = {
         .map(manuscript => {
           return last(manuscript)
         })
+        .filter(
+          manuscript => !['publish', 'reject'].includes(manuscript.status),
+        )
         .value()
 
       const users = await User.find({
@@ -236,6 +303,7 @@ const models = {
         created: new Date(),
         status: 'Submitted Revision',
         version: oldManuscript.version + 1,
+        public: oldManuscript.public,
         ...restInput,
         editor: {
           id: ObjectId(oldManuscript.editor.id),

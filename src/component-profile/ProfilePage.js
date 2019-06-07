@@ -1,23 +1,26 @@
 import React from 'react'
+
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
+import { Profile } from '../component-profile'
+
 import { SideMenu } from '../component-ui'
-import { ManuscriptDetails } from '../component-manuscript-details'
-const ManuscriptDetailsPage = ({ history, match }) => {
+
+const ProfilePage = ({ history }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <ManuscriptDetails pt={6} pb={3} match={match} />
+      <Profile history={history} pt={8} pb={3} />
     </Root>
   )
 }
 
 const Root = styled.div`
   width: 100%;
-  height: calc(100vh);
+  height: 100%;
   display: grid;
   grid-template-columns: 18% 82%;
 `
 
-export default compose(withRouter)(ManuscriptDetailsPage)
+export default compose(withRouter)(ProfilePage)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
 import { th, DetailsCard } from '../component-ui'
@@ -12,28 +12,22 @@ const EditorDecisionCard = ({ manuscript, ...rest }) => {
   const editorComment = get(manuscript, 'editor.comment', null)
 
   return (
-    <Root {...rest}>
-      <DetailsCard>
-        <Title>Editor response</Title>
+    <DetailsCard {...rest}>
+      <Title>Editor response</Title>
 
-        <Label>Decision</Label>
-        <Data>{parseText(editorDecision)}</Data>
+      <Label>Decision</Label>
+      <Data>{parseText(editorDecision)}</Data>
 
-        <Label>Comment</Label>
-        <Data>{parseText(editorComment)}</Data>
-      </DetailsCard>
-    </Root>
+      {editorComment && (
+        <Fragment>
+          <Label>Comment</Label>
+          <Data>{parseText(editorComment)}</Data>
+        </Fragment>
+      )}
+    </DetailsCard>
   )
 }
 
-const Root = styled.div`
-  display: flex;
-  font-family: 'Nunito';
-  justify-content: center;
-
-  ${th.marginHelper};
-  ${th.paddingHelper};
-`
 const Title = styled.div`
   font-size: 25px;
   font-weight: 600;

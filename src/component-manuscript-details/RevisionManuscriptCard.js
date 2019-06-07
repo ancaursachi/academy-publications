@@ -23,11 +23,13 @@ const useCreateRevision = () => {
   const useCreateRevisionMutation = useMutation(createRevision)
   const onCreateRevision = (input, file, history, manuscript) => {
     if (file) {
+      console.log(manuscript)
       useCreateRevisionMutation({
         variables: {
           oldManuscript: {
             submissionId: manuscript.submissionId,
             version: manuscript.version,
+            public: manuscript.public,
             editor: {
               id: manuscript.editor.id,
               name: manuscript.editor.name,
@@ -75,76 +77,74 @@ const RevisionManuscriptCard = ({
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
-          <Root {...rest}>
-            <DetailsCard>
-              <Title>Revision</Title>
-              <Row mt={1.5} justify={'flex-start'}>
-                <InputForm
-                  label="Manuscript Title"
-                  name="title"
-                  type="text"
-                  required
-                  widthInput={21}
-                  value={values.title}
-                  onChange={handleChange}
-                  error={errors.title}
-                />
-                <InputSelect
-                  pl={2}
-                  label="Manuscript Type"
-                  name="articleType"
-                  type="text"
-                  options={['Research article', 'Review article']}
-                  widthInput={14}
-                  width={14}
-                  required
-                  value={values.articleType}
-                  onChange={handleChange}
-                  error={errors.articleType}
-                />
-              </Row>
-
-              <InputTextarea
-                label="Abstract"
-                name="abstract"
-                type="textarea"
-                width={14}
-                heightinput={7}
-                mt={1}
+          <DetailsCard {...rest}>
+            <Title>Revision</Title>
+            <Row mt={1.5} justify={'flex-start'}>
+              <InputForm
+                label="Manuscript Title"
+                name="title"
+                type="text"
                 required
-                value={values.abstract}
+                widthInput={21}
+                value={values.title}
                 onChange={handleChange}
-                error={errors.abstract}
+                error={errors.title}
               />
-              <InputTextarea
-                label="Comment (optional)"
-                name="author.comment"
-                type="textarea"
-                heightinput={5}
-                width={5}
-                mt={1}
-                value={values.author.comment}
+              <InputSelect
+                pl={2}
+                label="Manuscript Type"
+                name="articleType"
+                type="text"
+                options={['Research article', 'Review article']}
+                widthInput={14}
+                width={14}
+                required
+                value={values.articleType}
                 onChange={handleChange}
-                error={errors.userComment}
+                error={errors.articleType}
               />
+            </Row>
 
-              <Row mt={1.2}>
-                <UploadFile match={match} setFile={setFile} file={file} />
-              </Row>
+            <InputTextarea
+              label="Abstract"
+              name="abstract"
+              type="textarea"
+              width={14}
+              heightinput={7}
+              mt={1}
+              required
+              value={values.abstract}
+              onChange={handleChange}
+              error={errors.abstract}
+            />
+            <InputTextarea
+              label="Comment (optional)"
+              name="author.comment"
+              type="textarea"
+              heightinput={5}
+              width={5}
+              mt={1}
+              value={values.author.comment}
+              onChange={handleChange}
+              error={errors.userComment}
+            />
 
-              <Row mt={1} mr={20} mb={0.5} justify="flex-end">
-                <Button
-                  underline
-                  name="Revision"
-                  type="submit"
-                  fontSize={1.2}
-                  color={th.colorBlueLight}
-                  iconName={'arrow-right'}
-                  onClick={handleSubmit}
-                />
-              </Row>
-            </DetailsCard>
-          </Root>
+            <Row mt={1.2}>
+              <UploadFile match={match} setFile={setFile} file={file} />
+            </Row>
+
+            <Row mt={1} mr={20} mb={0.5} justify="flex-end">
+              <Button
+                underline
+                name="Revision"
+                type="submit"
+                fontSize={1.2}
+                color={th.colorBlueLight}
+                iconName={'arrow-right'}
+                onClick={handleSubmit}
+              />
+            </Row>
+          </DetailsCard>
         )
       }}
     </Formik>
@@ -156,14 +156,6 @@ export default compose(
   withRouter,
 )(RevisionManuscriptCard)
 
-const Root = styled.div`
-  display: flex;
-  font-family: 'Nunito';
-  justify-content: center;
-
-  ${th.marginHelper};
-  ${th.paddingHelper};
-`
 const Title = styled.div`
   font-size: 25px;
   font-weight: 600;

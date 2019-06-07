@@ -4,18 +4,19 @@ import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
 import { th, Loader, SearchBar, EmptyError } from '../component-ui'
-import { DashboardCard } from '../component-dashboard'
+import { ReviewedManuscriptCard } from '../component-reviewed-manuscripts'
 import styled from 'styled-components'
 
-const Dashboard = ({ history, ...rest }) => {
-  const { data, loading } = useQuery(queries.getPublicManuscripts)
+const ReviewedManuscripts = ({ history, ...rest }) => {
+  const { data, loading } = useQuery(queries.getReviewedManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'publicManuscripts', [])
+  const manuscripts = get(data, 'reviewedManuscripts', [])
   const sortedManuscripts = sortBy(
     manuscripts,
     manuscript => -manuscript.created,
   )
+
   return (
     <Formik initialValues={initialValues}>
       {({ values, handleChange }) => {
@@ -29,7 +30,7 @@ const Dashboard = ({ history, ...rest }) => {
                 </RootLoader>
               ) : (
                 <Content>
-                  <TitlePage>Public manuscripts</TitlePage>
+                  <TitlePage>Reviewed manuscripts</TitlePage>
                   <SearchBar
                     values={values}
                     handleChange={handleChange}
@@ -42,14 +43,16 @@ const Dashboard = ({ history, ...rest }) => {
                         .includes(values.searchValue.toLowerCase()),
                     )
                     .map(manuscript => (
-                      <DashboardCard
+                      <ReviewedManuscriptCard
+                        history={history}
                         key={manuscript._id}
                         manuscript={manuscript}
-                        history={history}
                       />
                     ))}
                   {!manuscripts.length && (
-                    <EmptyError>No manuscripts published</EmptyError>
+                    <EmptyError>
+                      Here you will see manuscripts after perr review.
+                    </EmptyError>
                   )}
                 </Content>
               )}
@@ -69,8 +72,16 @@ const Root = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
-const Column = styled.div``
 const Content = styled.div``
+const Column = styled.div``
+
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
+`
 
 const TitlePage = styled.div`
   font-family: 'Nunito';
@@ -80,11 +91,4 @@ const TitlePage = styled.div`
   padding-bottom: 1em;
   color: ${th.colorBlue};
 `
-const RootLoader = styled.div`
-  display: flex;
-  justify-content: center;
-  font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
-`
-export default Dashboard
+export default ReviewedManuscripts

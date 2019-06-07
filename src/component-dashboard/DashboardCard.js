@@ -1,64 +1,43 @@
 import React from 'react'
-import { Card, Row, th, StatusTag } from '../component-ui'
+import { Card, th, File } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
-import { DeleteUserManuscript } from '../component-user-manuscripts'
+import { get } from 'lodash'
 
 const DashboardCard = ({ manuscript, history }) => {
-  const { _id, title, articleType, abstract, status, submissionId } = manuscript
+  const { _id, title, articleType, abstract } = manuscript
 
+  const editorName = get(manuscript, 'editor.name', null)
+  const authorName = get(manuscript, 'author.name', null)
+  const file = get(manuscript, 'file', null)
   const handleReview = () => {
-    history.push(`/manuscriptsDetails/${submissionId}`)
+    history.push(`/publicManuscripts/${_id}`)
   }
 
   return (
-    <StyledCard
-      borderRadius={'5px 5px 5px 5px'}
-      width={45}
-      height={10}
-      mt={0.5}
-      mb={0.5}
-      pt={1}
-      pr={0.5}
-      pl={0.5}
-      pb={1}
-    >
+    <StyledCard>
       <ButtonCard onClick={handleReview}>
-        <Content>
-          <Border>
-            <Row>
-              <Title>{title ? title : 'Draft'}</Title>
-              <StatusTag status={status} />
-            </Row>
-            <ArticleType>{articleType}</ArticleType>
-            <Abstract>{abstract ? `Abstract: ${abstract}` : ''}</Abstract>
-          </Border>
-        </Content>
+        <Border>
+          <Title>{title}</Title>
+          <ArticleType>{articleType}</ArticleType>
+          {authorName && <AuthorName>Written by {authorName}</AuthorName>}
+          {editorName && <EditorName>Editor: {editorName}</EditorName>}
+          <Abstract>{abstract}</Abstract>
+          <File file={file} mt={0.8} />
+        </Border>
       </ButtonCard>
-      <RowStyled justify="flex-end" alignItems="flex-end">
-        {status.toLowerCase() === 'submitted' && (
-          <DeleteUserManuscript manuscript={manuscript} />
-        )}
-      </RowStyled>
     </StyledCard>
   )
 }
 const StyledCard = styled(Card)`
   position: relative;
+  border-radius: 5px;
   font-family: 'Nunito';
+  padding: 0.5em;
+  margin: 1em 0em;
 `
-const RowStyled = styled(Row)`
-  position: absolute;
-  right: 37px;
-  bottom: 2px;
-`
-const Content = styled.div`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  flex-wrap: wrap;
-`
+
 const Border = styled.div`
   height: 100%;
   width: 100%;
@@ -81,6 +60,7 @@ const ArticleType = styled.div`
   padding-bottom: 0.7em;
 `
 const ButtonCard = styled.button`
+  padding: 0.5em;
   height: 100%;
   width: 100%;
   text-align: initial;
@@ -92,12 +72,22 @@ const ButtonCard = styled.button`
   }
 `
 const Abstract = styled.div`
-  font-size: 0.8em;
+  font-size: 14px;
   width: 100%;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: ${th.colorGrey};
+`
+const AuthorName = styled.div`
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  font-size: 0.9em;
+  width: 100%;
+  color: ${th.colorBlueGray};
+  font-weight: bold;
+`
+const EditorName = styled.div`
+  padding-bottom: 1em;
+  font-size: 0.9em;
+  width: 100%;
 `
 
 export default compose(mutations)(DashboardCard)

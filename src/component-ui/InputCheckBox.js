@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Field } from 'formik'
 
 import th from './theme'
-import { Row } from '../component-ui'
+import { Row } from '.'
 
-const InputForm = ({
+const InputCheckBox = ({
   label,
   value,
   name,
@@ -18,38 +18,44 @@ const InputForm = ({
   ...props
 }) => (
   <Root {...props}>
-    <Label labelName={label} required={required} />
     <Input
       name={name}
-      type={type}
+      type="checkbox"
       value={value}
+      checked={value}
       onChange={onChange}
-      validate={validate}
     />
-    {error && <ErrorMessage>{error}</ErrorMessage>}
+    <Label labelName={label} required={required} />
   </Root>
 )
 
 const Label = ({ labelName, required }) => (
   <Row justify={'flex-start'}>
-    <StyledLabel>{labelName}</StyledLabel>
-    {required && <Error>*</Error>}
+    <StyledLabel>{renameLabel(labelName)}</StyledLabel>
   </Row>
 )
 
+const renameLabel = label => {
+  switch (label) {
+    case 'public':
+      return ' I agree to make public this manuscript after peer review'
+    default:
+      return label.charAt(0).toUpperCase() + label.slice(1)
+  }
+}
+
 const Root = styled.div`
+  display: flex;
   width: 100%;
-  position: relative;
   ${th.marginHelper}
   ${th.paddingHelper}
 `
 const StyledLabel = styled.label`
   margin: 0;
+  margin-left: 10px;
 `
 const Input = styled(Field)`
-  width: 100%;
-  height: 2.5em;
-  padding: 0.5em 0.5em;
+  margin-top: 3px;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -57,13 +63,4 @@ const Input = styled(Field)`
   outline: none;
 `
 
-const Error = styled.div`
-  color: ${th.colorError};
-  font-size: 0.8em;
-`
-const ErrorMessage = styled.div`
-  position: absolute;
-  color: ${th.colorError};
-  font-size: 0.8em;
-`
-export default InputForm
+export default InputCheckBox

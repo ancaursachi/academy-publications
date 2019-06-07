@@ -6,6 +6,7 @@ module.exports = gql`
   type Query {
     manuscript(_id: ID!): Manuscript!
     manuscripts: [Manuscript]
+    reviewedManuscripts: [Manuscript]
     publicManuscripts: [Manuscript]
     userManuscripts: [Manuscript]
     getSubmission(submissionId: ID!): [Submission]
@@ -15,6 +16,7 @@ module.exports = gql`
 
   type Author {
     id: String
+    name: String
     comment: String
   }
 
@@ -38,9 +40,11 @@ module.exports = gql`
     _id: String!
     title: String
     created: Date
+    public: Boolean
     abstract: String
     status: String
     version: Int
+    userRole: String
     articleType: String!
     submissionId: String!
     editor: Editor
@@ -52,6 +56,7 @@ module.exports = gql`
     _id: String!
     title: String
     created: Date
+    public: Boolean
     abstract: String
     status: String
     version: Int
@@ -71,6 +76,7 @@ module.exports = gql`
 
   input ManuscriptInput {
     title: String
+    public: Boolean
     abstract: String
     articleType: String
     file: FileInput
@@ -84,6 +90,7 @@ module.exports = gql`
 
   input OldManuscript {
     version: Int
+    public: Boolean
     submissionId: String!
     editor: EditorInputOldManuscript
   }

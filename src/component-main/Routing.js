@@ -4,11 +4,14 @@ import { Redirect } from 'react-router'
 import { useQuery } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
+import { ProfilePage } from '../component-profile'
 import { AuthentificationPage } from '../component-authentification'
 import { DashboardPage } from '../component-dashboard'
+import { PdfViewerPage } from '../component-pdf-viewer'
 import { Header } from '../component-main'
 import { SubmissionPage } from '../component-submission'
 import { AssignedManuscriptsPage } from '../component-assigned-manuscripts'
+import { ReviewedManuscriptsPage } from '../component-reviewed-manuscripts'
 import { UnassignedManuscriptsPage } from '../component-unassigned-manuscripts'
 import { UsersPage } from '../component-users'
 import { ManuscriptsPage } from '../component-manuscripts'
@@ -46,9 +49,16 @@ const Routing = () => {
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}
-          path="/dashboard"
+          path="/publicManuscripts"
           policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
           component={DashboardPage}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/publicManuscripts/:manuscriptId"
+          policy={policyRole(loggedInUser, ['professor', 'user', 'admin'])}
+          component={PdfViewerPage}
         />
         <PrivateRoute
           exact
@@ -95,9 +105,24 @@ const Routing = () => {
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}
+          path="/reviewedManuscripts"
+          component={ReviewedManuscriptsPage}
+          policy={policyRole(loggedInUser, ['professor'])}
+        />
+
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
           path="/users"
           component={UsersPage}
           policy={policyRole(loggedInUser, ['admin'])}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/profile"
+          component={ProfilePage}
+          policy={policyRole(loggedInUser, ['admin', 'user', 'professor'])}
         />
         <Route exact path="/404" component={NotFoundPage} />
         <Redirect from="*" to="/login" />

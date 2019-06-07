@@ -4,9 +4,8 @@ import styled from 'styled-components'
 import { get } from 'lodash'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
-import { RemoveProfessorModal } from '../component-assigned-manuscripts'
 
-const ManuscriptCardAssigned = ({ manuscript, history }) => {
+const ReviewedManuscriptCard = ({ manuscript, history }) => {
   const { submissionId, title, articleType, status, abstract } = manuscript
   const editorName = get(manuscript, 'editor.name', null)
   const handleSubmission = () => {
@@ -26,9 +25,6 @@ const ManuscriptCardAssigned = ({ manuscript, history }) => {
           <Abstract>{abstract}</Abstract>
         </Border>
       </ButtonCard>
-      <RowStyled justify="flex-end" alignItems="flex-end">
-        <RemoveProfessorModal manuscript={manuscript} />
-      </RowStyled>
     </StyledCard>
   )
 }
@@ -91,4 +87,4 @@ const Abstract = styled.div`
   overflow: hidden;
 `
 
-export default compose(mutations)(ManuscriptCardAssigned)
+export default compose(mutations)(ReviewedManuscriptCard)

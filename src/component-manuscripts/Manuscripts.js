@@ -10,13 +10,6 @@ import styled from 'styled-components'
 const Manuscripts = ({ history, ...rest }) => {
   const { data, loading } = useQuery(queries.getManuscripts)
 
-  if (loading) {
-    return (
-      <Root {...rest}>
-        <Loader />
-      </Root>
-    )
-  }
   const initialValues = { searchValue: '', searchType: 'title' }
   const manuscripts = get(data, 'manuscripts', [])
   const sortedManuscripts = sortBy(
@@ -29,30 +22,40 @@ const Manuscripts = ({ history, ...rest }) => {
       {({ values, handleChange }) => {
         return (
           <Root {...rest}>
-            <Content>
-              <TitlePage>Manuscripts</TitlePage>
-              <SearchBar
-                values={values}
-                handleChange={handleChange}
-                options={['title', 'abstract', 'articleType']}
-              />
-              {sortedManuscripts
-                .filter(manuscript =>
-                  manuscript[values.searchType]
-                    .toLowerCase()
-                    .includes(values.searchValue.toLowerCase()),
-                )
-                .map(manuscript => (
-                  <ManuscriptCard
-                    history={history}
-                    key={manuscript._id}
-                    manuscript={manuscript}
+            <Column />
+            <Column>
+              {loading ? (
+                <RootLoader {...rest}>
+                  <Loader iconSize={2} />
+                </RootLoader>
+              ) : (
+                <Content>
+                  <TitlePage>Manuscripts</TitlePage>
+                  <SearchBar
+                    values={values}
+                    handleChange={handleChange}
+                    options={['title', 'abstract', 'articleType']}
                   />
-                ))}
-              {!manuscripts.length && (
-                <EmptyError>No manuscripts yet</EmptyError>
+                  {sortedManuscripts
+                    .filter(manuscript =>
+                      manuscript[values.searchType]
+                        .toLowerCase()
+                        .includes(values.searchValue.toLowerCase()),
+                    )
+                    .map(manuscript => (
+                      <ManuscriptCard
+                        history={history}
+                        key={manuscript._id}
+                        manuscript={manuscript}
+                      />
+                    ))}
+                  {!manuscripts.length && (
+                    <EmptyError>No manuscripts yet</EmptyError>
+                  )}
+                </Content>
               )}
-            </Content>
+            </Column>
+            <Column />
           </Root>
         )
       }}
@@ -60,12 +63,14 @@ const Manuscripts = ({ history, ...rest }) => {
   )
 }
 const Root = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  font-family: 'Nunito';
   ${th.marginHelper};
   ${th.paddingHelper};
 `
+const Column = styled.div``
 const Content = styled.div``
 const TitlePage = styled.div`
   font-family: 'Nunito';
@@ -74,5 +79,13 @@ const TitlePage = styled.div`
   width: 100%;
   padding-bottom: 1em;
   color: ${th.colorBlue};
+`
+
+const RootLoader = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
 export default Manuscripts

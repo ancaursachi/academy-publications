@@ -46,7 +46,7 @@ module.exports = gql`
   }
   type Mutation {
     signUp(input: UserInput!): Token!
-    deleteUser(_id: String!): User
+    deleteUser(_id: String!): Boolean
     editUser(input: UserEditInput!): User
     login(email: String!, password: String!): Token!
   }

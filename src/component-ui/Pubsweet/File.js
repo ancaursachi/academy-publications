@@ -42,45 +42,67 @@ const File = ({ file, onClick = () => {}, history, ...rest }) => {
 
   return (
     <Root {...rest}>
-      <FileInfo>
-        {name}
-        <FileSize ml={2}>{size}</FileSize>
-      </FileInfo>
+      <WrapperFile>
+        <FileInfo>
+          <FileName>{name}</FileName>
+          <FileSize ml={2}>{size}</FileSize>
+        </FileInfo>
 
-      <Icon
-        icon={'eye'}
-        mr={0.5}
-        ml={0.5}
-        onClick={() => window.open(signedUrl)}
-      />
+        <IconStyle>
+          <Icon
+            icon={'eye'}
+            mr={0.5}
+            ml={0.5}
+            onClick={() => window.open(signedUrl)}
+          />
+        </IconStyle>
+      </WrapperFile>
     </Root>
   )
 }
 
 export default withRouter(File)
 
+const IconStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const WrapperFile = styled.div`
+  display: grid;
+  grid-template-columns: 85% 15%;
+`
+
 const Root = styled.div`
+  width: fit-content;
   align-items: center;
   background-color: white;
   border-radius: 4px;
   display: flex;
   border: 1px solid #ccc;
   height: 40px;
-  width: fit-content;
-  position: relative;
-  white-space: nowrap;
+  /* width: 50%; */
+
   ${th.marginHelper}
   ${th.paddingHelper}
 `
 
 const FileInfo = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
   align-items: center;
   border-right: 1px solid #ccc;
   display: flex;
   height: inherit;
+  white-space: nowrap;
   flex: 1;
   justify-content: space-between;
   margin-left: 8px;
+`
+const FileName = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `
 
 const FileSize = styled.span`

@@ -87,6 +87,7 @@ const UsersTable = ({ deleteUser, ...rest }) => {
 }
 
 const Root = styled.div`
+  overflow: scroll;
   width: 100%;
   display: flex;
   justify-content: center;

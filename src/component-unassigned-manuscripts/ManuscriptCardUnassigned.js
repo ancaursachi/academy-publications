@@ -34,35 +34,23 @@ const ManuscriptCardUnassigned = ({
   }
 
   return (
-    <Card
-      borderRadius={'5px 5px 5px 5px'}
-      width={45}
-      height={10}
-      mt={0.5}
-      mb={0.5}
-      pt={1}
-      pr={1}
-      pl={1}
-      pb={1}
-    >
-      <Content>
-        <Border>
-          <Row>
-            <Title>{title}</Title>
-            <StatusTag status={status} />
-          </Row>
-          <ArticleType>{articleType}</ArticleType>
-          <Abstract>Abstract: {abstract}</Abstract>
-          <Row justify="flex-end" alignItems="flex-end" mt={0.5}>
-            <Button
-              iconName={'check'}
-              decisionDash
-              color={th.colorGreenLight}
-              onClick={handleShowModal}
-            />
-          </Row>
-        </Border>
-      </Content>
+    <StyledCard>
+      <Border>
+        <Row>
+          <Title>{title}</Title>
+          <StatusTag status={status} />
+        </Row>
+        <ArticleType>{articleType}</ArticleType>
+        <Abstract>{abstract}</Abstract>
+        <RowStyled justify="flex-end" alignItems="flex-end">
+          <Button
+            iconName={'check'}
+            reviewManuscript
+            color={th.colorGreenLight}
+            onClick={handleShowModal}
+          />
+        </RowStyled>
+      </Border>
       <Modal
         showModal={showModal}
         handleShowModal={handleShowModal}
@@ -70,23 +58,28 @@ const ManuscriptCardUnassigned = ({
         buttonName={'Review'}
         onClickSubmit={handleReview}
       />
-    </Card>
+    </StyledCard>
   )
 }
 
-const Content = styled.div`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  flex-wrap: wrap;
+const StyledCard = styled(Card)`
+  position: relative;
+  border-radius: 5px;
+  font-family: 'Nunito';
+  padding: 1em;
+  margin: 1em 0em;
 `
+const RowStyled = styled(Row)`
+  position: relative;
+`
+
 const Border = styled.div`
   height: 100%;
   width: 100%;
   border-style: solid;
   border-color: ${th.colorCremLight};
   border-width: 1px;
-  border-radius: 5px 5px 5px 5px;
+  border-radius: 5px;
   padding: 1em;
 `
 const Title = styled.div`
@@ -103,12 +96,8 @@ const ArticleType = styled.div`
 `
 
 const Abstract = styled.div`
-  font-size: 0.8em;
+  font-size: 14px;
   width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: ${th.colorGrey};
 `
 
 export default compose(mutations)(ManuscriptCardUnassigned)

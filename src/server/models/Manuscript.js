@@ -14,6 +14,9 @@ const ManuscriptSchema = new mongoose.Schema({
   status: {
     type: String,
   },
+  public: {
+    type: Boolean,
+  },
   version: {
     type: Number,
   },

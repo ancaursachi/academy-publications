@@ -51,9 +51,9 @@ const queries = {
       }
     }
   `,
-  getPublicManuscripts: gql`
-    query publicManuscripts {
-      publicManuscripts {
+  getReviewedManuscripts: gql`
+    query reviewedManuscripts {
+      reviewedManuscripts {
         _id
         title
         created
@@ -71,14 +71,73 @@ const queries = {
       }
     }
   `,
+  getManuscript: gql`
+    query manuscript($_id: ID!) {
+      manuscript(_id: $_id) {
+        _id
+        title
+        created
+        status
+        version
+        userRole
+        abstract
+        articleType
+        submissionId
+        author {
+          id
+          comment
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+        file {
+          name
+          size
+          providerKey
+        }
+      }
+    }
+  `,
+  getPublicManuscripts: gql`
+    query publicManuscripts {
+      publicManuscripts {
+        _id
+        title
+        created
+        status
+        version
+        abstract
+        articleType
+        submissionId
+        file {
+          name
+          size
+          providerKey
+        }
+        author {
+          name
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+      }
+    }
+  `,
 
   getSubmission: gql`
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
         title
-        created
         status
+        public
+        created
         version
         userRole
         abstract
