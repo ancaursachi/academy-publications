@@ -9,7 +9,6 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
   const articleType = get(manuscript, 'articleType', '')
   const version = get(manuscript, 'version', '')
   const abstract = get(manuscript, 'abstract', '')
-  const professorName = get(manuscript, 'professorName', null)
   const file = get(manuscript, 'file', null)
   const authorComment = get(manuscript, 'author.comment', null)
   const editor = get(manuscript, 'editor.name', null)

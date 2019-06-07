@@ -83,7 +83,7 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="Review Process"
+            name="In Process"
             onClick={() => history.push('/assignedManuscripts')}
           />
         )}

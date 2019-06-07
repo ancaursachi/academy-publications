@@ -92,6 +92,11 @@ const queries = {
         abstract
         articleType
         submissionId
+        file {
+          name
+          size
+          providerKey
+        }
         author {
           name
         }
