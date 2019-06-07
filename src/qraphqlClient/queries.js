@@ -42,6 +42,11 @@ const queries = {
         abstract
         articleType
         submissionId
+        author {
+          id
+          name
+          comment
+        }
         editor {
           id
           name

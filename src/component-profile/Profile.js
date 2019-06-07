@@ -93,143 +93,141 @@ const Profile = ({ history, editUser, deleteUser, ...rest }) => {
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
-          console.log(values) || (
-            <Root pr={2} pl={1} {...rest}>
-              <Column />
-              <DetailsCard>
-                <Column>
-                  {loading ? (
-                    <RootLoader {...rest}>
-                      <Loader iconSize={2} />
-                    </RootLoader>
-                  ) : (
-                    <Content>
-                      <Title>Profile</Title>
-                      <RowInput>
-                        <InputForm
-                          mb={0.5}
-                          pr={0.5}
-                          required
-                          type="text"
-                          name="firstName"
-                          label="First name"
-                          onChange={handleChange}
-                          value={values.firstName}
-                          error={errors.firstName}
-                        />
-                        <InputForm
-                          mb={0.5}
-                          pl={0.5}
-                          required
-                          type="text"
-                          name="lastName"
-                          label="Last name"
-                          onChange={handleChange}
-                          value={values.lastName}
-                          error={errors.lastName}
-                        />
-                      </RowInput>
-                      <RowInput>
-                        <InputForm
-                          mb={0.5}
-                          pr={0.5}
-                          required
-                          type="text"
-                          label="Email"
-                          name="email"
-                          onChange={handleChange}
-                          value={values.email}
-                          error={errors.email}
-                        />
-                        <InputSelect
-                          pl={0.5}
-                          label="Role"
-                          name="role"
-                          type="text"
-                          options={['user', 'professor', 'admin']}
-                          value={values.searchType}
-                          onChange={handleChange}
-                        />
-                      </RowInput>
-                      <RowInput>
-                        <InputForm
-                          mb={0.5}
-                          pr={0.5}
-                          type="text"
-                          label="Country"
-                          name="country"
-                          onChange={handleChange}
-                          value={values.country}
-                          error={errors.country}
-                        />
-                        <InputForm
-                          mb={0.5}
-                          pl={0.5}
-                          label="City"
-                          type="text"
-                          name="city"
-                          onChange={handleChange}
-                          value={values.city}
-                          error={errors.city}
-                        />
-                      </RowInput>
-                      <RowInput>
-                        <InputForm
-                          mt={0.5}
-                          mb={0.5}
-                          pr={0.5}
-                          required
-                          name="university"
-                          type="text"
-                          label="University"
-                          onChange={handleChange}
-                          value={values.university}
-                          error={errors.university}
-                        />
-                        <InputForm
-                          mt={0.5}
-                          mb={0.5}
-                          pl={0.5}
-                          required
-                          type="text"
-                          name="specialization"
-                          label="Faculty/Specialization"
-                          onChange={handleChange}
-                          value={values.specialization}
-                          error={errors.specialization}
-                        />
-                      </RowInput>
-                      <Row mt={2} justify="space-around">
-                        <Button
-                          name={'Delete Acount'}
-                          underline
-                          iconName={'trash-alt'}
-                          color={th.colorBrick}
-                          mr={1.5}
-                          onClick={handleDelete}
-                        />
-                        <Button
-                          name={'Edit'}
-                          underline
-                          iconName={'arrow-right'}
-                          mr={1.5}
-                          onClick={handleSubmit}
-                        />
-                      </Row>
-                      <Modal
-                        showModal={showModal}
-                        handleShowModal={handleShowModal}
-                        title={'Are you sure you want to delete your account?'}
-                        buttonName={'Delete'}
-                        onClickSubmit={handleDeleteFinal}
+          <Root pr={2} pl={1} {...rest}>
+            <Column />
+            <DetailsCard>
+              <Column>
+                {loading ? (
+                  <RootLoader {...rest}>
+                    <Loader iconSize={2} />
+                  </RootLoader>
+                ) : (
+                  <Content>
+                    <Title>Profile</Title>
+                    <RowInput>
+                      <InputForm
+                        mb={0.5}
+                        pr={0.5}
+                        required
+                        type="text"
+                        name="firstName"
+                        label="First name"
+                        onChange={handleChange}
+                        value={values.firstName}
+                        error={errors.firstName}
                       />
-                    </Content>
-                  )}
-                </Column>
-              </DetailsCard>
-              <Column />
-            </Root>
-          )
+                      <InputForm
+                        mb={0.5}
+                        pl={0.5}
+                        required
+                        type="text"
+                        name="lastName"
+                        label="Last name"
+                        onChange={handleChange}
+                        value={values.lastName}
+                        error={errors.lastName}
+                      />
+                    </RowInput>
+                    <RowInput>
+                      <InputForm
+                        mb={0.5}
+                        pr={0.5}
+                        required
+                        type="text"
+                        label="Email"
+                        name="email"
+                        onChange={handleChange}
+                        value={values.email}
+                        error={errors.email}
+                      />
+                      <InputSelect
+                        pl={0.5}
+                        label="Role"
+                        name="role"
+                        type="text"
+                        options={['user', 'professor', 'admin']}
+                        value={values.searchType}
+                        onChange={handleChange}
+                      />
+                    </RowInput>
+                    <RowInput>
+                      <InputForm
+                        mb={0.5}
+                        pr={0.5}
+                        type="text"
+                        label="Country"
+                        name="country"
+                        onChange={handleChange}
+                        value={values.country}
+                        error={errors.country}
+                      />
+                      <InputForm
+                        mb={0.5}
+                        pl={0.5}
+                        label="City"
+                        type="text"
+                        name="city"
+                        onChange={handleChange}
+                        value={values.city}
+                        error={errors.city}
+                      />
+                    </RowInput>
+                    <RowInput>
+                      <InputForm
+                        mt={0.5}
+                        mb={0.5}
+                        pr={0.5}
+                        required
+                        name="university"
+                        type="text"
+                        label="University"
+                        onChange={handleChange}
+                        value={values.university}
+                        error={errors.university}
+                      />
+                      <InputForm
+                        mt={0.5}
+                        mb={0.5}
+                        pl={0.5}
+                        required
+                        type="text"
+                        name="specialization"
+                        label="Faculty/Specialization"
+                        onChange={handleChange}
+                        value={values.specialization}
+                        error={errors.specialization}
+                      />
+                    </RowInput>
+                    <Row mt={2} justify="space-around">
+                      <Button
+                        name={'Delete Acount'}
+                        underline
+                        iconName={'trash-alt'}
+                        color={th.colorBrick}
+                        mr={1.5}
+                        onClick={handleDelete}
+                      />
+                      <Button
+                        name={'Edit'}
+                        underline
+                        iconName={'arrow-right'}
+                        mr={1.5}
+                        onClick={handleSubmit}
+                      />
+                    </Row>
+                    <Modal
+                      showModal={showModal}
+                      handleShowModal={handleShowModal}
+                      title={'Are you sure you want to delete your account?'}
+                      buttonName={'Delete'}
+                      onClickSubmit={handleDeleteFinal}
+                    />
+                  </Content>
+                )}
+              </Column>
+            </DetailsCard>
+            <Column />
+          </Root>
         )
       }}
     </Formik>
