@@ -11,7 +11,7 @@ const PdfViewerPage = ({ history, match }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <PdfViewer history={history} match={match} pt={6} pb={3} />
+      <PdfViewer history={history} match={match} pt={4} pb={3} />
     </Root>
   )
 }

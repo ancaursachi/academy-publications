@@ -1,48 +1,163 @@
 import React, { useState } from 'react'
 import { Page, Document } from 'react-pdf'
 import styled from 'styled-components'
+import { useQuery } from 'react-apollo-hooks'
+import { get, debounce } from 'lodash'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
+import { queries } from '../qraphqlClient'
 // import { Document } from 'react-pdf/dist/entry.webpack'
+import { th, Loader, Button } from '../component-ui'
 
-const PdfViewer = () => {
+const LoaderComponent = ({ ...rest }) => (
+  <RootLoader {...rest}>
+    <Loader />
+  </RootLoader>
+)
+const PdfViewer = ({ match, ...rest }) => {
   let [totalPages, setTotalPages] = useState(0)
-  let [pageNumber, setPageNumber] = useState(1)
-  let [file, setFile] = useState(null)
-  const goToPrevPage = () => pageNumber > 1 && setPageNumber(pageNumber - 1)
+  let [currentPageNumber, setCurrentPageNumber] = useState(1)
+  const { manuscriptId } = match.params
+  const { data, loading } = useQuery(queries.getManuscript, {
+    variables: { _id: manuscriptId },
+  })
+
+  const providerKey = get(data, 'manuscript.file.providerKey')
+  const { data: signedUrl } = useQuery(queries.getSignedUrl, {
+    variables: { providerKey },
+  })
+  const url = get(signedUrl, 'signedUrl')
+
+  const goToPrevPage = () =>
+    currentPageNumber > 1 && setCurrentPageNumber(currentPageNumber - 1)
   const goToNextPage = () =>
-    pageNumber < totalPages && setPageNumber(pageNumber + 1)
+    currentPageNumber < totalPages &&
+    setCurrentPageNumber(currentPageNumber + 1)
+
+  if (loading) {
+    return <LoaderComponent {...rest} />
+  }
   return (
-    <div>
-      <br />
-      <h1>PDF Preview</h1>
-      <form>
-        <input type="file" onChange={event => setFile(event.target.files[0])} />
-      </form>
+    <Root {...rest}>
       <RenderDocument>
-        {file ? (
-          <p>
-            Page {pageNumber} of {totalPages}
-          </p>
-        ) : null}
-        <Document
-          file={file}
-          onLoadSuccess={numPages => setTotalPages(numPages._pdfInfo.numPages)}
-          noData={<h4>Please select a file</h4>}
-        >
-          <Page pageNumber={pageNumber} width={760} />
-        </Document>
+        {totalPages !== 0 && (
+          <ChangePage>
+            {currentPageNumber > 1 && (
+              <Button
+                mt={1}
+                iconLeft
+                underline
+                name="Prev"
+                color={th.colorGrey}
+                iconName={'arrow-left'}
+                onClick={goToPrevPage}
+              />
+            )}
+            <DisplayCurrentPage>
+              Page {currentPageNumber} of {totalPages}
+            </DisplayCurrentPage>
+            {currentPageNumber < totalPages && (
+              <Button
+                mt={1}
+                iconRight
+                underline
+                name="Next"
+                color={th.colorGrey}
+                iconName={'arrow-right'}
+                onClick={goToNextPage}
+              />
+            )}
+          </ChangePage>
+        )}
+        {url && (
+          <Document
+            file={{
+              url: url,
+              httpHeaders: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'X-CustomHeader': '40359820958024350238508234',
+              },
+              withCredentials: true,
+            }}
+            onLoadSuccess={numPages =>
+              setTotalPages(numPages._pdfInfo.numPages)
+            }
+            noData={<h4>No file yet</h4>}
+            loading={<LoaderComponent />}
+          >
+            <Page pageNumber={currentPageNumber} width={700} />
+          </Document>
+        )}
+
+        {totalPages !== 0 && (
+          <ChangePage>
+            {currentPageNumber > 1 && (
+              <Button
+                mt={1}
+                iconLeft
+                underline
+                name="Prev"
+                color={th.colorGrey}
+                iconName={'arrow-left'}
+                onClick={goToPrevPage}
+              />
+            )}
+            <DisplayCurrentPage>
+              Page {currentPageNumber} of {totalPages}
+            </DisplayCurrentPage>
+            {currentPageNumber < totalPages && (
+              <Button
+                mt={1}
+                iconRight
+                underline
+                name="Next"
+                color={th.colorGrey}
+                iconName={'arrow-right'}
+                onClick={goToNextPage}
+              />
+            )}
+          </ChangePage>
+        )}
       </RenderDocument>
-      {file ? (
-        <nav>
-          <button onClick={goToPrevPage}>Prev</button>
-          <button onClick={goToNextPage}>Next</button>
-        </nav>
-      ) : null}
-    </div>
+    </Root>
   )
 }
-const RenderDocument = styled.div`
-  width: 40%;
+const RootLoader = styled.div`
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+  height: 600px;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
 `
-
+const Root = styled.div`
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+  ${th.marginHelper};
+  ${th.paddingHelper};
+`
+const RenderDocument = styled.div``
+const ChangePage = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5em;
+  font-family: 'Nunito';
+`
+const DisplayCurrentPage = styled.div`
+  display: flex;
+  align-items: flex-end;
+  font-weight: 800;
+  font-family: 'Nunito';
+  margin: 16px 11px 0px;
+  background-color: ${th.colorWhite};
+  padding: 2px 3px;
+  border-radius: 4px;
+  border: 1px solid ${th.colorBlueLight};
+  font-size: 15px;
+  color: ${th.colorBlueLight};
+  white-space: nowrap;
+`
 export default PdfViewer
