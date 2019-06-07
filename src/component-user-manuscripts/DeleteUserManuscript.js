@@ -29,9 +29,9 @@ const DeleteUserManuscript = ({ manuscript, deleteManuscript }) => {
   return (
     <Fragment>
       <Button
-        iconName={'trash-alt'}
         width={1}
         decisionAdmin
+        iconName={'trash-alt'}
         color={th.colorBrick}
         onClick={handleShowModal}
       />

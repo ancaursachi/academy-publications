@@ -1,11 +1,10 @@
 import React from 'react'
 import { th, Button, Row, InputForm, InputSelect } from '../component-ui'
-import { mutations } from '../qraphqlClient'
+import { mutations, queries } from '../qraphqlClient'
 import { compose } from 'recompose'
 import { Formik } from 'formik'
 import styled from 'styled-components'
 import { editUserValidation } from '../component-users'
-import { queries } from '../qraphqlClient'
 
 const EditUser = ({ user, showModal, handleShowModal, editUser }) => {
   const initialValues = {

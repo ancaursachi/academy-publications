@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 import { useQuery } from 'react-apollo-hooks'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
+import { ProfilePage } from '../component-profile'
 import { AuthentificationPage } from '../component-authentification'
 import { DashboardPage } from '../component-dashboard'
 import { PdfViewerPage } from '../component-pdf-viewer'
@@ -115,6 +116,13 @@ const Routing = () => {
           path="/users"
           component={UsersPage}
           policy={policyRole(loggedInUser, ['admin'])}
+        />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/profile"
+          component={ProfilePage}
+          policy={policyRole(loggedInUser, ['admin', 'user', 'professor'])}
         />
         <Route exact path="/404" component={NotFoundPage} />
         <Redirect from="*" to="/login" />

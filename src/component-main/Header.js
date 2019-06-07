@@ -5,7 +5,6 @@ import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
 import { th, Button } from '../component-ui'
 import { withRouter } from 'react-router-dom'
-
 const Header = ({ history, loggedInUser }) => {
   const firstName = get(loggedInUser, 'firstName', '')
   const lastName = get(loggedInUser, 'lastName', '')
@@ -16,6 +15,7 @@ const Header = ({ history, loggedInUser }) => {
     history.push('/login')
     window.location.reload()
   }
+  const handleProfilePage = () => history.push('/profile')
   return (
     <Row>
       <Logo>
@@ -25,6 +25,8 @@ const Header = ({ history, loggedInUser }) => {
         <User>
           Hello, {firstName} {lastName}
         </User>
+
+        <ProfileButton onClick={handleProfilePage}>Profile</ProfileButton>
         <Button
           name="Logout"
           color={th.colorBlueLight}
@@ -51,10 +53,29 @@ const Row = styled.nav`
   width: 100%;
   font-family: 'Nunito';
 `
+const ProfileButton = styled.button`
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  font-family: 'Nunito';
+  font-size: 0.8em;
+  padding-right: 1em;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    color: ${th.colorCremLight};
+    font-weight: 600;
+  }
+  :active {
+    color: ${th.colorCremLight};
+  }
+`
+
 const User = styled.div`
   font-family: 'Nunito';
   font-size: 0.8em;
-  padding-right: 2em;
+  padding-right: 1em;
 `
 const Logo = styled.div`
   font-family: 'Nunito';
