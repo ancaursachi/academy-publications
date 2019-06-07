@@ -1,32 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { queries } from '../../qraphqlClient'
-import { useQuery } from 'react-apollo-hooks'
 import { th, Loader } from '../../component-ui'
 import {
   ManuscriptDetailsCard,
-  EditorMakeDecisionCard,
   EditorDecisionCard,
   RevisionManuscriptCard,
-  PeerReviewCheckBar,
   ChangePage,
 } from '..'
 
-const AuthorPeerReviewPage = ({ submission, ...rest }) => {
-  let [currentManuscript, setCurrentManuscript] = useState(0)
-  let [totalManuscripts, setTotalManuscripts] = useState(0)
-
+const AuthorPeerReviewPage = ({
+  submission,
+  totalManuscripts,
+  currentManuscript,
+  setCurrentManuscript,
+  ...rest
+}) => {
   const manuscript = submission[currentManuscript - 1]
   const editorDecision = get(manuscript, 'editor.decision', null)
   const userRole = get(manuscript, 'userRole', null)
   const status = get(manuscript, 'status', null)
-
-  useEffect(() => {
-    if (!submission) return
-    setTotalManuscripts(submission.length)
-    setCurrentManuscript(submission.length)
-  }, [submission])
 
   return (
     <Root {...rest}>

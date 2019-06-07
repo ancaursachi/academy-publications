@@ -11,7 +11,6 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
   const abstract = get(manuscript, 'abstract', '')
   const file = get(manuscript, 'file', null)
   const authorComment = get(manuscript, 'author.comment', null)
-  const editor = get(manuscript, 'editor.name', null)
 
   return (
     <DetailsCard {...rest}>

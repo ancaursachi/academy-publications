@@ -11,14 +11,14 @@ const EditorPeerReviewPage = ({
   totalManuscripts,
   currentManuscript,
   setCurrentManuscript,
-  ...rest
 }) => {
   return (
-    <Root {...rest}>
+    <Root>
       <PeerReviewCheckBar
         tabButtons={['Information Manuscript', 'Review manuscript']}
       >
         <InfoManuscript
+          mt={1}
           submission={submission}
           totalManuscripts={totalManuscripts}
           currentManuscript={currentManuscript}
@@ -31,10 +31,10 @@ const EditorPeerReviewPage = ({
 }
 
 const Root = styled.div`
+  padding-top: 3em;
   overflow: scroll;
   font-family: 'Nunito';
 
   ${th.marginHelper};
-  ${th.paddingHelper};
 `
 export default EditorPeerReviewPage

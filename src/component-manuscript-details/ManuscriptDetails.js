@@ -36,7 +36,17 @@ const ManuscriptDetails = ({ match, ...rest }) => {
         pb={3}
       />
     )
-  else return <AuthorPeerReviewPage submission={submission} pt={6} pb={3} />
+  else
+    return (
+      <AuthorPeerReviewPage
+        submission={submission}
+        totalManuscripts={totalManuscripts}
+        currentManuscript={currentManuscript}
+        setCurrentManuscript={setCurrentManuscript}
+        pt={6}
+        pb={3}
+      />
+    )
 }
 
 export default ManuscriptDetails
