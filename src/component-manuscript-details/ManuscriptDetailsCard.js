@@ -25,13 +25,6 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
         <VersionTag>Version {version}</VersionTag>
       </Row>
 
-      {editor && (
-        <Fragment>
-          <Label>Professor</Label>
-          <Abstract>{editor}</Abstract>
-        </Fragment>
-      )}
-
       <Label>Abstract</Label>
       <Abstract>{abstract}</Abstract>
 
