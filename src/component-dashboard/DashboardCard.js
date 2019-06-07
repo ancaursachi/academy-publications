@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, th, File } from '../component-ui'
+import { Card, th } from '../component-ui'
 import styled from 'styled-components'
 import { compose } from 'recompose'
 import { mutations } from '../qraphqlClient'
@@ -10,7 +10,6 @@ const DashboardCard = ({ manuscript, history }) => {
 
   const editorName = get(manuscript, 'editor.name', null)
   const authorName = get(manuscript, 'author.name', null)
-  const file = get(manuscript, 'file', null)
   const handleReview = () => {
     history.push(`/publicManuscripts/${_id}`)
   }
@@ -24,7 +23,6 @@ const DashboardCard = ({ manuscript, history }) => {
           {authorName && <AuthorName>Written by {authorName}</AuthorName>}
           {editorName && <EditorName>Editor: {editorName}</EditorName>}
           <Abstract>{abstract}</Abstract>
-          <File file={file} mt={0.8} />
         </Border>
       </ButtonCard>
     </StyledCard>
