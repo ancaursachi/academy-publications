@@ -44,29 +44,31 @@ const ManuscriptDetails = ({ match, ...rest }) => {
         </RootLoader>
       ) : (
         <Container>
-          <ChangeVersion>
-            <Button
-              mt={1}
-              iconLeft
-              underline
-              name="Prev"
-              color={th.colorGrey}
-              iconName={'arrow-left'}
-              onClick={goToPrevPage}
-            />
-            <DisplayCurrentVersion>
-              Version {currentManuscript}
-            </DisplayCurrentVersion>
-            <Button
-              mt={1}
-              iconRight
-              underline
-              name="Next"
-              color={th.colorGrey}
-              iconName={'arrow-right'}
-              onClick={goToNextPage}
-            />
-          </ChangeVersion>
+          {manuscript && (
+            <ChangeVersion>
+              <Button
+                mt={1}
+                iconLeft
+                underline
+                name="Prev"
+                color={th.colorGrey}
+                iconName={'arrow-left'}
+                onClick={goToPrevPage}
+              />
+              <DisplayCurrentVersion>
+                Version {currentManuscript}
+              </DisplayCurrentVersion>
+              <Button
+                mt={1}
+                iconRight
+                underline
+                name="Next"
+                color={th.colorGrey}
+                iconName={'arrow-right'}
+                onClick={goToNextPage}
+              />
+            </ChangeVersion>
+          )}
           {manuscript && (
             <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
           )}
@@ -88,16 +90,22 @@ const ManuscriptDetails = ({ match, ...rest }) => {
 const ChangeVersion = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   font-family: 'Nunito';
 `
 const DisplayCurrentVersion = styled.div`
   display: flex;
   align-items: flex-end;
   font-weight: 800;
-  padding: 0px 10px;
   font-family: 'Nunito';
-  font-size: 18px;
+  margin: 16px 11px 0px;
+  background-color: ${th.colorWhite};
+  padding: 2px 3px;
+  border-radius: 4px;
+  border: 1px solid ${th.colorBlueLight};
+  font-size: 15px;
+  color: ${th.colorBlueLight};
+  white-space: nowrap;
 `
 
 const Root = styled.div`
