@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Page, Document } from 'react-pdf'
 import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
@@ -13,10 +13,14 @@ const LoaderComponent = ({ ...rest }) => (
   </RootLoader>
 )
 
-const PdfRender = ({ manuscript, ...rest }) => {
-  let [totalPages, setTotalPages] = useState(0)
-  let [currentPageNumber, setCurrentPageNumber] = useState(1)
-
+const PdfRender = ({
+  manuscript,
+  currentPageNumber,
+  setCurrentPageNumber,
+  totalPages,
+  setTotalPages,
+  ...rest
+}) => {
   const providerKey = get(manuscript, 'file.providerKey')
   const { data: signedUrl, loading } = useQuery(queries.getSignedUrl, {
     variables: { providerKey },

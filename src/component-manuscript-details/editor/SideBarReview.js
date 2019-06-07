@@ -1,13 +1,54 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { th } from '../../component-ui'
+import { th, Row, Button, InputTextarea } from '../../component-ui'
+import { Formik } from 'formik'
 
-const SideBarReview = () => <Root>side</Root>
-
+const GiveComment = () => {
+  const initialValues = { comment: '' }
+  return (
+    <Formik initialValues={initialValues} onSubmit={input => {}}>
+      {({ values, handleChange, handleSubmit, errors }) => {
+        return (
+          <Fragment>
+            <InputTextarea
+              name="comment"
+              type="textarea"
+              mt={1}
+              heightinput={8}
+              value={values.comment}
+              onChange={handleChange}
+            />
+            <Row mr={20} mb={0.5} justify="flex-end">
+              <Button
+                name="Add"
+                type="submit"
+                fontSize={0.9}
+                color={th.colorBlueLight}
+                iconName={'arrow-right'}
+                onClick={handleSubmit}
+              />
+            </Row>
+          </Fragment>
+        )
+      }}
+    </Formik>
+  )
+}
+const SideBarReview = ({ manuscript, currentPageNumber }) => {
+  console.log(currentPageNumber)
+  return (
+    <Root>
+      <Title>Comments</Title>
+      <GiveComment />
+    </Root>
+  )
+}
 const Root = styled.div`
+  padding: 10px 10px;
   background-color: white;
   height: 100vh;
   box-shadow: 0em 0em 0em 0.3px ${th.colorBlueGray};
 `
+const Title = styled.div``
 
 export default SideBarReview

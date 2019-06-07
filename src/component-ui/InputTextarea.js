@@ -14,6 +14,7 @@ const InputTextarea = ({
   validate,
   error = null,
   heightinput = null,
+  fontSize,
   type = 'text',
   ...props
 }) => (
@@ -24,6 +25,7 @@ const InputTextarea = ({
       type={type}
       heightinput={heightinput}
       value={value}
+      fontSize={fontSize}
       onChange={onChange}
       validate={validate}
       component="textarea"
@@ -54,6 +56,7 @@ const Textarea = styled(Field)`
   max-height: ${props =>
     props.heightinput ? `${props.heightinput}em` : '5em'};
   padding: 0.5em 0.5em;
+  font-size: ${props => (props.fontSize ? `${props.fontSize}px` : 'inherit')};
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;

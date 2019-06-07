@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
 import { get } from 'lodash'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import { queries } from '../qraphqlClient'
-import { th, Loader } from '../component-ui'
 import { PdfRender } from '../component-pdf-viewer'
 
 const PdfViewer = ({ match, ...rest }) => {
@@ -15,7 +14,19 @@ const PdfViewer = ({ match, ...rest }) => {
   })
   const manuscript = get(data, 'manuscript')
 
-  return <PdfRender manuscript={manuscript} {...rest} />
+  let [totalPages, setTotalPages] = useState(0)
+  let [currentPageNumber, setCurrentPageNumber] = useState(1)
+
+  return (
+    <PdfRender
+      manuscript={manuscript}
+      totalPages={totalPages}
+      setTotalPages={setTotalPages}
+      currentPageNumber={currentPageNumber}
+      setCurrentPageNumber={setCurrentPageNumber}
+      {...rest}
+    />
+  )
 }
 
 export default PdfViewer
