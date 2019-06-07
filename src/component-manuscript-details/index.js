@@ -10,4 +10,6 @@ export { default as AuthorPeerReviewPage } from './author/AuthorPeerReviewPage'
 
 export { default as EditorPeerReviewPage } from './editor/EditorPeerReviewPage'
 export { default as InfoManuscript } from './editor/InfoManuscript'
-export { default as PeerReviewCheckBar } from './editor/PeerReviewCheckBar'
+export { default as CheckBar } from './editor/CheckBar'
+export { default as RenderManuscript } from './editor/RenderManuscript'
+export { default as SideBarReview } from './editor/SideBarReview'

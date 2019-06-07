@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { th } from '../../component-ui'
 import {
-  PeerReviewCheckBar,
+  CheckBar,
   InfoManuscript,
+  RenderManuscript,
 } from '../../component-manuscript-details'
 
 const EditorPeerReviewPage = ({
@@ -11,12 +12,11 @@ const EditorPeerReviewPage = ({
   totalManuscripts,
   currentManuscript,
   setCurrentManuscript,
+  ...rest
 }) => {
   return (
-    <Root>
-      <PeerReviewCheckBar
-        tabButtons={['Information Manuscript', 'Review manuscript']}
-      >
+    <Root {...rest}>
+      <CheckBar tabButtons={['Information Manuscript', 'Review manuscript']}>
         <InfoManuscript
           mt={1}
           submission={submission}
@@ -24,17 +24,17 @@ const EditorPeerReviewPage = ({
           currentManuscript={currentManuscript}
           setCurrentManuscript={setCurrentManuscript}
         />
-        <div>hei</div>
-      </PeerReviewCheckBar>
+        <RenderManuscript submission={submission} />
+      </CheckBar>
     </Root>
   )
 }
 
 const Root = styled.div`
-  padding-top: 3em;
-  overflow: scroll;
+  /* overflow: hidden; */
+  height: calc(100vh);
   font-family: 'Nunito';
-
+  ${th.paddingHelper};
   ${th.marginHelper};
 `
 export default EditorPeerReviewPage

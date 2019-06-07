@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Tabs, th } from '../../component-ui'
 
-const PeerReviewCheckBar = ({ children, tabButtons }) => {
+const CheckBar = ({ children, tabButtons }) => {
   return (
     <Tabs selectedTab={0}>
       {({ selectedTab, changeTab }) => (
@@ -85,4 +85,4 @@ const Tab = styled.button`
   }
   ${StyledActiveTab}
 `
-export default PeerReviewCheckBar
+export default CheckBar

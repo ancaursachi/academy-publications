@@ -20,7 +20,6 @@ const InfoManuscript = ({
   const editorDecision = get(manuscript, 'editor.decision', null)
   const userRole = get(manuscript, 'userRole', null)
 
-  console.log('ajunge aici', manuscript)
   return (
     <Root {...rest}>
       <Wrapper>
@@ -61,7 +60,7 @@ const Wrapper = styled.div`
 
 const Root = styled.div`
   overflow: scroll;
-
+  height: calc(100vh - 104px);
   font-family: 'Nunito';
 
   ${th.marginHelper};

@@ -32,7 +32,7 @@ const ManuscriptDetails = ({ match, ...rest }) => {
         totalManuscripts={totalManuscripts}
         currentManuscript={currentManuscript}
         setCurrentManuscript={setCurrentManuscript}
-        pt={6}
+        pt={3}
         pb={3}
       />
     )
