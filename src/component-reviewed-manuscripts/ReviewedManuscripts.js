@@ -4,14 +4,14 @@ import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 import { get, sortBy } from 'lodash'
 import { th, Loader, SearchBar, EmptyError } from '../component-ui'
-import { ManuscriptCardAssigned } from '../component-assigned-manuscripts'
+import { ReviewedManuscriptCard } from '../component-reviewed-manuscripts'
 import styled from 'styled-components'
 
-const AssignedManuscripts = ({ history, ...rest }) => {
-  const { data, loading } = useQuery(queries.getAssignedManuscripts)
+const ReviewedManuscripts = ({ history, ...rest }) => {
+  const { data, loading } = useQuery(queries.getReviewedManuscripts)
 
   const initialValues = { searchValue: '', searchType: 'title' }
-  const manuscripts = get(data, 'assignedManuscripts', [])
+  const manuscripts = get(data, 'reviewedManuscripts', [])
   const sortedManuscripts = sortBy(
     manuscripts,
     manuscript => -manuscript.created,
@@ -30,7 +30,7 @@ const AssignedManuscripts = ({ history, ...rest }) => {
                 </RootLoader>
               ) : (
                 <Content>
-                  <TitlePage>In Review Process</TitlePage>
+                  <TitlePage>Reviewed manuscripts</TitlePage>
                   <SearchBar
                     values={values}
                     handleChange={handleChange}
@@ -43,14 +43,16 @@ const AssignedManuscripts = ({ history, ...rest }) => {
                         .includes(values.searchValue.toLowerCase()),
                     )
                     .map(manuscript => (
-                      <ManuscriptCardAssigned
+                      <ReviewedManuscriptCard
                         history={history}
                         key={manuscript._id}
                         manuscript={manuscript}
                       />
                     ))}
                   {!manuscripts.length && (
-                    <EmptyError>Choose manuscripts to review</EmptyError>
+                    <EmptyError>
+                      Here you will see manuscripts after perr review.
+                    </EmptyError>
                   )}
                 </Content>
               )}
@@ -89,4 +91,4 @@ const TitlePage = styled.div`
   padding-bottom: 1em;
   color: ${th.colorBlue};
 `
-export default AssignedManuscripts
+export default ReviewedManuscripts

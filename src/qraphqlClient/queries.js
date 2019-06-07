@@ -51,6 +51,26 @@ const queries = {
       }
     }
   `,
+  getReviewedManuscripts: gql`
+    query reviewedManuscripts {
+      reviewedManuscripts {
+        _id
+        title
+        created
+        status
+        version
+        abstract
+        articleType
+        submissionId
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+      }
+    }
+  `,
   getManuscript: gql`
     query manuscript($_id: ID!) {
       manuscript(_id: $_id) {

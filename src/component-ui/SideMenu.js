@@ -83,8 +83,18 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="In Process"
+            name="In Review Process"
             onClick={() => history.push('/assignedManuscripts')}
+          />
+        )}
+        {policyRole(loggedInUser, ['professor']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Reviewed manuscripts"
+            onClick={() => history.push('/reviewedManuscripts')}
           />
         )}
 

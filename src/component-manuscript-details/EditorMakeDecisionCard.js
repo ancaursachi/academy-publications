@@ -32,6 +32,8 @@ const EditorMakeDecisionCard = ({
           query: queries.getSubmission,
           variables: { submissionId: manuscript.submissionId },
         },
+        { query: queries.getAssignedManuscripts },
+        { query: queries.getReviewedManuscripts },
       ],
     })
   }
@@ -55,7 +57,6 @@ const EditorMakeDecisionCard = ({
               name="comment"
               type="textarea"
               mt={1}
-              required
               value={values.comment}
               onChange={handleChange}
             />

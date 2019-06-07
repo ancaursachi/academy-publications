@@ -10,6 +10,7 @@ import { PdfViewerPage } from '../component-pdf-viewer'
 import { Header } from '../component-main'
 import { SubmissionPage } from '../component-submission'
 import { AssignedManuscriptsPage } from '../component-assigned-manuscripts'
+import { ReviewedManuscriptsPage } from '../component-reviewed-manuscripts'
 import { UnassignedManuscriptsPage } from '../component-unassigned-manuscripts'
 import { UsersPage } from '../component-users'
 import { ManuscriptsPage } from '../component-manuscripts'
@@ -100,6 +101,14 @@ const Routing = () => {
           component={UnassignedManuscriptsPage}
           policy={policyRole(loggedInUser, ['professor'])}
         />
+        <PrivateRoute
+          exact
+          loggedInUser={loggedInUser}
+          path="/reviewedManuscripts"
+          component={ReviewedManuscriptsPage}
+          policy={policyRole(loggedInUser, ['professor'])}
+        />
+
         <PrivateRoute
           exact
           loggedInUser={loggedInUser}

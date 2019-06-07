@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
 import { th, DetailsCard } from '../component-ui'
@@ -18,8 +18,12 @@ const EditorDecisionCard = ({ manuscript, ...rest }) => {
       <Label>Decision</Label>
       <Data>{parseText(editorDecision)}</Data>
 
-      <Label>Comment</Label>
-      <Data>{parseText(editorComment)}</Data>
+      {editorComment && (
+        <Fragment>
+          <Label>Comment</Label>
+          <Data>{parseText(editorComment)}</Data>
+        </Fragment>
+      )}
     </DetailsCard>
   )
 }
