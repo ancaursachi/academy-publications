@@ -8,18 +8,6 @@ const PdfViewer = () => {
   let [totalPages, setTotalPages] = useState(0)
   let [pageNumber, setPageNumber] = useState(1)
   let [file, setFile] = useState(null)
-  console.log(typeof file)
-  const nextPage = () => {
-    let nextPageNumber
-
-    if (pageNumber + 1 > totalPages) {
-      nextPageNumber = 1
-    } else {
-      nextPageNumber = pageNumber + 1
-    }
-    setPageNumber(nextPageNumber)
-  }
-
   const goToPrevPage = () => pageNumber > 1 && setPageNumber(pageNumber - 1)
   const goToNextPage = () =>
     pageNumber < totalPages && setPageNumber(pageNumber + 1)
