@@ -70,7 +70,7 @@ const IconStyle = styled.div`
 `
 const WrapperFile = styled.div`
   display: grid;
-  grid-template-columns: 90% 10%;
+  grid-template-columns: 85% 15%;
 `
 
 const Root = styled.div`

@@ -1,68 +1,60 @@
-import React from 'react'
-import { Document, Page } from 'react-pdf'
+import React, { useState } from 'react'
+import { Page, Document } from 'react-pdf'
+import styled from 'styled-components'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
-class PdfViewer extends React.Component {
-  state = {
-    file: null,
-    numPages: 0,
-    pageNumber: 1,
-  }
+// import { Document } from 'react-pdf/dist/entry.webpack'
 
-  onFileChange = event => {
-    this.setState({
-      file: event.target.files[0],
-    })
-  }
-
-  onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({ numPages })
-  }
-
-  nextPage = () => {
-    const currentPageNumber = this.state.pageNumber
+const PdfViewer = () => {
+  let [totalPages, setTotalPages] = useState(0)
+  let [pageNumber, setPageNumber] = useState(1)
+  let [file, setFile] = useState(null)
+  console.log(typeof file)
+  const nextPage = () => {
     let nextPageNumber
 
-    if (currentPageNumber + 1 > this.state.numPages) {
+    if (pageNumber + 1 > totalPages) {
       nextPageNumber = 1
     } else {
-      nextPageNumber = currentPageNumber + 1
+      nextPageNumber = pageNumber + 1
     }
-
-    this.setState({
-      pageNumber: nextPageNumber,
-    })
+    setPageNumber(nextPageNumber)
   }
 
-  render() {
-    const { pageNumber, numPages } = this.state
-
-    return (
-      <div>
-        <br />
-        <h1>PDF Preview</h1>
-        <form>
-          <input type="file" onChange={this.onFileChange} />
-        </form>
-        <div >
-          <div onClick={this.nextPage}>
-            <Document
-              file={this.state.file}
-              onLoadSuccess={this.onDocumentLoadSuccess}
-              noData={<h4>Please select a file</h4>}
-            >
-              <Page pageNumber={pageNumber} />
-            </Document>
-            {console.log(this.state)}
-            {this.state.file ? (
-              <p>
-                Page {pageNumber} of {numPages}
-              </p>
-            ) : null}
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const goToPrevPage = () => pageNumber > 1 && setPageNumber(pageNumber - 1)
+  const goToNextPage = () =>
+    pageNumber < totalPages && setPageNumber(pageNumber + 1)
+  return (
+    <div>
+      <br />
+      <h1>PDF Preview</h1>
+      <form>
+        <input type="file" onChange={event => setFile(event.target.files[0])} />
+      </form>
+      <RenderDocument>
+        {file ? (
+          <p>
+            Page {pageNumber} of {totalPages}
+          </p>
+        ) : null}
+        <Document
+          file={file}
+          onLoadSuccess={numPages => setTotalPages(numPages._pdfInfo.numPages)}
+          noData={<h4>Please select a file</h4>}
+        >
+          <Page pageNumber={pageNumber} width={760} />
+        </Document>
+      </RenderDocument>
+      {file ? (
+        <nav>
+          <button onClick={goToPrevPage}>Prev</button>
+          <button onClick={goToNextPage}>Next</button>
+        </nav>
+      ) : null}
+    </div>
+  )
 }
+const RenderDocument = styled.div`
+  width: 40%;
+`
 
 export default PdfViewer
