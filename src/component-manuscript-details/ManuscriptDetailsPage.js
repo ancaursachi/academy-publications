@@ -15,7 +15,7 @@ const ManuscriptDetailsPage = ({ history, match }) => {
 
 const Root = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh);
   display: grid;
   grid-template-columns: 18% 82%;
 `

@@ -23,11 +23,13 @@ const useCreateRevision = () => {
   const useCreateRevisionMutation = useMutation(createRevision)
   const onCreateRevision = (input, file, history, manuscript) => {
     if (file) {
+      console.log(manuscript)
       useCreateRevisionMutation({
         variables: {
           oldManuscript: {
             submissionId: manuscript.submissionId,
             version: manuscript.version,
+            public: manuscript.public,
             editor: {
               id: manuscript.editor.id,
               name: manuscript.editor.name,

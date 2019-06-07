@@ -39,6 +39,7 @@ module.exports = gql`
     _id: String!
     title: String
     created: Date
+    public: Boolean
     abstract: String
     status: String
     version: Int
@@ -54,6 +55,7 @@ module.exports = gql`
     _id: String!
     title: String
     created: Date
+    public: Boolean
     abstract: String
     status: String
     version: Int
@@ -73,6 +75,7 @@ module.exports = gql`
 
   input ManuscriptInput {
     title: String
+    public: Boolean
     abstract: String
     articleType: String
     file: FileInput
@@ -86,6 +89,7 @@ module.exports = gql`
 
   input OldManuscript {
     version: Int
+    public: Boolean
     submissionId: String!
     editor: EditorInputOldManuscript
   }

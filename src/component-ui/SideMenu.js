@@ -149,7 +149,7 @@ const RootButton = styled.button`
 const Root = styled.div`
   font-family: 'Nunito';
   background-color: ${th.colorBlue};
-  height: 100%;
+  height: calc(100vh);
   width: 100%;
   box-shadow: 0em 0em 0.6em 0em rgba(0, 0, 0, 0.5);
   align-items: flex-start;

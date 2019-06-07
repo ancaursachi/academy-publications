@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { get, last } from 'lodash'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
-import { th, Loader, Button, Row } from '../component-ui'
+import { th, Loader, Button } from '../component-ui'
 import {
   ManuscriptDetailsCard,
   EditorMakeDecisionCard,
@@ -30,11 +30,13 @@ const ManuscriptDetails = ({ match, ...rest }) => {
     setTotalManuscripts(submission.length)
     setCurrentManuscript(submission.length)
   }, [submission])
+
   const goToPrevPage = () =>
     currentManuscript > 1 && setCurrentManuscript(currentManuscript - 1)
   const goToNextPage = () =>
     currentManuscript < totalManuscripts &&
     setCurrentManuscript(currentManuscript + 1)
+
   return (
     <Root {...rest}>
       <Column />
@@ -44,29 +46,33 @@ const ManuscriptDetails = ({ match, ...rest }) => {
         </RootLoader>
       ) : (
         <Container>
-          {manuscript && (
+          {manuscript && submission.length > 1 && (
             <ChangeVersion>
-              <Button
-                mt={1}
-                iconLeft
-                underline
-                name="Prev"
-                color={th.colorGrey}
-                iconName={'arrow-left'}
-                onClick={goToPrevPage}
-              />
+              {currentManuscript > 1 && (
+                <Button
+                  mt={1}
+                  iconLeft
+                  underline
+                  name="Prev"
+                  color={th.colorGrey}
+                  iconName={'arrow-left'}
+                  onClick={goToPrevPage}
+                />
+              )}
               <DisplayCurrentVersion>
                 Version {currentManuscript}
               </DisplayCurrentVersion>
-              <Button
-                mt={1}
-                iconRight
-                underline
-                name="Next"
-                color={th.colorGrey}
-                iconName={'arrow-right'}
-                onClick={goToNextPage}
-              />
+              {currentManuscript < totalManuscripts && (
+                <Button
+                  mt={1}
+                  iconRight
+                  underline
+                  name="Next"
+                  color={th.colorGrey}
+                  iconName={'arrow-right'}
+                  onClick={goToNextPage}
+                />
+              )}
             </ChangeVersion>
           )}
           {manuscript && (
@@ -109,6 +115,7 @@ const DisplayCurrentVersion = styled.div`
 `
 
 const Root = styled.div`
+  overflow: scroll;
   display: grid;
   grid-template-columns: 15% 70% 15%;
   font-family: 'Nunito';

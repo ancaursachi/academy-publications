@@ -110,8 +110,9 @@ const queries = {
       getSubmission(submissionId: $submissionId) {
         _id
         title
-        created
         status
+        public
+        created
         version
         userRole
         abstract

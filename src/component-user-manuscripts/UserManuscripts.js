@@ -63,6 +63,7 @@ const UserManuscripts = ({ history, ...rest }) => {
   )
 }
 const Root = styled.div`
+  overflow: scroll;
   font-family: 'Nunito';
   display: grid;
   grid-template-columns: 15% 70% 15%;

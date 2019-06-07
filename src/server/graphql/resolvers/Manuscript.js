@@ -88,7 +88,6 @@ const models = {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
       const manuscripts = await Manuscript.find()
       const users = await User.find({})
-
       const groupedManuscripts = chain(manuscripts)
         .groupBy('submissionId')
         .map(manuscript => {
@@ -96,6 +95,7 @@ const models = {
         })
         .filter(
           manuscript =>
+            manuscript.public === true &&
             manuscript.editor &&
             manuscript.editor.decision &&
             manuscript.editor.decision.toLowerCase() === 'publish',
@@ -259,6 +259,7 @@ const models = {
         created: new Date(),
         status: 'Submitted Revision',
         version: oldManuscript.version + 1,
+        public: oldManuscript.public,
         ...restInput,
         editor: {
           id: ObjectId(oldManuscript.editor.id),

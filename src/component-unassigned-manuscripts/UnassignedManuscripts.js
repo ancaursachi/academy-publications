@@ -63,6 +63,7 @@ const UnassignedManuscripts = ({ ...rest }) => {
 }
 
 const Root = styled.div`
+  overflow: scroll;
   display: grid;
   grid-template-columns: 15% 70% 15%;
   font-family: 'Nunito';
