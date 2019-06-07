@@ -35,7 +35,6 @@ const GiveComment = () => {
   )
 }
 const SideBarReview = ({ manuscript, currentPageNumber }) => {
-  console.log(currentPageNumber)
   return (
     <Root>
       <Title>Comments</Title>
@@ -44,6 +43,7 @@ const SideBarReview = ({ manuscript, currentPageNumber }) => {
   )
 }
 const Root = styled.div`
+  overflow: scroll;
   padding: 10px 10px;
   background-color: white;
   height: 100vh;

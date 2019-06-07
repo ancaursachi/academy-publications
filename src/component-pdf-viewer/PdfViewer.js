@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
 import { get } from 'lodash'
 import 'react-pdf/dist/Page/AnnotationLayer.css'

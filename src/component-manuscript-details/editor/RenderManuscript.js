@@ -38,7 +38,7 @@ const PdfContainer = styled.div`
 
 const Root = styled.div`
   overflow: scroll;
-  height: calc(100vh - 104px);
+  height: calc(100vh - 90px);
   display: grid;
   grid-template-columns: 75% 25%;
   font-family: 'Nunito';
@@ -46,14 +46,5 @@ const Root = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
-const Container = styled.div``
-const Column = styled.div``
 
-const RootLoader = styled.div`
-  display: flex;
-  justify-content: center;
-  font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
-`
 export default RenderManuscript

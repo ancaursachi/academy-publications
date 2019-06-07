@@ -1,8 +1,6 @@
 const policyRole = require('../policyRole')
 const s3Service = require('../../s3Service')
 const uuidv4 = require('uuid/v4')
-const os = require('os')
-const path = require('path')
 const models = {
   Query: {
     file: async (parent, { _id }, { loggedInUser }) => {
@@ -17,10 +15,6 @@ const models = {
     },
     signedUrl: async (parent, { providerKey }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
-      const ceva = await s3Service.getObject(providerKey)
-      const filePath = path.resolve(os.tmpdir(), providerKey.replace('/', ''))
-      console.log(filePath)
-
       return await s3Service.getSignedUrl(providerKey)
     },
   },
