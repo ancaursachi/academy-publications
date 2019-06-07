@@ -1,40 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { get } from 'lodash'
-import { th, Loader } from '../../component-ui'
-import {
-  ManuscriptDetailsCard,
-  EditorMakeDecisionCard,
-  EditorDecisionCard,
-  ChangePage,
-  SideBarReview,
-} from '../../component-manuscript-details'
+import { last } from 'lodash'
+import { th } from '../../component-ui'
+import { SideBarReview } from '../../component-manuscript-details'
 
-const RenderManuscript = ({
-  submission,
-  totalManuscripts,
-  currentManuscript,
-  setCurrentManuscript,
-  ...rest
-}) => {
-  const manuscript = submission[currentManuscript - 1]
-  const editorDecision = get(manuscript, 'editor.decision', null)
-  const userRole = get(manuscript, 'userRole', null)
+import { PdfRender } from '../../component-pdf-viewer'
 
+const RenderManuscript = ({ submission, ...rest }) => {
+  const manuscript = last(submission)
   return (
     <Root {...rest}>
-      <div>hei</div>
-      <SideBarReview />
+      <PdfContainer>
+        <PdfRender manuscript={manuscript} pb={2} />
+      </PdfContainer>
+      <SideBarReview manuscript />
     </Root>
   )
 }
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 15% 70% 15%;
+
+const PdfContainer = styled.div`
+  display: flex;
+  overflow: scroll;
+  justify-content: center;
 `
 
 const Root = styled.div`
   overflow: scroll;
+  height: calc(100vh - 104px);
   display: grid;
   grid-template-columns: 70% 30%;
   font-family: 'Nunito';

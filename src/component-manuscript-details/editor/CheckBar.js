@@ -4,7 +4,7 @@ import { Tabs, th } from '../../component-ui'
 
 const CheckBar = ({ children, tabButtons }) => {
   return (
-    <Tabs selectedTab={0}>
+    <Tabs selectedTab={1}>
       {({ selectedTab, changeTab }) => (
         <Fragment>
           <TabsHeader>
