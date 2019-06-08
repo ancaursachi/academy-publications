@@ -28,7 +28,6 @@ const Comment = ({ comment, manuscript, addAuthorAnswer }) => {
       ],
     })
   }
-  console.log(authorComment)
   return (
     <RootComment>
       <Card authorComment={authorComment} visibleComment={visibleComment}>
