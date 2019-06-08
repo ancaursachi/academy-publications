@@ -216,6 +216,32 @@ const queries = {
       }
     }
   `,
+  getManuscriptComments: gql`
+    query manuscriptComments($manuscriptId: ID!) {
+      manuscriptComments(manuscriptId: $manuscriptId) {
+        _id
+        manuscriptId
+        editorId
+        editorComment
+        authorId
+        authorAnswer
+        page
+      }
+    }
+  `,
+  getPageComments: gql`
+    query pageComments($manuscriptId: ID!, $page: Int) {
+      pageComments(manuscriptId: $manuscriptId, page: $page) {
+        _id
+        manuscriptId
+        editorId
+        editorComment
+        authorId
+        authorAnswer
+        page
+      }
+    }
+  `,
 }
 
 export default queries

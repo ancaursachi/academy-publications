@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import { th, Row, Button, InputTextarea } from '../../component-ui'
 import { Formik } from 'formik'
 import { compose } from 'recompose'
+import { get } from 'lodash'
 import { mutations, queries } from '../../qraphqlClient'
+import { useQuery } from 'react-apollo-hooks'
 
 const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
   const handleCreateComment = values => {
@@ -19,6 +21,10 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
         {
           query: queries.getSubmission,
           variables: { submissionId: manuscript.submissionId },
+        },
+        {
+          query: queries.getPageComments,
+          variables: { manuscriptId: manuscript._id, page: currentPageNumber },
         },
       ],
     })
@@ -62,10 +68,15 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
     </Formik>
   )
 }
-const DisplayComment = () => {
-  return <Card>hei</Card>
+const DisplayComment = ({ comment }) => {
+  const editorComment = comment.editorComment
+  return <Card>{editorComment}</Card>
 }
 const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {
+  const { data } = useQuery(queries.getPageComments, {
+    variables: { manuscriptId: manuscript._id, page: currentPageNumber },
+  })
+  const pageComments = get(data, 'pageComments')
   return (
     <Root>
       <Title>Comments</Title>
@@ -74,6 +85,10 @@ const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {
         createComment={createComment}
         currentPageNumber={currentPageNumber}
       />
+      {pageComments &&
+        pageComments.map(comment => (
+          <DisplayComment key={comment._id} comment={comment} />
+        ))}
     </Root>
   )
 }
@@ -86,6 +101,12 @@ const Root = styled.div`
 `
 const Title = styled.div``
 
-const Card = styled.div``
+const Card = styled.div`
+  background-color: whitesmoke;
+  border-radius: 4px;
+  margin: 10px 0px;
+  padding: 0.5em 0.5em;
+  border: 1px solid ${th.colorCremLight};
+`
 
 export default compose(mutations)(SideBarReview)

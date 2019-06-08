@@ -12,6 +12,14 @@ const models = {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])
       return await Comment.find({})
     },
+    manuscriptComments: async (parent, { manuscriptId }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user', 'professor', 'admin'])
+      return await Comment.find({ manuscriptId })
+    },
+    pageComments: async (parent, { manuscriptId, page }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user', 'professor', 'admin'])
+      return await Comment.find({ manuscriptId, page })
+    },
   },
 
   Mutation: {
@@ -34,8 +42,7 @@ const models = {
         authorAnswer: null,
         page,
       })
-      console.log(newComment)
-      // await newComment.save()
+      await newComment.save()
       return newComment
     },
   },
