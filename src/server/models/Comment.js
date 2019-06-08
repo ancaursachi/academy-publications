@@ -10,7 +10,7 @@ const CommentSchema = new mongoose.Schema({
   editorComment: {
     type: String,
   },
-  comment: {
+  authorId: {
     type: String,
   },
   authorAnswer: {

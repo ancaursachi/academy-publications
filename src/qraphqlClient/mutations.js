@@ -114,6 +114,18 @@ export const uploadFile = gql`
     }
   }
 `
+export const createComment = gql`
+  mutation createComment($input: EditorComment) {
+    createComment(input: $input) {
+      manuscriptId
+      editorId
+      editorComment
+      authorId
+      authorAnswer
+      page
+    }
+  }
+`
 
 export default compose(
   graphql(signUp, { name: 'signUp' }),
@@ -127,4 +139,5 @@ export default compose(
   graphql(addProfessorDecision, { name: 'addProfessorDecision' }),
   graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
   graphql(removeEditorFromManuscript, { name: 'removeEditorFromManuscript' }),
+  graphql(createComment, { name: 'createComment' }),
 )

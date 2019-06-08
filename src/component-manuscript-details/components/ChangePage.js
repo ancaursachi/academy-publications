@@ -1,5 +1,5 @@
 import React from 'react'
-import { th, Loader, Button } from '../../component-ui'
+import { th, Button } from '../../component-ui'
 import styled from 'styled-components'
 
 const ChangePage = ({
@@ -7,8 +7,6 @@ const ChangePage = ({
   totalManuscripts,
   setCurrentManuscript,
 }) => {
-  console.log('ajunge aici', currentManuscript)
-
   const goToPrevPage = () =>
     currentManuscript > 1 && setCurrentManuscript(currentManuscript - 1)
   const goToNextPage = () =>

@@ -2,8 +2,9 @@ const { gql } = require('apollo-server-express')
 
 module.exports = gql`
   type Query {
-    comment(_id: ID!): Comment!
+    comment(_id: ID!): Comment
     comments: [Comment]
+    manuscriptComments(manuscriptId: ID!): [Comment]
   }
   type Comment {
     manuscriptId: String
@@ -16,11 +17,10 @@ module.exports = gql`
 
   input EditorComment {
     manuscriptId: String
-    editorId: String
     editorComment: String
     page: Int
   }
   type Mutation {
-    createComment(input: EditorComment): Comment!
+    createComment(input: EditorComment): Comment
   }
 `

@@ -2,12 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
 import { th, Loader } from '../../component-ui'
-import {
-  ManuscriptDetailsCard,
-  EditorMakeDecisionCard,
-  EditorDecisionCard,
-  ChangePage,
-} from '..'
+import { ManuscriptDetailsCard, EditorDecisionCard, ChangePage } from '..'
 
 const InfoManuscriptTab = ({
   submission,

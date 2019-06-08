@@ -17,7 +17,7 @@ const models = {
   Mutation: {
     createComment: async (
       parent,
-      { input: { manuscriptId, editorId, editorComment, page } },
+      { input: { manuscriptId, editorComment, page } },
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['professor', 'admin', 'user'])
@@ -28,13 +28,14 @@ const models = {
       }
       const newComment = new Comment({
         manuscriptId,
-        editorId,
+        editorId: manuscript.editor.id,
         editorComment,
         authorId: manuscript.author.id,
         authorAnswer: null,
         page,
       })
-      await newComment.save()
+      console.log(newComment)
+      // await newComment.save()
       return newComment
     },
   },
