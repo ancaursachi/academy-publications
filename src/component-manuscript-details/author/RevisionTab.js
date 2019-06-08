@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { th, Loader } from '../../component-ui'
-import { RevisionManuscriptCard } from '..'
+import { RevisionManuscriptCard } from '../../component-manuscript-details'
 const RevisionTab = ({
   submission,
   totalManuscripts,
