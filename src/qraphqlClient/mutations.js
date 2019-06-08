@@ -126,6 +126,18 @@ export const createComment = gql`
     }
   }
 `
+export const addAuthorAnswer = gql`
+  mutation addAuthorAnswer($input: AuthorAnswer) {
+    addAuthorAnswer(input: $input) {
+      manuscriptId
+      editorId
+      editorComment
+      authorId
+      authorAnswer
+      page
+    }
+  }
+`
 
 export default compose(
   graphql(signUp, { name: 'signUp' }),
@@ -140,4 +152,5 @@ export default compose(
   graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
   graphql(removeEditorFromManuscript, { name: 'removeEditorFromManuscript' }),
   graphql(createComment, { name: 'createComment' }),
+  graphql(addAuthorAnswer, { name: 'addAuthorAnswer' }),
 )

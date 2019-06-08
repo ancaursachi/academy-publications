@@ -38,7 +38,7 @@ const EditorComments = ({ manuscript, ...rest }) => {
 const Card = styled.div`
   background-color: whitesmoke;
   border-radius: 4px;
-  margin: 10px 0px;
+  margin: 20px 0px;
   padding: 0.5em 0.5em;
   border: 1px solid ${th.colorCremLight};
 `

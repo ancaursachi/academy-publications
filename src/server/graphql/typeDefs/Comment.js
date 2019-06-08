@@ -23,7 +23,12 @@ module.exports = gql`
     editorComment: String
     page: Int
   }
+  input AuthorAnswer {
+    _id: String
+    authorAnswer: String
+  }
   type Mutation {
     createComment(input: EditorComment): Comment
+    addAuthorAnswer(input: AuthorAnswer): Comment
   }
 `

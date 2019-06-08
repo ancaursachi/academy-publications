@@ -46,6 +46,24 @@ const models = {
       await newComment.save()
       return newComment
     },
+    addAuthorAnswer: async (
+      parent,
+      { input: { _id, authorAnswer } },
+      { loggedInUser },
+    ) => {
+      policyRole(loggedInUser, ['professor', 'admin', 'user'])
+      const comment = await Comment.findOneAndUpdate(
+        { _id: _id, authorAnswer: null },
+        {
+          $set: { authorAnswer: authorAnswer },
+        },
+        { new: true },
+      )
+      if (!comment) {
+        throw Error('No comment found!')
+      }
+      return comment
+    },
   },
 }
 
