@@ -5,6 +5,7 @@ import { th, Loader } from '../../component-ui'
 import {
   ManuscriptDetailsCard,
   EditorDecisionCard,
+  EditorComments,
   ChangePage,
 } from '../../component-manuscript-details'
 
@@ -40,6 +41,9 @@ const ManuscriptEditorTab = ({
 
             {editorDecision && currentManuscript < totalManuscripts && (
               <EditorDecisionCard manuscript={manuscript} mb={2} />
+            )}
+            {currentManuscript < totalManuscripts && (
+              <EditorComments manuscript={manuscript} />
             )}
           </Container>
         )}

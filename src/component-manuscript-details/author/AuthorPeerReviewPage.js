@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { th } from '../../component-ui'
-import { get } from 'lodash'
+import { get, last } from 'lodash'
 import {
   CheckBar,
   ManuscriptAuthorTab,
@@ -15,7 +15,7 @@ const AuthorPeerReviewPage = ({
   setCurrentManuscript,
   ...rest
 }) => {
-  const manuscript = submission[currentManuscript - 1]
+  const manuscript = last(submission)
   const editorDecision = get(manuscript, 'editor.decision', null)
 
   return (

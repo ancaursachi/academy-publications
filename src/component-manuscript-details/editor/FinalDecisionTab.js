@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { get } from 'lodash'
+import { get, last } from 'lodash'
 import { th, Loader } from '../../component-ui'
 import {
   EditorMakeDecisionCard,
@@ -16,7 +16,7 @@ const FinalDecisionTab = ({
   setCurrentManuscript,
   ...rest
 }) => {
-  const manuscript = submission[currentManuscript - 1]
+  const manuscript = last(submission)
   const editorDecision = get(manuscript, 'editor.decision', null)
   const userRole = get(manuscript, 'userRole', null)
 

@@ -1,22 +1,80 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { get, chain, map, sortBy } from 'lodash'
-import { th, DetailsCard } from '../../component-ui'
-import { queries } from '../../qraphqlClient'
+import { th, DetailsCard, ChatQuestion, ChatReply } from '../../component-ui'
+import { queries, mutations } from '../../qraphqlClient'
+import { compose } from 'recompose'
 import { useQuery } from 'react-apollo-hooks'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const CommentPageCard = ({ manuscript, comments, ...rest }) => {
+const Comment = ({ comment, manuscript, addReply }) => {
+  const replies = get(comment, 'reply')
+  const [visibleComment, setVisibleComment] = useState(false)
+  const [replyText, setReplyText] = useState('')
+
+  const handleAuthorAnswer = values => {
+    return addReply({
+      variables: {
+        input: {
+          commentId: comment._id,
+          text: replyText,
+        },
+      },
+      refetchQueries: [
+        {
+          query: queries.getManuscriptComments,
+          variables: { manuscriptId: manuscript._id },
+        },
+      ],
+    }).then(() => setReplyText(''))
+  }
+  return (
+    <Card>
+      <ChatQuestion
+        comment={comment}
+        visibleComment={visibleComment}
+        setVisibleComment={setVisibleComment}
+      />
+      {map(replies, reply => (
+        <ChatReply role={reply.role} key={reply._id}>
+          {reply.text}
+        </ChatReply>
+      ))}
+      {visibleComment && (
+        <ChatReply writeReply>
+          <AuthorComment
+            value={replyText}
+            onChange={e => setReplyText(e.target.value)}
+          />
+          <Actions>
+            <AnswerButton onClick={handleAuthorAnswer}>
+              <IconRight icon={'arrow-right'} color="inherit" />
+            </AnswerButton>
+          </Actions>
+        </ChatReply>
+      )}
+    </Card>
+  )
+}
+
+const CommentPageCard = ({ manuscript, comments, addReply }) => {
   const sortedComents = sortBy(comments, comments => -comments.created)
   return (
     <DetailsCard mt={1} mb={1}>
       <Page>Page {comments[0].page}</Page>
       {map(sortedComents, comment => (
-        <Card key={comment._id}>{comment.text}</Card>
+        <Comment
+          key={comment._id}
+          comment={comment}
+          addReply={addReply}
+          manuscript={manuscript}
+        />
       ))}
     </DetailsCard>
   )
 }
-const EditorComments = ({ manuscript, ...rest }) => {
+
+const EditorComments = ({ manuscript, addReply }) => {
   const { data } = useQuery(queries.getManuscriptComments, {
     variables: { manuscriptId: manuscript._id },
   })
@@ -27,20 +85,40 @@ const EditorComments = ({ manuscript, ...rest }) => {
 
   return (
     <Root>
-      <Title>Your Comments</Title>
+      {groupedComments.length && <Title>Editor Comments</Title>}
       {map(groupedComments, comments => (
-        <CommentPageCard key={comments[0].page} comments={comments} />
+        <CommentPageCard
+          key={comments[0].page}
+          comments={comments}
+          manuscript={manuscript}
+          addReply={addReply}
+        />
       ))}
     </Root>
   )
 }
-
 const Card = styled.div`
-  background-color: whitesmoke;
-  border-radius: 4px;
-  margin: 20px 0px;
-  padding: 0.5em 0.5em;
-  border: 1px solid ${th.colorCremLight};
+  margin: 25px 0px;
+  font-style: 'Nunito';
+`
+
+const AnswerButton = styled.button`
+  background-color: transparent;
+  border: none;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: 'Nunito';
+  font-size: 14px;
+  padding-right: 1em;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    color: ${th.colorCremLight};
+  }
+  :active {
+    color: ${th.colorCremLight};
+  }
 `
 
 const Root = styled.div`
@@ -59,4 +137,26 @@ const Page = styled.div`
   font-size: 20px;
   font-weight: 600;
 `
-export default EditorComments
+
+const Actions = styled.div`
+  display: flex;
+`
+
+const IconRight = styled(FontAwesomeIcon)`
+  margin: 0em 0em 0em 0.5em;
+`
+const AuthorComment = styled.textarea`
+  flex: 1;
+  border: none;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    outline: none;
+  }
+  :active {
+    outline: none;
+  }
+`
+
+export default compose(mutations)(EditorComments)

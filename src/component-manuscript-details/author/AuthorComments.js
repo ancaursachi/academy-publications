@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { get, chain, map, sortBy } from 'lodash'
-import { th, DetailsCard } from '../../component-ui'
+import { th, DetailsCard, ChatQuestion, ChatReply } from '../../component-ui'
 import { queries, mutations } from '../../qraphqlClient'
 import { compose } from 'recompose'
 import { useQuery } from 'react-apollo-hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Comment = ({ comment, manuscript, addAuthorAnswer }) => {
-  const authorComment = get(comment, 'authorAnswer')
+const Comment = ({ comment, manuscript, addReply }) => {
+  const replies = get(comment, 'reply')
   const [visibleComment, setVisibleComment] = useState(false)
-  const [authorAnswer, setAuthorAnswer] = useState('')
+  const [replyText, setReplyText] = useState('')
 
   const handleAuthorAnswer = values => {
-    return addAuthorAnswer({
+    return addReply({
       variables: {
         input: {
-          _id: comment._id,
-          authorAnswer,
+          commentId: comment._id,
+          text: replyText,
         },
       },
       refetchQueries: [
@@ -26,39 +26,38 @@ const Comment = ({ comment, manuscript, addAuthorAnswer }) => {
           variables: { manuscriptId: manuscript._id },
         },
       ],
-    })
+    }).then(() => setReplyText(''))
   }
   return (
-    <RootComment>
-      <Card authorComment={authorComment} visibleComment={visibleComment}>
-        <EditorComment> {comment.editorComment}</EditorComment>
-        <Actions>
-          {!authorComment && (
-            <AnswerButton onClick={() => setVisibleComment(!visibleComment)}>
-              Answer
-            </AnswerButton>
-          )}
-        </Actions>
-      </Card>
-      {visibleComment && !authorComment && (
-        <WriteAnswer>
+    <Card>
+      <ChatQuestion
+        comment={comment}
+        visibleComment={visibleComment}
+        setVisibleComment={setVisibleComment}
+      />
+      {map(replies, reply => (
+        <ChatReply role={reply.role} key={reply._id}>
+          {reply.text}
+        </ChatReply>
+      ))}
+      {visibleComment && (
+        <ChatReply writeReply>
           <AuthorComment
-            value={authorAnswer}
-            onChange={e => setAuthorAnswer(e.target.value)}
+            value={replyText}
+            onChange={e => setReplyText(e.target.value)}
           />
           <Actions>
             <AnswerButton onClick={handleAuthorAnswer}>
               <IconRight icon={'arrow-right'} color="inherit" />
             </AnswerButton>
           </Actions>
-        </WriteAnswer>
+        </ChatReply>
       )}
-      {authorComment && <WriteAnswer>{authorComment}</WriteAnswer>}
-    </RootComment>
+    </Card>
   )
 }
 
-const CommentPageCard = ({ manuscript, comments, addAuthorAnswer }) => {
+const CommentPageCard = ({ manuscript, comments, addReply }) => {
   const sortedComents = sortBy(comments, comments => -comments.created)
   return (
     <DetailsCard mt={1} mb={1}>
@@ -67,7 +66,7 @@ const CommentPageCard = ({ manuscript, comments, addAuthorAnswer }) => {
         <Comment
           key={comment._id}
           comment={comment}
-          addAuthorAnswer={addAuthorAnswer}
+          addReply={addReply}
           manuscript={manuscript}
         />
       ))}
@@ -75,7 +74,7 @@ const CommentPageCard = ({ manuscript, comments, addAuthorAnswer }) => {
   )
 }
 
-const AuthorComments = ({ manuscript, addAuthorAnswer }) => {
+const AuthorComments = ({ manuscript, addReply }) => {
   const { data } = useQuery(queries.getManuscriptComments, {
     variables: { manuscriptId: manuscript._id },
   })
@@ -92,32 +91,15 @@ const AuthorComments = ({ manuscript, addAuthorAnswer }) => {
           key={comments[0].page}
           comments={comments}
           manuscript={manuscript}
-          addAuthorAnswer={addAuthorAnswer}
+          addReply={addReply}
         />
       ))}
     </Root>
   )
 }
-
 const Card = styled.div`
-  display: flex;
-  justify-content: space-between;
-  background-color: whitesmoke;
-  border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: ${props =>
-    props.authorComment || props.visibleComment ? `5px` : `20px`};
-  padding: 0.5em 0.5em;
-  border: 1px solid ${th.colorCremLight};
-`
-const RootComment = styled.div``
-const WriteAnswer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border-radius: 4px 4px 12px 12px;
-  padding: 0.5em 0.5em;
-  border: 1px solid #e1cda4;
-  margin-bottom: 20px;
+  margin: 25px 0px;
+  font-style: 'Nunito';
 `
 
 const AnswerButton = styled.button`
@@ -155,7 +137,7 @@ const Page = styled.div`
   font-size: 20px;
   font-weight: 600;
 `
-const EditorComment = styled.div``
+
 const Actions = styled.div`
   display: flex;
 `
