@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { th } from '../../component-ui'
 import {
   CheckBar,
-  InfoManuscriptTab,
+  ManuscriptEditorTab,
   FinalDecisionTab,
   RenderManuscriptTab,
 } from '../../component-manuscript-details'
@@ -25,7 +25,7 @@ const EditorPeerReviewPage = ({
         ]}
         selectedTab={2}
       >
-        <InfoManuscriptTab
+        <ManuscriptEditorTab
           submission={submission}
           totalManuscripts={totalManuscripts}
           currentManuscript={currentManuscript}

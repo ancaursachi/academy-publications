@@ -4,7 +4,7 @@ import { th } from '../../component-ui'
 import { get } from 'lodash'
 import {
   CheckBar,
-  InfoManuscriptTab,
+  ManuscriptAuthorTab,
   RevisionTab,
 } from '../../component-manuscript-details'
 
@@ -28,8 +28,7 @@ const AuthorPeerReviewPage = ({
         }
         selectedTab={editorDecision === 'revision' ? 1 : 0}
       >
-        <InfoManuscriptTab
-          mt={1}
+        <ManuscriptAuthorTab
           submission={submission}
           totalManuscripts={totalManuscripts}
           currentManuscript={currentManuscript}

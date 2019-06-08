@@ -2,9 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
 import { th, Loader } from '../../component-ui'
-import { ManuscriptDetailsCard, EditorDecisionCard, ChangePage } from '..'
+import {
+  ManuscriptDetailsCard,
+  EditorDecisionCard,
+  ChangePage,
+  AuthorComments,
+} from '..'
 
-const InfoManuscriptTab = ({
+const ManuscriptAuthorTab = ({
   submission,
   totalManuscripts,
   currentManuscript,
@@ -38,6 +43,8 @@ const InfoManuscriptTab = ({
             {editorDecision && (
               <EditorDecisionCard manuscript={manuscript} mb={2} />
             )}
+
+            <AuthorComments manuscript={manuscript} />
           </Container>
         )}
         <Column />
@@ -54,6 +61,7 @@ const Root = styled.div`
   overflow: scroll;
   height: calc(100vh - 90px);
   font-family: 'Nunito';
+
   ${th.marginHelper};
   ${th.paddingHelper};
 `
@@ -67,4 +75,4 @@ const RootLoader = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
-export default InfoManuscriptTab
+export default ManuscriptAuthorTab

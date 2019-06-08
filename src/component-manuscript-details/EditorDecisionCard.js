@@ -13,7 +13,7 @@ const EditorDecisionCard = ({ manuscript, ...rest }) => {
 
   return (
     <DetailsCard {...rest}>
-      <Title>Editor response</Title>
+      <Title>Editor Decision</Title>
 
       <Label>Decision</Label>
       <Data>{parseText(editorDecision)}</Data>

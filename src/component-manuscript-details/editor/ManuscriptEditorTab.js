@@ -2,9 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
 import { th, Loader } from '../../component-ui'
-import { ManuscriptDetailsCard, EditorDecisionCard, ChangePage } from '..'
+import {
+  ManuscriptDetailsCard,
+  EditorDecisionCard,
+  ChangePage,
+} from '../../component-manuscript-details'
 
-const InfoManuscriptTab = ({
+const ManuscriptEditorTab = ({
   submission,
   totalManuscripts,
   currentManuscript,
@@ -13,7 +17,6 @@ const InfoManuscriptTab = ({
 }) => {
   const manuscript = submission[currentManuscript - 1]
   const editorDecision = get(manuscript, 'editor.decision', null)
-
   return (
     <Root {...rest}>
       <Wrapper>
@@ -35,7 +38,7 @@ const InfoManuscriptTab = ({
               <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
             )}
 
-            {editorDecision && (
+            {editorDecision && currentManuscript < totalManuscripts && (
               <EditorDecisionCard manuscript={manuscript} mb={2} />
             )}
           </Container>
@@ -52,9 +55,8 @@ const Wrapper = styled.div`
 
 const Root = styled.div`
   overflow: scroll;
-  height: calc(100vh - 104px);
+  height: calc(100vh - 90px);
   font-family: 'Nunito';
-
   ${th.marginHelper};
   ${th.paddingHelper};
 `
@@ -68,4 +70,4 @@ const RootLoader = styled.div`
   ${th.marginHelper};
   ${th.paddingHelper};
 `
-export default InfoManuscriptTab
+export default ManuscriptEditorTab
