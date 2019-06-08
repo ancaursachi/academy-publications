@@ -1,7 +1,6 @@
 const policyRole = require('../policyRole')
 const s3Service = require('../../s3Service')
 const uuidv4 = require('uuid/v4')
-
 const models = {
   Query: {
     file: async (parent, { _id }, { loggedInUser }) => {

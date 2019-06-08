@@ -36,10 +36,6 @@ const StyledCard = styled(Card)`
   padding: 0.5em;
   margin: 1em 0em;
 `
-
-const RowStyled = styled(Row)`
-  position: relative;
-`
 const ButtonCard = styled.button`
   padding: 0.5em;
   height: 100%;
@@ -73,7 +69,6 @@ const ArticleType = styled.div`
   font-size: 0.9em;
   padding-bottom: 0.7em;
 `
-
 const EditorName = styled.div`
   padding-bottom: 0.5em;
   font-size: 0.9em;

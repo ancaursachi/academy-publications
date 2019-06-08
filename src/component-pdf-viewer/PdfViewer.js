@@ -1,48 +1,31 @@
 import React, { useState } from 'react'
-import { Page, Document } from 'react-pdf'
-import styled from 'styled-components'
+import { useQuery } from 'react-apollo-hooks'
+import { get } from 'lodash'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
-// import { Document } from 'react-pdf/dist/entry.webpack'
+import { queries } from '../qraphqlClient'
+import { PdfRender } from '../component-pdf-viewer'
 
-const PdfViewer = () => {
+const PdfViewer = ({ match, ...rest }) => {
+  const { manuscriptId } = match.params
+
+  const { data } = useQuery(queries.getManuscript, {
+    variables: { _id: manuscriptId },
+  })
+  const manuscript = get(data, 'manuscript')
+
   let [totalPages, setTotalPages] = useState(0)
-  let [pageNumber, setPageNumber] = useState(1)
-  let [file, setFile] = useState(null)
-  const goToPrevPage = () => pageNumber > 1 && setPageNumber(pageNumber - 1)
-  const goToNextPage = () =>
-    pageNumber < totalPages && setPageNumber(pageNumber + 1)
+  let [currentPageNumber, setCurrentPageNumber] = useState(1)
+
   return (
-    <div>
-      <br />
-      <h1>PDF Preview</h1>
-      <form>
-        <input type="file" onChange={event => setFile(event.target.files[0])} />
-      </form>
-      <RenderDocument>
-        {file ? (
-          <p>
-            Page {pageNumber} of {totalPages}
-          </p>
-        ) : null}
-        <Document
-          file={file}
-          onLoadSuccess={numPages => setTotalPages(numPages._pdfInfo.numPages)}
-          noData={<h4>Please select a file</h4>}
-        >
-          <Page pageNumber={pageNumber} width={760} />
-        </Document>
-      </RenderDocument>
-      {file ? (
-        <nav>
-          <button onClick={goToPrevPage}>Prev</button>
-          <button onClick={goToNextPage}>Next</button>
-        </nav>
-      ) : null}
-    </div>
+    <PdfRender
+      manuscript={manuscript}
+      totalPages={totalPages}
+      setTotalPages={setTotalPages}
+      currentPageNumber={currentPageNumber}
+      setCurrentPageNumber={setCurrentPageNumber}
+      {...rest}
+    />
   )
 }
-const RenderDocument = styled.div`
-  width: 40%;
-`
 
 export default PdfViewer

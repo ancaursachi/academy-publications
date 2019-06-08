@@ -13,6 +13,8 @@ const ManuscriptCard = ({ manuscript, history }) => {
   const { title, status, abstract, articleType, submissionId } = manuscript
 
   const editorName = get(manuscript, 'editor.name', null)
+  const authorName = get(manuscript, 'author.name', null)
+
   const handleSubmission = () => {
     history.push(`/manuscriptsDetails/${submissionId}`)
   }
@@ -27,6 +29,7 @@ const ManuscriptCard = ({ manuscript, history }) => {
               <StatusTag status={status} />
             </Row>
             <ArticleType>{articleType}</ArticleType>
+            {authorName && <AuthorName>Written by {authorName}</AuthorName>}
             {editorName && <EditorName>Editor: {editorName}</EditorName>}
             <Abstract>{abstract}</Abstract>
           </Border>
@@ -34,8 +37,12 @@ const ManuscriptCard = ({ manuscript, history }) => {
       </ButtonCard>
 
       <RowStyled justify="flex-end" alignItems="flex-end" mt={0.5}>
-        {editorName && <RemoveProfessorModal manuscript={manuscript} />}
-        <DeleteManuscript manuscript={manuscript} />
+        {editorName && !['reject', 'publish'].includes(status) && (
+          <RemoveProfessorModal manuscript={manuscript} />
+        )}
+        {!['reject', 'publish'].includes(status) && (
+          <DeleteManuscript manuscript={manuscript} />
+        )}
       </RowStyled>
     </StyledCard>
   )
@@ -86,12 +93,18 @@ const Abstract = styled.div`
   font-size: 14px;
   width: 100%;
 `
-const EditorName = styled.div`
+const AuthorName = styled.div`
+  padding-top: 0.5em;
   padding-bottom: 0.5em;
   font-size: 0.9em;
   width: 100%;
   color: ${th.colorBlueGray};
   font-weight: bold;
+`
+const EditorName = styled.div`
+  padding-bottom: 1em;
+  font-size: 0.9em;
+  width: 100%;
 `
 const ButtonCard = styled.button`
   padding: 0.5em;

@@ -23,7 +23,6 @@ const useCreateRevision = () => {
   const useCreateRevisionMutation = useMutation(createRevision)
   const onCreateRevision = (input, file, history, manuscript) => {
     if (file) {
-      console.log(manuscript)
       useCreateRevisionMutation({
         variables: {
           oldManuscript: {
@@ -46,7 +45,7 @@ const useCreateRevision = () => {
             query: queries.getUserManuscripts,
           },
         ],
-      })
+      }).then(window.location.reload())
     }
   }
   return { onCreateRevision }

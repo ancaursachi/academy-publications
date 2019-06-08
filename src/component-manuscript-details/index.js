@@ -4,3 +4,18 @@ export { default as ManuscriptDetailsCard } from './ManuscriptDetailsCard'
 export { default as EditorMakeDecisionCard } from './EditorMakeDecisionCard'
 export { default as EditorDecisionCard } from './EditorDecisionCard'
 export { default as RevisionManuscriptCard } from './RevisionManuscriptCard'
+
+export { default as AuthorPeerReviewPage } from './author/AuthorPeerReviewPage'
+export { default as RevisionTab } from './author/RevisionTab'
+export { default as ManuscriptAuthorTab } from './author/ManuscriptAuthorTab'
+
+export { default as ManuscriptEditorTab } from './editor/ManuscriptEditorTab'
+export { default as EditorPeerReviewPage } from './editor/EditorPeerReviewPage'
+export { default as RenderManuscriptTab } from './editor/RenderManuscriptTab'
+export { default as FinalDecisionTab } from './editor/FinalDecisionTab'
+export { default as SideBarReview } from './editor/SideBarReview'
+export { default as EditorComments } from './editor/EditorComments'
+export { default as AuthorComments } from './author/AuthorComments'
+
+export { default as ChangePage } from './components/ChangePage'
+export { default as CheckBar } from './components/CheckBar'

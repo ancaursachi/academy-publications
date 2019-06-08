@@ -7,11 +7,11 @@ import { withRouter } from 'react-router-dom'
 import { Dashboard } from '../component-dashboard'
 import { SideMenu } from '../component-ui'
 
-const DashboardPage = ({ history }) => {
+const DashboardPage = ({ history, match }) => {
   return (
     <Root>
       <SideMenu history={history} pt={6} />
-      <Dashboard history={history} pt={6} pb={3} />
+      <Dashboard history={history} match={match} pt={6} pb={3} />
     </Root>
   )
 }

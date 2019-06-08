@@ -11,7 +11,8 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
   const abstract = get(manuscript, 'abstract', '')
   const file = get(manuscript, 'file', null)
   const authorComment = get(manuscript, 'author.comment', null)
-  const editor = get(manuscript, 'editor.name', null)
+  const editorName = get(manuscript, 'editor.name', null)
+  const role = get(manuscript, 'userRole', null)
 
   return (
     <DetailsCard {...rest}>
@@ -25,15 +26,15 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
         <VersionTag>Version {version}</VersionTag>
       </Row>
 
-      {editor && (
-        <Fragment>
-          <Label>Professor</Label>
-          <Abstract>{editor}</Abstract>
-        </Fragment>
-      )}
-
       <Label>Abstract</Label>
       <Abstract>{abstract}</Abstract>
+
+      {role !== 'user' && (
+        <Fragment>
+          <Label>Editor </Label>
+          <Abstract>{editorName}</Abstract>
+        </Fragment>
+      )}
 
       <Label>File</Label>
       <File file={file} mb={0.8} />

@@ -43,17 +43,19 @@ const EditorMakeDecisionCard = ({
         return (
           <DetailsCard {...rest}>
             <Title>Your Decision</Title>
-            <InputSelect
-              label="Decision"
-              name="decision"
-              type="text"
-              options={['publish', 'revision', 'reject']}
-              required
-              value={values.decision}
-              onChange={handleChange}
-            />
+            <WrapperSelect>
+              <InputSelect
+                label="Decision"
+                name="decision"
+                type="text"
+                options={['publish', 'revision', 'reject']}
+                required
+                value={values.decision}
+                onChange={handleChange}
+              />
+            </WrapperSelect>
             <InputTextarea
-              label="Comment"
+              label="Comment (optional)"
               name="comment"
               type="textarea"
               mt={1}
@@ -82,5 +84,8 @@ const Title = styled.div`
   padding-bottom: 0.6em;
   font-size: 22px;
   font-weight: 600;
+`
+const WrapperSelect = styled.div`
+  width: 30%;
 `
 export default compose(mutations)(EditorMakeDecisionCard)

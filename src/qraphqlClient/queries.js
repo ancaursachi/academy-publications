@@ -42,6 +42,11 @@ const queries = {
         abstract
         articleType
         submissionId
+        author {
+          id
+          name
+          comment
+        }
         editor {
           id
           name
@@ -208,6 +213,34 @@ const queries = {
           id
           name
         }
+      }
+    }
+  `,
+  getManuscriptComments: gql`
+    query manuscriptComments($manuscriptId: ID!) {
+      manuscriptComments(manuscriptId: $manuscriptId) {
+        _id
+        page
+        created
+        authorId
+        editorId
+        authorAnswer
+        manuscriptId
+        editorComment
+      }
+    }
+  `,
+  getPageComments: gql`
+    query pageComments($manuscriptId: ID!, $page: Int) {
+      pageComments(manuscriptId: $manuscriptId, page: $page) {
+        _id
+        page
+        created
+        editorId
+        authorId
+        manuscriptId
+        editorComment
+        authorAnswer
       }
     }
   `,
