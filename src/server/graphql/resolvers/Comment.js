@@ -26,7 +26,7 @@ const models = {
   Mutation: {
     createComment: async (
       parent,
-      { input: { manuscriptId, comment, page } },
+      { input: { manuscriptId, text, page } },
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['professor', 'admin', 'user'])
@@ -38,7 +38,7 @@ const models = {
         manuscriptId,
         created: new Date(),
         userId: loggedInUser._id,
-        comment,
+        text,
         role: loggedInUser.role,
         page,
         reply: [],
@@ -49,13 +49,13 @@ const models = {
     },
     addReply: async (
       parent,
-      { input: { commentId, comment } },
+      { input: { commentId, text } },
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['professor', 'admin', 'user'])
       const reply = {
         _id: ObjectId(),
-        comment,
+        text,
         userId: loggedInUser._id,
         role: loggedInUser.role,
         created: Date.now(),

@@ -11,7 +11,7 @@ const CommentPageCard = ({ manuscript, comments, ...rest }) => {
     <DetailsCard mt={1} mb={1}>
       <Page>Page {comments[0].page}</Page>
       {map(sortedComents, comment => (
-        <Card key={comment._id}>{comment.editorComment}</Card>
+        <Card key={comment._id}>{comment.text}</Card>
       ))}
     </DetailsCard>
   )

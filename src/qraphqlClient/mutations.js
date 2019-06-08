@@ -115,26 +115,42 @@ export const uploadFile = gql`
   }
 `
 export const createComment = gql`
-  mutation createComment($input: EditorComment) {
+  mutation createComment($input: CreateCommentInput) {
     createComment(input: $input) {
+      _id
       manuscriptId
-      editorId
-      editorComment
-      authorId
-      authorAnswer
       page
+      created
+      text
+      userId
+      role
+      reply {
+        _id
+        text
+        userId
+        role
+        created
+      }
     }
   }
 `
-export const addAuthorAnswer = gql`
-  mutation addAuthorAnswer($input: AuthorAnswer) {
-    addAuthorAnswer(input: $input) {
+export const addReply = gql`
+  mutation addReply($input: CreateReplyInput) {
+    addReply(input: $input) {
+      _id
       manuscriptId
-      editorId
-      editorComment
-      authorId
-      authorAnswer
       page
+      created
+      text
+      userId
+      role
+      reply {
+        _id
+        text
+        userId
+        role
+        created
+      }
     }
   }
 `
@@ -152,5 +168,5 @@ export default compose(
   graphql(addEditorOnManuscript, { name: 'addEditorOnManuscript' }),
   graphql(removeEditorFromManuscript, { name: 'removeEditorFromManuscript' }),
   graphql(createComment, { name: 'createComment' }),
-  graphql(addAuthorAnswer, { name: 'addAuthorAnswer' }),
+  graphql(addReply, { name: 'addReply' }),
 )

@@ -10,7 +10,7 @@ module.exports = gql`
 
   type ReplyComment {
     _id: String
-    comment: String
+    text: String
     userId: String
     role: String
     created: Date
@@ -21,7 +21,7 @@ module.exports = gql`
     manuscriptId: String
     page: Int
     created: Date
-    comment: String
+    text: String
     userId: String
     role: String
     reply: [ReplyComment]
@@ -30,11 +30,11 @@ module.exports = gql`
   input CreateCommentInput {
     manuscriptId: String
     page: Int
-    comment: String
+    text: String
   }
   input CreateReplyInput {
     commentId: String
-    comment: String
+    text: String
   }
 
   type Mutation {

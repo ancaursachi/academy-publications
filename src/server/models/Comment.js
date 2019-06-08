@@ -10,7 +10,7 @@ const CommentSchema = new mongoose.Schema({
   created: {
     type: Number,
   },
-  comment: {
+  text: {
     type: String,
   },
   userId: {
@@ -25,7 +25,7 @@ const CommentSchema = new mongoose.Schema({
         _id: {
           type: String,
         },
-        comment: {
+        text: {
           type: String,
         },
         userId: {
