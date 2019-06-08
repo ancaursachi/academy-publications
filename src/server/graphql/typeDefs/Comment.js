@@ -15,6 +15,7 @@ module.exports = gql`
     authorId: String
     authorAnswer: String
     page: Int
+    created: Date
   }
 
   input EditorComment {

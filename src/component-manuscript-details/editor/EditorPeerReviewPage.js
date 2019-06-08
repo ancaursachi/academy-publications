@@ -23,9 +23,9 @@ const EditorPeerReviewPage = ({
           'Review manuscript',
           'Your Decision',
         ]}
+        selectedTab={2}
       >
         <InfoManuscriptTab
-          mt={1}
           submission={submission}
           totalManuscripts={totalManuscripts}
           currentManuscript={currentManuscript}
@@ -33,7 +33,6 @@ const EditorPeerReviewPage = ({
         />
         <RenderManuscriptTab submission={submission} />
         <FinalDecisionTab
-          mt={3}
           submission={submission}
           totalManuscripts={totalManuscripts}
           currentManuscript={currentManuscript}

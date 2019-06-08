@@ -36,6 +36,7 @@ const models = {
       }
       const newComment = new Comment({
         manuscriptId,
+        created: new Date(),
         editorId: manuscript.editor.id,
         editorComment,
         authorId: manuscript.author.id,

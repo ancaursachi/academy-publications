@@ -19,6 +19,9 @@ const CommentSchema = new mongoose.Schema({
   page: {
     type: Number,
   },
+  created: {
+    type: Number,
+  },
 })
 
 const Comment = mongoose.model('Comment', CommentSchema)

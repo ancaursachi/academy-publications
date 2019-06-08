@@ -52,9 +52,8 @@ const Wrapper = styled.div`
 
 const Root = styled.div`
   overflow: scroll;
-  height: calc(100vh - 104px);
+  height: calc(100vh - 90px);
   font-family: 'Nunito';
-
   ${th.marginHelper};
   ${th.paddingHelper};
 `

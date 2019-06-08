@@ -5,10 +5,12 @@ import { th, Loader } from '../../component-ui'
 import {
   EditorMakeDecisionCard,
   EditorDecisionCard,
+  EditorComments,
 } from '../../component-manuscript-details'
 
 const FinalDecisionTab = ({
   submission,
+
   totalManuscripts,
   currentManuscript,
   setCurrentManuscript,
@@ -28,6 +30,7 @@ const FinalDecisionTab = ({
           </RootLoader>
         ) : (
           <Container>
+            <EditorComments manuscript={manuscript} />
             {!editorDecision && userRole === 'professor' && (
               <EditorMakeDecisionCard manuscript={manuscript} mb={2} />
             )}
@@ -47,8 +50,8 @@ const Wrapper = styled.div`
 `
 
 const Root = styled.div`
+  height: calc(100vh - 90px);
   overflow: scroll;
-  height: calc(100vh - 104px);
   font-family: 'Nunito';
 
   ${th.marginHelper};

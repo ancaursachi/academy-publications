@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { th, Row, Button, InputTextarea } from '../../component-ui'
 import { Formik } from 'formik'
 import { compose } from 'recompose'
-import { get } from 'lodash'
+import { get, sortBy } from 'lodash'
 import { mutations, queries } from '../../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
 
@@ -25,6 +25,10 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
         {
           query: queries.getPageComments,
           variables: { manuscriptId: manuscript._id, page: currentPageNumber },
+        },
+        {
+          query: queries.getManuscriptComments,
+          variables: { manuscriptId: manuscript._id },
         },
       ],
     })
@@ -77,6 +81,7 @@ const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {
     variables: { manuscriptId: manuscript._id, page: currentPageNumber },
   })
   const pageComments = get(data, 'pageComments')
+  const sortedComents = sortBy(pageComments, comments => -comments.created)
   return (
     <Root>
       <Title>Comments</Title>
@@ -85,8 +90,8 @@ const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {
         createComment={createComment}
         currentPageNumber={currentPageNumber}
       />
-      {pageComments &&
-        pageComments.map(comment => (
+      {sortedComents &&
+        sortedComents.map(comment => (
           <DisplayComment key={comment._id} comment={comment} />
         ))}
     </Root>
