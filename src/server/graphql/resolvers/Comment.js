@@ -1,6 +1,7 @@
 const policyRole = require('../policyRole')
 const Comment = require('../../models/Comment')
 const Manuscript = require('../../models/Manuscript')
+const { ObjectId } = require('mongodb')
 
 const models = {
   Query: {
@@ -25,44 +26,54 @@ const models = {
   Mutation: {
     createComment: async (
       parent,
-      { input: { manuscriptId, editorComment, page } },
+      { input: { manuscriptId, comment, page } },
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['professor', 'admin', 'user'])
       const manuscript = await Manuscript.findOne({ _id: manuscriptId })
-
       if (!manuscript) {
         throw Error('No manuscript found!')
       }
       const newComment = new Comment({
         manuscriptId,
         created: new Date(),
-        editorId: manuscript.editor.id,
-        editorComment,
-        authorId: manuscript.author.id,
-        authorAnswer: null,
+        userId: loggedInUser._id,
+        comment,
+        role: loggedInUser.role,
         page,
+        reply: [],
       })
+
       await newComment.save()
       return newComment
     },
-    addAuthorAnswer: async (
+    addReply: async (
       parent,
-      { input: { _id, authorAnswer } },
+      { input: { commentId, comment } },
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['professor', 'admin', 'user'])
-      const comment = await Comment.findOneAndUpdate(
-        { _id: _id, authorAnswer: null },
+      const reply = {
+        _id: ObjectId(),
+        comment,
+        userId: loggedInUser._id,
+        role: loggedInUser.role,
+        created: Date.now(),
+      }
+      const newComment = await Comment.findOneAndUpdate(
+        { _id: commentId },
         {
-          $set: { authorAnswer: authorAnswer },
+          $push: {
+            reply,
+          },
         },
         { new: true },
       )
-      if (!comment) {
+
+      if (!newComment) {
         throw Error('No comment found!')
       }
-      return comment
+      return newComment
     },
   },
 }
