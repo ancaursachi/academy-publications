@@ -7,7 +7,7 @@ import {
   EditorDecisionCard,
   ChangePage,
   AuthorComments,
-} from '..'
+} from '../../component-manuscript-details'
 
 const ManuscriptAuthorTab = ({
   submission,
@@ -20,11 +20,11 @@ const ManuscriptAuthorTab = ({
   const editorDecision = get(manuscript, 'editor.decision', null)
 
   return (
-    <Root {...rest}>
+    <Root>
       <Wrapper>
         <Column />
         {!manuscript ? (
-          <RootLoader {...rest}>
+          <RootLoader>
             <Loader iconSize={2} />
           </RootLoader>
         ) : (
@@ -58,21 +58,18 @@ const Wrapper = styled.div`
 `
 
 const Root = styled.div`
+  padding-top: 25px;
   overflow: scroll;
   height: calc(100vh - 90px);
   font-family: 'Nunito';
-
-  ${th.marginHelper};
-  ${th.paddingHelper};
 `
 const Container = styled.div``
 const Column = styled.div``
 
 const RootLoader = styled.div`
+  padding-top: 25px;
   display: flex;
   justify-content: center;
   font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
 `
 export default ManuscriptAuthorTab

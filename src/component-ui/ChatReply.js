@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { th } from '../component-ui'
 
-const parseStatus = role => {
+const parseRole = role => {
   switch (role) {
     case 'user':
       return 'Author'
+    case 'professor':
+      return 'Editor'
     default:
       return role.charAt(0).toUpperCase() + role.slice(1)
   }
@@ -20,14 +22,14 @@ const ChatReply = ({ children, role, writeReply, ...rest }) => {
   } else if (role === 'user') {
     return (
       <Root {...rest}>
-        <Role>{parseStatus(role)}</Role>
+        <Role>{parseRole(role)}</Role>
         <Reply>{children}</Reply>
       </Root>
     )
   } else
     return (
       <Root {...rest}>
-        <RoleLeft>{parseStatus(role)}</RoleLeft>
+        <RoleLeft>{parseRole(role)}</RoleLeft>
         <Reply>{children}</Reply>
       </Root>
     )

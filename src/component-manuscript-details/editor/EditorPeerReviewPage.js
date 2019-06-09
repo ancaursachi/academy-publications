@@ -23,7 +23,7 @@ const EditorPeerReviewPage = ({
           'Review manuscript',
           'Your Decision',
         ]}
-        selectedTab={1}
+        selectedTab={0}
       >
         <ManuscriptEditorTab
           submission={submission}

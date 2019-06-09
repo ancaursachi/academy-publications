@@ -2,9 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 import { th } from '../component-ui'
 
+const parseRole = role => {
+  switch (role) {
+    case 'user':
+      return 'Author'
+    case 'professor':
+      return 'Editor'
+    default:
+      return role.charAt(0).toUpperCase() + role.slice(1)
+  }
+}
 const ChatQuestion = ({ comment, visibleComment, setVisibleComment }) => {
   return (
     <Root>
+      <RoleLeft>{parseRole(comment.role)}</RoleLeft>
       <Question visibleComment={visibleComment}>
         <Comment> {comment.text}</Comment>
         <Actions>
@@ -17,7 +28,12 @@ const ChatQuestion = ({ comment, visibleComment, setVisibleComment }) => {
   )
 }
 
-const Root = styled.div``
+const Root = styled.div`
+  margin: 6px 0px;
+  font-family: 'Nunito';
+  position: relative;
+  padding-top: 5px;
+`
 const Question = styled.div`
   display: flex;
   justify-content: space-between;
@@ -26,6 +42,20 @@ const Question = styled.div`
   margin: 5px 0px;
   padding: 0.5em 0.5em;
   border: 1px solid ${th.colorCremLight};
+`
+
+const RoleLeft = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  top: -2px;
+  right: 20px;
+  background-color: white;
+  position: absolute;
+  color: ${th.colorGrey};
+  font-size: 12px;
+  padding: 0px 4px;
+  border-radius: 3px;
+  border: 1px solid #e1cda4;
 `
 const Actions = styled.div`
   display: flex;
