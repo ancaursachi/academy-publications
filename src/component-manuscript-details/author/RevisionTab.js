@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { last } from 'lodash'
 import { th, Loader } from '../../component-ui'
 import { RevisionManuscriptCard } from '../../component-manuscript-details'
 const RevisionTab = ({
@@ -9,8 +10,7 @@ const RevisionTab = ({
   setCurrentManuscript,
   ...rest
 }) => {
-  const manuscript = submission[currentManuscript - 1]
-
+  const manuscript = last(submission)
   return (
     <Root {...rest}>
       <Wrapper>

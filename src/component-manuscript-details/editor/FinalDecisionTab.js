@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { get } from 'lodash'
+import { get, last } from 'lodash'
 import { th, Loader } from '../../component-ui'
 import {
-  EditorMakeDecisionCard,
   EditorDecisionCard,
-  EditorComments,
+  EditorMakeDecisionCard,
 } from '../../component-manuscript-details'
 
 const FinalDecisionTab = ({
@@ -16,21 +15,20 @@ const FinalDecisionTab = ({
   setCurrentManuscript,
   ...rest
 }) => {
-  const manuscript = submission[currentManuscript - 1]
+  const manuscript = last(submission)
   const editorDecision = get(manuscript, 'editor.decision', null)
   const userRole = get(manuscript, 'userRole', null)
 
   return (
-    <Root {...rest}>
+    <Root>
       <Wrapper>
         <Column />
         {!manuscript ? (
-          <RootLoader {...rest}>
+          <RootLoader>
             <Loader iconSize={2} />
           </RootLoader>
         ) : (
           <Container>
-            <EditorComments manuscript={manuscript} />
             {!editorDecision && userRole === 'professor' && (
               <EditorMakeDecisionCard manuscript={manuscript} mb={2} />
             )}
@@ -51,11 +49,9 @@ const Wrapper = styled.div`
 
 const Root = styled.div`
   height: calc(100vh - 90px);
+  padding-top: 50px;
   overflow: scroll;
   font-family: 'Nunito';
-
-  ${th.marginHelper};
-  ${th.paddingHelper};
 `
 const Container = styled.div``
 const Column = styled.div``
@@ -64,7 +60,6 @@ const RootLoader = styled.div`
   display: flex;
   justify-content: center;
   font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
+  padding-top: 25px;
 `
 export default FinalDecisionTab

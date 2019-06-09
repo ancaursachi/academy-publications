@@ -1,10 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { get } from 'lodash'
-import { th, Loader } from '../../component-ui'
+import { get, last } from 'lodash'
+import { Loader } from '../../component-ui'
+import { useQuery } from 'react-apollo-hooks'
+import { queries } from '../../qraphqlClient'
 import {
   ManuscriptDetailsCard,
   EditorDecisionCard,
+  Comments,
   ChangePage,
 } from '../../component-manuscript-details'
 
@@ -16,33 +19,52 @@ const ManuscriptEditorTab = ({
   ...rest
 }) => {
   const manuscript = submission[currentManuscript - 1]
+
+  if (!manuscript) {
+    return (
+      <RootLoader>
+        <Loader iconSize={2} />
+      </RootLoader>
+    )
+  }
+
   const editorDecision = get(manuscript, 'editor.decision', null)
+  const isLastManuscript =
+    get(submission[currentManuscript - 1], '_id') ===
+    get(last(submission), '_id')
+
+  const { data } = useQuery(queries.getManuscriptComments, {
+    variables: { manuscriptId: manuscript._id },
+  })
+  const comments = get(data, 'manuscriptComments')
+
   return (
-    <Root {...rest}>
+    <Root>
       <Wrapper>
         <Column />
-        {!manuscript ? (
-          <RootLoader {...rest}>
-            <Loader iconSize={2} />
-          </RootLoader>
-        ) : (
-          <Container>
-            {manuscript && submission.length > 1 && (
-              <ChangePage
-                currentManuscript={currentManuscript}
-                totalManuscripts={totalManuscripts}
-                setCurrentManuscript={setCurrentManuscript}
-              />
-            )}
-            {manuscript && (
-              <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
-            )}
+        <Container>
+          {manuscript && submission.length > 1 && (
+            <ChangePage
+              currentManuscript={currentManuscript}
+              totalManuscripts={totalManuscripts}
+              setCurrentManuscript={setCurrentManuscript}
+            />
+          )}
+          {manuscript && (
+            <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
+          )}
 
-            {editorDecision && currentManuscript < totalManuscripts && (
-              <EditorDecisionCard manuscript={manuscript} mb={2} />
-            )}
-          </Container>
-        )}
+          {editorDecision && currentManuscript < totalManuscripts && (
+            <EditorDecisionCard manuscript={manuscript} mb={2} />
+          )}
+          {currentManuscript < totalManuscripts && (
+            <Comments
+              comments={comments}
+              manuscript={manuscript}
+              isLastManuscript={isLastManuscript}
+            />
+          )}
+        </Container>
         <Column />
       </Wrapper>
     </Root>
@@ -54,20 +76,18 @@ const Wrapper = styled.div`
 `
 
 const Root = styled.div`
+  padding-top: 25px;
   overflow: scroll;
   height: calc(100vh - 90px);
   font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
 `
 const Container = styled.div``
 const Column = styled.div``
 
 const RootLoader = styled.div`
+  padding-top: 25px;
   display: flex;
   justify-content: center;
   font-family: 'Nunito';
-  ${th.marginHelper};
-  ${th.paddingHelper};
 `
 export default ManuscriptEditorTab

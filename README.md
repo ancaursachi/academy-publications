@@ -46,3 +46,23 @@ You will also see any lint errors in the console.
 
 Server is running on the port : [http://localhost:1000](http://localhost:1000) <br>
 Client is running on the port : [http://localhost:2000](http://localhost:2000)
+
+# ! Atention
+
+This code is compatible with `mac os`.
+
+If are running app from a `windows` change in packages :
+
+<code>
+"scripts": {
+"start": "concurrently \"nodemon src/server/index.js\" \"set PORT=2000 react-scripts start\"",
+},
+</code>
+
+If are running app from a `ubuntu` change in packages :
+
+<code>
+"scripts": {
+"start": "concurrently \"nodemon src/server/index.js\" \"export PORT=2000 react-scripts start\"",
+},
+</code>

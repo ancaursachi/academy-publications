@@ -14,7 +14,7 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
         input: {
           manuscriptId: manuscript._id,
           page: currentPageNumber,
-          editorComment: values.editorComment,
+          text: values.text,
         },
       },
       refetchQueries: [
@@ -33,7 +33,7 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
       ],
     })
   }
-  const initialValues = { editorComment: '' }
+  const initialValues = { text: '' }
 
   return (
     <Formik
@@ -44,11 +44,11 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
         return (
           <Fragment>
             <InputTextarea
-              name="editorComment"
+              name="text"
               type="textarea"
               mt={1}
               heightinput={8}
-              value={values.editorComment}
+              value={values.text}
               onChange={handleChange}
             />
             <Row mr={20} mb={0.5} justify="flex-end">
@@ -73,7 +73,7 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
   )
 }
 const DisplayComment = ({ comment }) => {
-  const editorComment = comment.editorComment
+  const editorComment = comment.text
   return <Card>{editorComment}</Card>
 }
 const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {

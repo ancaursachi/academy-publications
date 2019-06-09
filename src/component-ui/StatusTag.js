@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import th from './theme'
-const parseStatus = status => status.charAt(0).toUpperCase() + status.slice(1)
 
+const parseStatus = status => status.charAt(0).toUpperCase() + status.slice(1)
 const StatusTag = ({ status }) => <Status>{renameStatusTag(status)}</Status>
 
 const renameStatusTag = status => {
