@@ -281,7 +281,7 @@ const models = {
         ...restInput
       } = input
 
-      const newManuscript = new Manuscript({
+      const manuscript = new Manuscript({
         submissionId: ObjectId(),
         created: new Date(),
         status: 'submitted',
@@ -293,9 +293,9 @@ const models = {
         },
       })
 
-      await newManuscript.save()
-      await reviewService.automaticReview(input.file.providerKey)
-      return newManuscript
+      const createdManuscript = await manuscript.save()
+      await reviewService.automaticReview(createdManuscript)
+      return createdManuscript
     },
     createRevision: async (
       parent,

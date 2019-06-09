@@ -216,6 +216,26 @@ const queries = {
       }
     }
   `,
+  getUserCommentsPerManuscript: gql`
+    query userCommentsPerManuscript($manuscriptId: ID!, $page: Int) {
+      userCommentsPerManuscript(manuscriptId: $manuscriptId, page: $page) {
+        _id
+        manuscriptId
+        page
+        created
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
+      }
+    }
+  `,
   getManuscriptComments: gql`
     query manuscriptComments($manuscriptId: ID!) {
       manuscriptComments(manuscriptId: $manuscriptId) {

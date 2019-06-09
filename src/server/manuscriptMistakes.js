@@ -12,7 +12,11 @@ const writeFile = promisify(fs.writeFile.bind(fs))
 const unlinkFile = promisify(fs.unlink.bind(fs))
 const { chain, last, uniq } = require('lodash')
 const Comment = require('./models/Comment')
-module.exports.automaticReview = async providerKey => {
+
+module.exports.automaticReview = async manuscript => {
+  const { providerKey } = manuscript.file
+  const manuscriptId = manuscript._id
+
   if (!providerKey) {
     return
   }
@@ -58,6 +62,17 @@ module.exports.automaticReview = async providerKey => {
               ),
             }))
             .value()
+
+          const newComment = new Comment({
+            manuscriptId,
+            created: new Date(),
+            userId: 'bot',
+            text: JSON.stringify(groupedErrors),
+            role: 'bot',
+            page: option.to,
+            reply: [],
+          })
+          newComment.save()
         })
       })
     }

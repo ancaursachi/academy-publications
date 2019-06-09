@@ -77,10 +77,10 @@ const DisplayComment = ({ comment }) => {
   return <Card>{editorComment}</Card>
 }
 const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {
-  const { data } = useQuery(queries.getPageComments, {
+  const { data } = useQuery(queries.getUserCommentsPerManuscript, {
     variables: { manuscriptId: manuscript._id, page: currentPageNumber },
   })
-  const pageComments = get(data, 'pageComments')
+  const pageComments = get(data, 'userCommentsPerManuscript')
   const sortedComents = sortBy(pageComments, comments => -comments.created)
   return (
     <Root>
