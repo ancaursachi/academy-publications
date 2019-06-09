@@ -8,7 +8,6 @@ export { default as RevisionManuscriptCard } from './RevisionManuscriptCard'
 export { default as AuthorPeerReviewPage } from './author/AuthorPeerReviewPage'
 export { default as RevisionTab } from './author/RevisionTab'
 export { default as ManuscriptAuthorTab } from './author/ManuscriptAuthorTab'
-export { default as AuthorComments } from './author/AuthorComments'
 
 export { default as ManuscriptEditorTab } from './editor/ManuscriptEditorTab'
 export { default as EditorPeerReviewPage } from './editor/EditorPeerReviewPage'

@@ -4,10 +4,9 @@ import { get, chain, map, sortBy } from 'lodash'
 import { th, DetailsCard, ChatQuestion, ChatReply } from '../../component-ui'
 import { queries, mutations } from '../../qraphqlClient'
 import { compose } from 'recompose'
-import { useQuery } from 'react-apollo-hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Comment = ({ comment, manuscript, addReply }) => {
+const Comment = ({ comment, isLastManuscript, manuscript, addReply }) => {
   const replies = get(comment, 'reply')
   const [visibleComment, setVisibleComment] = useState(false)
   const [replyText, setReplyText] = useState('')
@@ -32,6 +31,8 @@ const Comment = ({ comment, manuscript, addReply }) => {
     <Card>
       <ChatQuestion
         comment={comment}
+        isLastManuscript={isLastManuscript}
+        manuscript={manuscript}
         visibleComment={visibleComment}
         setVisibleComment={setVisibleComment}
       />
@@ -57,7 +58,12 @@ const Comment = ({ comment, manuscript, addReply }) => {
   )
 }
 
-const CommentPageCard = ({ manuscript, comments, addReply }) => {
+const CommentPageCard = ({
+  manuscript,
+  isLastManuscript,
+  comments,
+  addReply,
+}) => {
   const sortedComents = sortBy(comments, comments => -comments.created)
   return (
     <DetailsCard mt={1} mb={1}>
@@ -68,17 +74,14 @@ const CommentPageCard = ({ manuscript, comments, addReply }) => {
           comment={comment}
           addReply={addReply}
           manuscript={manuscript}
+          isLastManuscript={isLastManuscript}
         />
       ))}
     </DetailsCard>
   )
 }
 
-const Comments = ({ manuscript, addReply }) => {
-  const { data } = useQuery(queries.getManuscriptComments, {
-    variables: { manuscriptId: manuscript._id },
-  })
-  const comments = get(data, 'manuscriptComments')
+const Comments = ({ manuscript, comments, isLastManuscript, addReply }) => {
   const groupedComments = chain(comments)
     .groupBy('page')
     .value()
@@ -92,6 +95,7 @@ const Comments = ({ manuscript, addReply }) => {
           comments={comments}
           manuscript={manuscript}
           addReply={addReply}
+          isLastManuscript={isLastManuscript}
         />
       ))}
     </Root>

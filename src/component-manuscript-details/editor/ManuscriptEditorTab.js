@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { get, last } from 'lodash'
 import { Loader } from '../../component-ui'
+import { useQuery } from 'react-apollo-hooks'
+import { queries } from '../../qraphqlClient'
 import {
   ManuscriptDetailsCard,
   EditorDecisionCard,
@@ -17,36 +19,52 @@ const ManuscriptEditorTab = ({
   ...rest
 }) => {
   const manuscript = submission[currentManuscript - 1]
+
+  if (!manuscript) {
+    return (
+      <RootLoader>
+        <Loader iconSize={2} />
+      </RootLoader>
+    )
+  }
+
   const editorDecision = get(manuscript, 'editor.decision', null)
+  const isLastManuscript =
+    get(submission[currentManuscript - 1], '_id') ===
+    get(last(submission), '_id')
+
+  const { data } = useQuery(queries.getManuscriptComments, {
+    variables: { manuscriptId: manuscript._id },
+  })
+  const comments = get(data, 'manuscriptComments')
+
   return (
     <Root>
       <Wrapper>
         <Column />
-        {!manuscript ? (
-          <RootLoader>
-            <Loader iconSize={2} />
-          </RootLoader>
-        ) : (
-          <Container>
-            {manuscript && submission.length > 1 && (
-              <ChangePage
-                currentManuscript={currentManuscript}
-                totalManuscripts={totalManuscripts}
-                setCurrentManuscript={setCurrentManuscript}
-              />
-            )}
-            {manuscript && (
-              <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
-            )}
+        <Container>
+          {manuscript && submission.length > 1 && (
+            <ChangePage
+              currentManuscript={currentManuscript}
+              totalManuscripts={totalManuscripts}
+              setCurrentManuscript={setCurrentManuscript}
+            />
+          )}
+          {manuscript && (
+            <ManuscriptDetailsCard manuscript={manuscript} mb={2} />
+          )}
 
-            {editorDecision && currentManuscript < totalManuscripts && (
-              <EditorDecisionCard manuscript={manuscript} mb={2} />
-            )}
-            {currentManuscript < totalManuscripts && (
-              <Comments manuscript={manuscript} />
-            )}
-          </Container>
-        )}
+          {editorDecision && currentManuscript < totalManuscripts && (
+            <EditorDecisionCard manuscript={manuscript} mb={2} />
+          )}
+          {currentManuscript < totalManuscripts && (
+            <Comments
+              comments={comments}
+              manuscript={manuscript}
+              isLastManuscript={isLastManuscript}
+            />
+          )}
+        </Container>
         <Column />
       </Wrapper>
     </Root>

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { th } from '../component-ui'
+import { get } from 'lodash'
 
 const parseRole = role => {
   switch (role) {
@@ -12,16 +13,27 @@ const parseRole = role => {
       return role.charAt(0).toUpperCase() + role.slice(1)
   }
 }
-const ChatQuestion = ({ comment, visibleComment, setVisibleComment }) => {
+const ChatQuestion = ({
+  comment,
+  manuscript,
+  visibleComment,
+  isLastManuscript,
+  setVisibleComment,
+}) => {
+  const editorDecision = get(manuscript, 'editor.decision', null)
+
   return (
     <Root>
       <RoleLeft>{parseRole(comment.role)}</RoleLeft>
       <Question visibleComment={visibleComment}>
         <Comment> {comment.text}</Comment>
         <Actions>
-          <Button onClick={() => setVisibleComment(!visibleComment)}>
-            Reply
-          </Button>
+          {!['publish', 'reject'].includes(editorDecision) &&
+            isLastManuscript && (
+              <Button onClick={() => setVisibleComment(!visibleComment)}>
+                Reply
+              </Button>
+            )}
         </Actions>
       </Question>
     </Root>
