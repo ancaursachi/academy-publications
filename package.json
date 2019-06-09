@@ -51,6 +51,7 @@
     "pdf-to-text": "0.0.7",
     "pdfinfo": "0.0.3",
     "pdfjs-dist": "^2.0.943",
+    "pro_writing_aid_api": "^2.0.0",
     "random-uuid-v4": "0.0.8",
     "react": "^16.8.3",
     "react-apollo": "^2.5.1",

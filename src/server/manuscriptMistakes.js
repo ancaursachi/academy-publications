@@ -1,58 +1,66 @@
-const {textGearsUrl, textGearsApiKey} = require('./config')
+const { textGearsUrl, textGearsApiKey } = require('./config')
+var ProWritingAidApi = require('pro_writing_aid_api')
 const s3Service = require('./s3Service')
-const pdfUtil = require('pdf-to-text');
+const pdfUtil = require('pdf-to-text')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
-const querystring = require("querystring");
-const {promisify} = require('util')
-const https = require('https');
+const querystring = require('querystring')
+const { promisify } = require('util')
+const https = require('https')
 const writeFile = promisify(fs.writeFile.bind(fs))
 const unlinkFile = promisify(fs.unlink.bind(fs))
+const { chain, last, uniq } = require('lodash')
+const Comment = require('./models/Comment')
+module.exports.automaticReview = async providerKey => {
+  if (!providerKey) {
+    return
+  }
+  const file = await s3Service.getObject(providerKey)
 
+  var filePath = path.resolve(os.tmpdir(), providerKey.replace('/', ''))
+  filePath += '.pdf'
+  await writeFile(filePath, file.Body)
 
-module.exports.automaticReview = async (providerKey) => {
-    if (!providerKey) {
-        return;
-    }
-    const file = await s3Service.getObject(providerKey)
+  let pdfNumberOfPages = 0
+  pdfUtil.info(filePath, (err, info) => {
+    if (err) throw err
+    pdfNumberOfPages = info.pages
+    for (let index = 0; index < 1; index++) {
+      let option = { from: index, to: index + 1 }
 
-    var filePath = path.resolve(
-        os.tmpdir(),
-        providerKey.replace('/', '')
-    )
-    filePath += ".pdf";
-    await writeFile(filePath, file.Body)
-
-    let pdfNumberOfPages = 0;
-    pdfUtil.info(filePath, function (err, info) {
-        if (err) throw(err);
-        pdfNumberOfPages = info.pages;
-        for (let index = 0; index < pdfNumberOfPages; index++) {
-            let option = {from: index, to: index + 1};
-            pdfUtil.pdfToText(filePath, option, function (err, data) {
-                if (err) throw(err);
-                console.log(data)
-                const escapedPdfInfo = querystring.escape(data);
-                const textGearsComputedUrl = `${textGearsUrl}${escapedPdfInfo}&key=${textGearsApiKey}`;
-                console.log(textGearsComputedUrl);
-
-                https.get(textGearsComputedUrl, (resp) => {
-                    let data = '';
-                    resp.on('data', (chunk) => data += chunk);
-
-                    resp.on('end', () => {
-                        let listOfErrors = JSON.parse(data).errors;
-                        let listOfUsableErrors = listOfErrors.filter(error => error.better.length > 0 && error.better.length <= 3);
-                        console.log(listOfUsableErrors)
-                        //TODO save in Comments DB
-                    });
-
-                }).on("error", (err) => {
-                    console.log("Error: " + err.message);
-                })
-            });
+      pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
+        // console.log(pdfText)
+        if (err) throw err
+        var api = new ProWritingAidApi.TextApi()
+        api.apiClient.basePath = 'https://api.prowritingaid.com'
+        api.apiClient.defaultHeaders = {
+          licenseCode: '5A52D9DC-3777-474A-AB1C-2F62E500FD5D',
         }
-    });
-    unlinkFile(filePath)
+        var request = new ProWritingAidApi.TextAnalysisRequest(
+          pdfText,
+          ['grammar'],
+          'Academic',
+          'En',
+        )
+        api.post(request).then(data => {
+          const groupedErrors = chain(data.Result.Tags)
+            .filter(d => d.hint.includes('Unknown word'))
+            .groupBy('subcategory')
+            .map(error => ({
+              typo: error[0].subcategory,
+              positions: error.map(e => `${e.startPos}-${e.endPos}`),
+              suggestions: uniq(
+                error.reduce(
+                  (acc, current) => acc.concat(...current.suggestions),
+                  [],
+                ),
+              ),
+            }))
+            .value()
+        })
+      })
+    }
+  })
+  //   unlinkFile(filePath)
 }
