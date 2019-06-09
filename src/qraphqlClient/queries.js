@@ -220,13 +220,19 @@ const queries = {
     query manuscriptComments($manuscriptId: ID!) {
       manuscriptComments(manuscriptId: $manuscriptId) {
         _id
+        manuscriptId
         page
         created
-        authorId
-        editorId
-        authorAnswer
-        manuscriptId
-        editorComment
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
       }
     }
   `,
@@ -234,13 +240,19 @@ const queries = {
     query pageComments($manuscriptId: ID!, $page: Int) {
       pageComments(manuscriptId: $manuscriptId, page: $page) {
         _id
+        manuscriptId
         page
         created
-        editorId
-        authorId
-        manuscriptId
-        editorComment
-        authorAnswer
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
       }
     }
   `,

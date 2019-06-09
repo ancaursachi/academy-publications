@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { th } from '../../component-ui'
+
 import {
   CheckBar,
-  ManuscriptEditorTab,
+  CommentsTab,
   FinalDecisionTab,
+  ManuscriptEditorTab,
   RenderManuscriptTab,
 } from '../../component-manuscript-details'
 
@@ -21,9 +23,10 @@ const EditorPeerReviewPage = ({
         tabButtons={[
           'Information Manuscript',
           'Review manuscript',
+          'All Comments',
           'Your Decision',
         ]}
-        selectedTab={1}
+        selectedTab={0}
       >
         <ManuscriptEditorTab
           submission={submission}
@@ -32,6 +35,7 @@ const EditorPeerReviewPage = ({
           setCurrentManuscript={setCurrentManuscript}
         />
         <RenderManuscriptTab submission={submission} />
+        <CommentsTab submission={submission} />
         <FinalDecisionTab
           submission={submission}
           totalManuscripts={totalManuscripts}
