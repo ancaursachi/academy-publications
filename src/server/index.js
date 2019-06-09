@@ -30,13 +30,13 @@ server.applyMiddleware({ app })
 
 app.use(
   cors({
-    origin: `http://localhost:1000/graphql`,
+    origin: `http://localhost:${port || 1000}/graphql`,
     optionsSuccessStatus: 200,
   }),
 )
 
 app.listen({ port }, () =>
-  console.log(`Apollo Server on http://localhost:${port}/graphql`),
+  console.log(`Apollo Server on http://localhost:${port || 1000}/graphql`),
 )
 
 app.get('/hello', function(req, res) {

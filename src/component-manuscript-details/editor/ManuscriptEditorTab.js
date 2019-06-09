@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { get } from 'lodash'
-import { th, Loader } from '../../component-ui'
+import { get, last } from 'lodash'
+import { Loader } from '../../component-ui'
 import {
   ManuscriptDetailsCard,
   EditorDecisionCard,
-  EditorComments,
+  Comments,
   ChangePage,
 } from '../../component-manuscript-details'
 
@@ -43,7 +43,7 @@ const ManuscriptEditorTab = ({
               <EditorDecisionCard manuscript={manuscript} mb={2} />
             )}
             {currentManuscript < totalManuscripts && (
-              <EditorComments manuscript={manuscript} />
+              <Comments manuscript={manuscript} />
             )}
           </Container>
         )}

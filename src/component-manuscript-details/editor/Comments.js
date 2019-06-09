@@ -74,7 +74,7 @@ const CommentPageCard = ({ manuscript, comments, addReply }) => {
   )
 }
 
-const EditorComments = ({ manuscript, addReply }) => {
+const Comments = ({ manuscript, addReply }) => {
   const { data } = useQuery(queries.getManuscriptComments, {
     variables: { manuscriptId: manuscript._id },
   })
@@ -159,4 +159,4 @@ const AuthorComment = styled.textarea`
   }
 `
 
-export default compose(mutations)(EditorComments)
+export default compose(mutations)(Comments)
