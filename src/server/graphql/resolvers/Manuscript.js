@@ -6,6 +6,7 @@ const User = require('../../models/User')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
 const { chain, last } = require('lodash')
+const reviewService = require('../../manuscriptMistakes')
 
 const models = {
   Upload: GraphQLUpload,
@@ -293,6 +294,7 @@ const models = {
       })
 
       await newManuscript.save()
+      await reviewService.automaticReview(input.file.providerKey)
       return newManuscript
     },
     createRevision: async (
