@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { th } from '../component-ui'
 import { get } from 'lodash'
@@ -14,20 +14,48 @@ const parseRole = role => {
   }
 }
 
+const parseArray = array => {
+  const [firstArray, ...restArray] = array
+
+  if (restArray.length) {
+    return (
+      <Fragment>
+        <Suggestions key={firstArray}>{firstArray}</Suggestions>
+        {restArray.map(el => (
+          <Suggestions key={el}>, {el}</Suggestions>
+        ))}
+      </Fragment>
+    )
+  }
+  return <Suggestions key={firstArray}> {firstArray}</Suggestions>
+}
 const BotComment = ({ comment }) => {
   console.log(JSON.parse(comment))
   const botComment = JSON.parse(comment)
-  // return botComment.map(typo => (
-  //   <RootBot key={typo.typo}>
-  //     <Typo>{typo.typo}</Typo>
-  //   </RootBot>
-  // ))
-  return <div>Bot comment</div>
+  return (
+    <WrapperBot>
+      {botComment.map(typo => (
+        <RootBot key={typo.typo}>
+          I don't understand the word <Typo>{typo.typo} </Typo> try{' '}
+          {parseArray(typo.suggestions)} at lines: {parseArray(typo.positions)}
+        </RootBot>
+      ))}
+    </WrapperBot>
+  )
 }
+const WrapperBot = styled.div``
 const RootBot = styled.div`
   padding: 10px 10px;
 `
-const Typo = styled.div``
+const Typo = styled.span`
+  padding: 5px 0px;
+  font-weight: 700;
+  color: indianred;
+`
+const Suggestions = styled.span`
+  color: steelblue;
+  font-weight: 700;
+`
 const ChatQuestion = ({
   comment,
   manuscript,

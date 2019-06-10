@@ -30,7 +30,7 @@ module.exports.automaticReview = async manuscript => {
   pdfUtil.info(filePath, (err, info) => {
     if (err) throw err
     pdfNumberOfPages = info.pages
-    for (let index = 0; index < 1; index++) {
+    for (let index = 0; index < pdfNumberOfPages; index++) {
       let option = { from: index, to: index + 1 }
 
       pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
