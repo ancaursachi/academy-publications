@@ -5,7 +5,6 @@ module.exports = gql`
     comment(_id: ID!): Comment
     comments: [Comment]
     manuscriptComments(manuscriptId: ID!): [Comment]
-    pageComments(manuscriptId: ID!, page: Int): [Comment]
     userCommentsPerManuscript(manuscriptId: ID!, page: Int): [Comment]
   }
 

@@ -23,10 +23,6 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
           variables: { submissionId: manuscript.submissionId },
         },
         {
-          query: queries.getPageComments,
-          variables: { manuscriptId: manuscript._id, page: currentPageNumber },
-        },
-        {
           query: queries.getManuscriptComments,
           variables: { manuscriptId: manuscript._id },
         },

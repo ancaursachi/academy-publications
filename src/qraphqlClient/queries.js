@@ -256,26 +256,6 @@ const queries = {
       }
     }
   `,
-  getPageComments: gql`
-    query pageComments($manuscriptId: ID!, $page: Int) {
-      pageComments(manuscriptId: $manuscriptId, page: $page) {
-        _id
-        manuscriptId
-        page
-        created
-        text
-        userId
-        role
-        reply {
-          _id
-          text
-          userId
-          role
-          created
-        }
-      }
-    }
-  `,
 }
 
 export default queries

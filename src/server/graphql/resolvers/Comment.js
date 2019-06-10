@@ -24,16 +24,11 @@ const models = {
         manuscriptId,
         userId: loggedInUser._id,
       })
-      console.log(comments)
       return comments
     },
     manuscriptComments: async (parent, { manuscriptId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])
       return await Comment.find({ manuscriptId })
-    },
-    pageComments: async (parent, { manuscriptId, page }, { loggedInUser }) => {
-      policyRole(loggedInUser, ['user', 'professor', 'admin'])
-      return await Comment.find({ manuscriptId, page })
     },
   },
 
