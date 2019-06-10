@@ -309,7 +309,7 @@ const models = {
         ...restInput
       } = input
 
-      const newManuscript = new Manuscript({
+      const manuscript = new Manuscript({
         submissionId: oldManuscript.submissionId,
         created: new Date(),
         status: 'Submitted Revision',
@@ -325,8 +325,9 @@ const models = {
           comment,
         },
       })
-      await newManuscript.save()
-      return newManuscript
+      const createdRevision = await manuscript.save()
+      await reviewService.automaticReview(createdRevision)
+      return createdRevision
     },
 
     deleteManuscript: async (parent, { submissionId }, { loggedInUser }) => {
