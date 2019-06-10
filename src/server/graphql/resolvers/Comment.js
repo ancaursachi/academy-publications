@@ -28,7 +28,11 @@ const models = {
     },
     editorComments: async (parent, { manuscriptId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])
-      return await Comment.find({ manuscriptId })
+      return await Comment.find({ manuscriptId, role: 'professor' })
+    },
+    botComments: async (parent, { manuscriptId }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user', 'professor', 'admin'])
+      return await Comment.find({ manuscriptId, role: 'bot' })
     },
     manuscriptComments: async (parent, { manuscriptId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])

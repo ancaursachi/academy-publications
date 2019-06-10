@@ -6,6 +6,7 @@ module.exports = gql`
     comments: [Comment]
     manuscriptComments(manuscriptId: ID!): [Comment]
     editorComments(manuscriptId: ID!): [Comment]
+    botComments(manuscriptId: ID!): [Comment]
     editorCommentsPerPage(manuscriptId: ID!, page: Int): [Comment]
   }
 

@@ -15,6 +15,7 @@ export { default as RenderManuscriptTab } from './editor/RenderManuscriptTab'
 export { default as FinalDecisionTab } from './editor/FinalDecisionTab'
 export { default as SideBarReview } from './editor/SideBarReview'
 export { default as EditorCommentsTab } from './editor/EditorCommentsTab'
+export { default as BotCommentsTab } from './editor/BotCommentsTab'
 export { default as Comments } from './editor/Comments'
 
 export { default as ChangePage } from './components/ChangePage'

@@ -1,18 +1,20 @@
 import React from 'react'
+import styled from 'styled-components'
 import { last, get } from 'lodash'
 import { compose } from 'recompose'
-import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
 import { Comments } from '../../component-manuscript-details'
 import { mutations, queries } from '../../qraphqlClient'
 import { EmptyError, Loader } from '../../component-ui'
 
-const EditorCommentsTab = ({ submission, addReply }) => {
+const BotCommentsTab = ({ submission, addReply }) => {
   const manuscript = last(submission)
-  const { data } = useQuery(queries.getEditorComments, {
+
+  const { data } = useQuery(queries.getBotComments, {
     variables: { manuscriptId: manuscript._id },
   })
-  const comments = get(data, 'editorComments')
+  const comments = get(data, 'botComments')
+
   if (!comments) {
     return (
       <RootLoader>
@@ -57,4 +59,4 @@ const RootLoader = styled.div`
   justify-content: center;
   font-family: 'Nunito';
 `
-export default compose(mutations)(EditorCommentsTab)
+export default compose(mutations)(BotCommentsTab)

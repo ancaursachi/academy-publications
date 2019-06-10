@@ -276,6 +276,26 @@ const queries = {
       }
     }
   `,
+  getBotComments: gql`
+    query botComments($manuscriptId: ID!) {
+      botComments(manuscriptId: $manuscriptId) {
+        _id
+        manuscriptId
+        page
+        created
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
+      }
+    }
+  `,
 }
 
 export default queries
