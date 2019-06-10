@@ -30,8 +30,8 @@ const parseArray = array => {
   return <Suggestions key={firstArray}> {firstArray}</Suggestions>
 }
 const BotComment = ({ comment }) => {
-  console.log(JSON.parse(comment))
   const botComment = JSON.parse(comment)
+
   return (
     <WrapperBot>
       {botComment.map(typo => (

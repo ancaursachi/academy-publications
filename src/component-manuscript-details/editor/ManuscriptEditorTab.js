@@ -33,10 +33,10 @@ const ManuscriptEditorTab = ({
     get(submission[currentManuscript - 1], '_id') ===
     get(last(submission), '_id')
 
-  const { data } = useQuery(queries.getManuscriptComments, {
+  const { data } = useQuery(queries.getEditorComments, {
     variables: { manuscriptId: manuscript._id },
   })
-  const comments = get(data, 'manuscriptComments')
+  const comments = get(data, 'editorComments')
 
   return (
     <Root>

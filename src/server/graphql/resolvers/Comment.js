@@ -26,6 +26,10 @@ const models = {
       })
       return comments
     },
+    editorComments: async (parent, { manuscriptId }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['user', 'professor', 'admin'])
+      return await Comment.find({ manuscriptId })
+    },
     manuscriptComments: async (parent, { manuscriptId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])
       return await Comment.find({ manuscriptId })

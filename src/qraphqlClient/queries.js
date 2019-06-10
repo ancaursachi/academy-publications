@@ -256,6 +256,26 @@ const queries = {
       }
     }
   `,
+  getEditorComments: gql`
+    query editorComments($manuscriptId: ID!) {
+      editorComments(manuscriptId: $manuscriptId) {
+        _id
+        manuscriptId
+        page
+        created
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
+      }
+    }
+  `,
 }
 
 export default queries

@@ -21,7 +21,7 @@ const Comment = ({ comment, isLastManuscript, manuscript, addReply }) => {
       },
       refetchQueries: [
         {
-          query: queries.getManuscriptComments,
+          query: queries.getEditorComments,
           variables: { manuscriptId: manuscript._id },
         },
       ],

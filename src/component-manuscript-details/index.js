@@ -14,7 +14,7 @@ export { default as EditorPeerReviewPage } from './editor/EditorPeerReviewPage'
 export { default as RenderManuscriptTab } from './editor/RenderManuscriptTab'
 export { default as FinalDecisionTab } from './editor/FinalDecisionTab'
 export { default as SideBarReview } from './editor/SideBarReview'
-export { default as CommentsTab } from './editor/CommentsTab'
+export { default as EditorCommentsTab } from './editor/EditorCommentsTab'
 export { default as Comments } from './editor/Comments'
 
 export { default as ChangePage } from './components/ChangePage'

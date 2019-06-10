@@ -4,7 +4,7 @@ import { th } from '../../component-ui'
 
 import {
   CheckBar,
-  CommentsTab,
+  EditorCommentsTab,
   FinalDecisionTab,
   ManuscriptEditorTab,
   RenderManuscriptTab,
@@ -23,7 +23,7 @@ const EditorPeerReviewPage = ({
         tabButtons={[
           'Information Manuscript',
           'Review manuscript',
-          'All Comments',
+          'Editor Comments',
           'Your Decision',
         ]}
         selectedTab={0}
@@ -35,7 +35,7 @@ const EditorPeerReviewPage = ({
           setCurrentManuscript={setCurrentManuscript}
         />
         <RenderManuscriptTab submission={submission} />
-        <CommentsTab submission={submission} />
+        <EditorCommentsTab submission={submission} />
         <FinalDecisionTab
           submission={submission}
           totalManuscripts={totalManuscripts}

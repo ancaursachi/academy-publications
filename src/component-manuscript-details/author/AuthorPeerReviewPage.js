@@ -5,7 +5,7 @@ import { get, last } from 'lodash'
 import {
   CheckBar,
   RevisionTab,
-  CommentsTab,
+  EditorCommentsTab,
   ManuscriptAuthorTab,
 } from '../../component-manuscript-details'
 
@@ -24,8 +24,12 @@ const AuthorPeerReviewPage = ({
       <CheckBar
         tabButtons={
           editorDecision === 'revision'
-            ? ['Information Manuscript', 'All Comments', 'Sent a new version ']
-            : ['Information Manuscript', 'All Comments']
+            ? [
+                'Information Manuscript',
+                'Editor Comments',
+                'Sent a new version ',
+              ]
+            : ['Information Manuscript', 'Editor Comments']
         }
         selectedTab={editorDecision === 'revision' ? 1 : 0}
       >
@@ -35,7 +39,7 @@ const AuthorPeerReviewPage = ({
           currentManuscript={currentManuscript}
           setCurrentManuscript={setCurrentManuscript}
         />
-        <CommentsTab submission={submission} />
+        <EditorCommentsTab submission={submission} />
         {editorDecision === 'revision' && (
           <RevisionTab
             submission={submission}
