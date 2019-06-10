@@ -19,11 +19,13 @@ const models = {
       { loggedInUser },
     ) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])
-      return await Comment.find({
+      const comments = await Comment.find({
         page,
         manuscriptId,
         userId: loggedInUser._id,
       })
+      console.log(comments)
+      return comments
     },
     manuscriptComments: async (parent, { manuscriptId }, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])

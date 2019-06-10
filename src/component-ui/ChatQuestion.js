@@ -13,6 +13,21 @@ const parseRole = role => {
       return role.charAt(0).toUpperCase() + role.slice(1)
   }
 }
+
+const BotComment = ({ comment }) => {
+  console.log(JSON.parse(comment))
+  const botComment = JSON.parse(comment)
+  // return botComment.map(typo => (
+  //   <RootBot key={typo.typo}>
+  //     <Typo>{typo.typo}</Typo>
+  //   </RootBot>
+  // ))
+  return <div>Bot comment</div>
+}
+const RootBot = styled.div`
+  padding: 10px 10px;
+`
+const Typo = styled.div``
 const ChatQuestion = ({
   comment,
   manuscript,
@@ -26,7 +41,12 @@ const ChatQuestion = ({
     <Root>
       <RoleLeft>{parseRole(comment.role)}</RoleLeft>
       <Question visibleComment={visibleComment}>
-        <Comment> {comment.text}</Comment>
+        {comment.role === 'bot' ? (
+          <BotComment comment={comment.text} />
+        ) : (
+          <Comment> {comment.text}</Comment>
+        )}
+
         <Actions>
           {!['publish', 'reject'].includes(editorDecision) &&
             isLastManuscript && (
