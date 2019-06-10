@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { th } from '../../component-ui'
-
+import { last, get } from 'lodash'
 import {
   CheckBar,
   BotCommentsTab,
@@ -18,16 +18,28 @@ const EditorPeerReviewPage = ({
   setCurrentManuscript,
   ...rest
 }) => {
+  const manuscript = last(submission)
+  const editorDecision = get(manuscript, 'editor.decision', null)
+
   return (
     <Root {...rest}>
       <CheckBar
-        tabButtons={[
-          'Information Manuscript',
-          'Spell Check',
-          'Review manuscript',
-          'Editor Comments',
-          'Your Decision',
-        ]}
+        tabButtons={
+          ['publish', 'reject'].includes(editorDecision)
+            ? [
+                'Information Manuscript',
+                'Spell Check',
+                'Editor Comments',
+                'Your Decision',
+              ]
+            : [
+                'Information Manuscript',
+                'Spell Check',
+                'Review manuscript',
+                'Editor Comments',
+                'Your Decision',
+              ]
+        }
         selectedTab={0}
       >
         <ManuscriptEditorTab
@@ -37,7 +49,9 @@ const EditorPeerReviewPage = ({
           setCurrentManuscript={setCurrentManuscript}
         />
         <BotCommentsTab submission={submission} />
-        <RenderManuscriptTab submission={submission} />
+        {!['publish', 'reject'].includes(editorDecision) && (
+          <RenderManuscriptTab submission={submission} />
+        )}
         <EditorCommentsTab submission={submission} />
         <FinalDecisionTab
           submission={submission}

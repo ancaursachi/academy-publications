@@ -10,7 +10,7 @@ const { promisify } = require('util')
 const https = require('https')
 const writeFile = promisify(fs.writeFile.bind(fs))
 const unlinkFile = promisify(fs.unlink.bind(fs))
-const { chain, last, uniq } = require('lodash')
+const { chain, last, uniq, isEmpty } = require('lodash')
 const Comment = require('./models/Comment')
 
 module.exports.automaticReview = async manuscript => {
@@ -33,7 +33,7 @@ module.exports.automaticReview = async manuscript => {
     for (let index = 0; index < pdfNumberOfPages; index++) {
       let option = { from: index, to: index + 1 }
 
-      pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
+      const anca = pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
         // console.log(pdfText)
         if (err) throw err
         var api = new ProWritingAidApi.TextApi()
@@ -50,6 +50,7 @@ module.exports.automaticReview = async manuscript => {
         api.post(request).then(data => {
           const groupedErrors = chain(data.Result.Tags)
             .filter(d => d.hint.includes('Unknown word'))
+            .filter(er => !isEmpty(er.suggestions))
             .groupBy('subcategory')
             .map(error => ({
               typo: error[0].subcategory,
@@ -63,16 +64,18 @@ module.exports.automaticReview = async manuscript => {
             }))
             .value()
 
-          const newComment = new Comment({
-            manuscriptId,
-            created: new Date(),
-            userId: 'bot',
-            text: JSON.stringify(groupedErrors),
-            role: 'bot',
-            page: option.to,
-            reply: [],
-          })
-          newComment.save()
+          if (!isEmpty(groupedErrors)) {
+            const newComment = new Comment({
+              manuscriptId,
+              created: new Date(),
+              userId: 'bot',
+              text: JSON.stringify(groupedErrors),
+              role: 'bot',
+              page: option.to,
+              reply: [],
+            })
+            newComment.save()
+          }
         })
       })
     }

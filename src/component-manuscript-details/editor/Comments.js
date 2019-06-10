@@ -24,6 +24,10 @@ const Comment = ({ comment, isLastManuscript, manuscript, addReply }) => {
           query: queries.getEditorComments,
           variables: { manuscriptId: manuscript._id },
         },
+        {
+          query: queries.getBotComments,
+          variables: { manuscriptId: manuscript._id },
+        },
       ],
     }).then(() => setReplyText(''))
   }

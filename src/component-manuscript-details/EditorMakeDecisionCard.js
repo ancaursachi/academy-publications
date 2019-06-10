@@ -35,6 +35,14 @@ const EditorMakeDecisionCard = ({
         { query: queries.getAssignedManuscripts },
         { query: queries.getReviewedManuscripts },
       ],
+    }).then(values => {
+      if (
+        ['publish', 'reject'].includes(
+          values.data.addProfessorDecision.editor.decision,
+        )
+      ) {
+        window.location.reload()
+      }
     })
   }
   return (
