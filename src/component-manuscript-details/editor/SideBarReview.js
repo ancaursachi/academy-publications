@@ -27,7 +27,7 @@ const GiveComment = ({ createComment, manuscript, currentPageNumber }) => {
           variables: { manuscriptId: manuscript._id },
         },
         {
-          query: queries.getUserCommentsPerManuscript,
+          query: queries.getEditorCommentsPerPage,
           variables: { manuscriptId: manuscript._id, page: currentPageNumber },
         },
       ],
@@ -77,10 +77,10 @@ const DisplayComment = ({ comment }) => {
   return <Card>{editorComment}</Card>
 }
 const SideBarReview = ({ createComment, manuscript, currentPageNumber }) => {
-  const { data } = useQuery(queries.getUserCommentsPerManuscript, {
+  const { data } = useQuery(queries.getEditorCommentsPerPage, {
     variables: { manuscriptId: manuscript._id, page: currentPageNumber },
   })
-  const pageComments = get(data, 'userCommentsPerManuscript')
+  const pageComments = get(data, 'editorCommentsPerPage')
   const sortedComents = sortBy(pageComments, comments => -comments.created)
   return (
     <Root>

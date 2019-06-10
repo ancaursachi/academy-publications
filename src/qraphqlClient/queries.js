@@ -216,9 +216,9 @@ const queries = {
       }
     }
   `,
-  getUserCommentsPerManuscript: gql`
-    query userCommentsPerManuscript($manuscriptId: ID!, $page: Int) {
-      userCommentsPerManuscript(manuscriptId: $manuscriptId, page: $page) {
+  getEditorCommentsPerPage: gql`
+    query editorCommentsPerPage($manuscriptId: ID!, $page: Int) {
+      editorCommentsPerPage(manuscriptId: $manuscriptId, page: $page) {
         _id
         manuscriptId
         page
