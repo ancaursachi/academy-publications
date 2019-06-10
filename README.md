@@ -1,6 +1,6 @@
 # Academy Publications
 
-A web application for students where students and professors can publish different types of articles. Articles will go through a series of steps before being published.
+A web application for students where students can publish different types of articles. Articles will go through a series of steps before being published.
 
 ## Configuration
 
@@ -14,7 +14,7 @@ In the project root add .env with specified variables:
 
 `DB_LINK='_'`
 
-#JWT configuration
+#### JWT configuration
 
 `JWT_SECRET='_'`
 
@@ -29,6 +29,8 @@ In the project root add .env with specified variables:
 `SECRET_KEY_ID='_'`
 
 `MANUSCRIPTS_BUCKET_NAME='_'`
+
+Olso if you are running app from the mac os, `pdf-to-text` run `brew install xpdf`
 
 # Available Scripts
 

@@ -1,16 +1,12 @@
-const { textGearsUrl, textGearsApiKey } = require('./config')
 var ProWritingAidApi = require('pro_writing_aid_api')
 const s3Service = require('./s3Service')
 const pdfUtil = require('pdf-to-text')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
-const querystring = require('querystring')
 const { promisify } = require('util')
-const https = require('https')
 const writeFile = promisify(fs.writeFile.bind(fs))
-const unlinkFile = promisify(fs.unlink.bind(fs))
-const { chain, last, uniq, isEmpty } = require('lodash')
+const { chain, uniq, isEmpty } = require('lodash')
 const Comment = require('./models/Comment')
 
 module.exports.automaticReview = async manuscript => {
@@ -33,8 +29,7 @@ module.exports.automaticReview = async manuscript => {
     for (let index = 0; index < pdfNumberOfPages; index++) {
       let option = { from: index, to: index + 1 }
 
-      const anca = pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
-        // console.log(pdfText)
+      pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
         if (err) throw err
         var api = new ProWritingAidApi.TextApi()
         api.apiClient.basePath = 'https://api.prowritingaid.com'

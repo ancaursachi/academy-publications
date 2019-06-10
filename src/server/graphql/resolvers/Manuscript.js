@@ -244,9 +244,7 @@ const models = {
 
       const groupedManuscripts = chain(manuscripts)
         .groupBy('submissionId')
-        .map(manuscript => {
-          return last(manuscript)
-        })
+        .map(manuscript => last(manuscript))
         .filter(
           manuscript => !['publish', 'reject'].includes(manuscript.status),
         )
