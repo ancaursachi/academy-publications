@@ -50,6 +50,8 @@ module.exports = gql`
     editor: Editor
     author: Author
     file: File
+    pages: Int
+    words: Int
   }
 
   type Submission {
@@ -66,6 +68,8 @@ module.exports = gql`
     editor: Editor
     author: Author
     file: File
+    pages: Int
+    words: Int
   }
 
   input FileInput {

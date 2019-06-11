@@ -139,6 +139,8 @@ const queries = {
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
+        words
+        pages
         title
         status
         public

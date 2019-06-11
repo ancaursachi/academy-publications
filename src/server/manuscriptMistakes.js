@@ -8,6 +8,8 @@ const { promisify } = require('util')
 const writeFile = promisify(fs.writeFile.bind(fs))
 const { chain, uniq, isEmpty } = require('lodash')
 const Comment = require('./models/Comment')
+const Manuscript = require('./models/Manuscript')
+const wordcount = require('wordcount')
 
 module.exports.automaticReview = async manuscript => {
   const { providerKey } = manuscript.file
@@ -26,16 +28,33 @@ module.exports.automaticReview = async manuscript => {
   pdfUtil.info(filePath, (err, info) => {
     if (err) throw err
     pdfNumberOfPages = info.pages
+
+    pdfUtil.pdfToText(filePath, async (err, pdfText) => {
+      const wordCount = await wordcount(pdfText)
+      await Manuscript.findOneAndUpdate(
+        { _id: manuscriptId },
+        {
+          $set: {
+            pages: info.pages,
+            words: wordCount,
+          },
+        },
+        { new: true },
+      )
+    })
+
     for (let index = 0; index < pdfNumberOfPages; index++) {
       let option = { from: index, to: index + 1 }
 
       pdfUtil.pdfToText(filePath, option, (err, pdfText) => {
         if (err) throw err
+
         var api = new ProWritingAidApi.TextApi()
         api.apiClient.basePath = 'https://api.prowritingaid.com'
         api.apiClient.defaultHeaders = {
           licenseCode: '5A52D9DC-3777-474A-AB1C-2F62E500FD5D',
         }
+
         var request = new ProWritingAidApi.TextAnalysisRequest(
           pdfText,
           ['grammar'],
@@ -44,6 +63,7 @@ module.exports.automaticReview = async manuscript => {
         )
         api.post(request).then(data => {
           const groupedErrors = chain(data.Result.Tags)
+            .filter(d => d.subcategory.length >= 3)
             .filter(d => d.hint.includes('Unknown word'))
             .filter(er => !isEmpty(er.suggestions))
             .groupBy('subcategory')

@@ -65,6 +65,7 @@
     "styled-components": "^4.2.0",
     "styled-system": "^4.2.2",
     "uuid": "^3.3.2",
+    "wordcount": "^1.1.1",
     "yup": "^0.27.0"
   },
   "devDependencies": {
