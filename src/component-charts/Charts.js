@@ -101,6 +101,8 @@ const Charts = ({ ...rest }) => {
     <Root {...rest}>
       <Column />
       <Column>
+        <TitlePage>Overview</TitlePage>
+        <hr />
         <Row justify={'space-around'}>
           <Custom
             title={'All manuscripts on the app'}
@@ -140,6 +142,13 @@ const RootLoader = styled.div`
   display: flex;
   justify-content: center;
   font-family: 'Nunito';
+`
+const TitlePage = styled.div`
+  font-family: 'Nunito';
+  font-size: 1.6em;
+  font-weight: 600;
+  width: 100%;
+  color: ${th.colorBlue};
 `
 
 export default Charts
