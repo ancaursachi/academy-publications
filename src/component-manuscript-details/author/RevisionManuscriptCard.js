@@ -14,10 +14,10 @@ import {
   InputSelect,
   DetailsCard,
   InputTextarea,
-} from '../component-ui'
-import { mutations, queries } from '../qraphqlClient'
-import { submissionValidation, UploadFile } from '../component-submission'
-import { createRevision } from '../qraphqlClient/mutations'
+} from '../../component-ui'
+import { mutations, queries } from '../../qraphqlClient'
+import { submissionValidation, UploadFile } from '../../component-submission'
+import { createRevision } from '../../qraphqlClient/mutations'
 
 const useCreateRevision = () => {
   const useCreateRevisionMutation = useMutation(createRevision)

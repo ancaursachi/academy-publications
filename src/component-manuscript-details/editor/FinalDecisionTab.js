@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { get, last } from 'lodash'
-import { th, Loader } from '../../component-ui'
+import { Loader } from '../../component-ui'
 import {
   EditorDecisionCard,
   EditorMakeDecisionCard,
+  ActualManuscriptOverview,
 } from '../../component-manuscript-details'
 
 const FinalDecisionTab = ({
@@ -33,7 +34,10 @@ const FinalDecisionTab = ({
               <EditorMakeDecisionCard manuscript={manuscript} mb={2} />
             )}
             {editorDecision && (
-              <EditorDecisionCard manuscript={manuscript} mb={2} />
+              <EditorDecisionCard manuscript={manuscript} mb={1} />
+            )}
+            {editorDecision && (
+              <ActualManuscriptOverview submission={submission} mb={2} />
             )}
           </Container>
         )}

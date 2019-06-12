@@ -4,7 +4,7 @@ import { th, Loader, Row } from '../component-ui'
 import { get } from 'lodash'
 import { queries } from '../qraphqlClient'
 import { useQuery } from 'react-apollo-hooks'
-import { Custom } from '../component-charts'
+import { Custom, VersionsChart } from '../component-charts'
 
 const CustomPie = (lastVersionManuscripts, type) => {
   const articles = []
@@ -103,6 +103,7 @@ const Charts = ({ ...rest }) => {
       <Column>
         <TitlePage>Overview</TitlePage>
         <hr />
+        <VersionsChart />
         <Row justify={'space-around'}>
           <Custom
             title={'All manuscripts on the app'}
