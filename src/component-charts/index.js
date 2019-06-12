@@ -1,3 +1,5 @@
 export { default as Charts } from './Charts'
 export { default as ChartsPage } from './ChartsPage'
 export { default as DataLabel } from './DataLabel'
+export { default as Pie } from './Pie'
+export { default as Custom } from './Custom'

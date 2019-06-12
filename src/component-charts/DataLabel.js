@@ -2,7 +2,7 @@ import CanvasJSReact from '../lib/canvasjs.react'
 import React from 'react'
 var CanvasJSChart = CanvasJSReact.CanvasJSChart
 
-const DataLabel = ({ title }) => {
+const DataLabel = ({ title, data }) => {
   const options = {
     animationEnabled: true,
     exportEnabled: true,
