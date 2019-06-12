@@ -94,6 +94,20 @@ const models = {
       })
       return newManuscripts
     },
+    lastVersionManuscripts: async (parent, args, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
+      const manuscripts = await Manuscript.find()
+
+      const groupedManuscripts = chain(manuscripts)
+        .groupBy('submissionId')
+        .map(manuscript => {
+          return last(manuscript)
+        })
+        .value()
+
+      return groupedManuscripts
+    },
+
     reviewedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['professor'])
       const manuscripts = await Manuscript.find()

@@ -108,6 +108,16 @@ const SideMenu = ({ history, ...props }) => {
             onClick={() => history.push('/users')}
           />
         )}
+        {policyRole(loggedInUser, ['admin', 'user', 'professor']) && (
+          <Button
+            mt={1}
+            fontWeight="bold"
+            fontSize="1.2em"
+            sideMenu
+            name="Overview"
+            onClick={() => history.push('/charts')}
+          />
+        )}
       </Content>
     </Root>
   )

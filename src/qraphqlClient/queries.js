@@ -134,7 +134,39 @@ const queries = {
       }
     }
   `,
-
+  getLastVersionManuscripts: gql`
+    query lastVersionManuscripts {
+      lastVersionManuscripts {
+        _id
+        words
+        pages
+        title
+        status
+        public
+        created
+        version
+        userRole
+        abstract
+        articleType
+        submissionId
+        author {
+          id
+          comment
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+        file {
+          name
+          size
+          providerKey
+        }
+      }
+    }
+  `,
   getSubmission: gql`
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {

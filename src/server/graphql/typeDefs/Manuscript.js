@@ -12,6 +12,7 @@ module.exports = gql`
     getSubmission(submissionId: ID!): [Submission]
     unassignedManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
+    lastVersionManuscripts: [Manuscript]
   }
 
   type Author {
