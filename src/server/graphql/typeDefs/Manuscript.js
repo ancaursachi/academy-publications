@@ -12,6 +12,7 @@ module.exports = gql`
     getSubmission(submissionId: ID!): [Submission]
     unassignedManuscripts: [Manuscript]
     assignedManuscripts: [Manuscript]
+    lastVersionManuscripts: [Manuscript]
   }
 
   type Author {
@@ -50,6 +51,8 @@ module.exports = gql`
     editor: Editor
     author: Author
     file: File
+    pages: Int
+    words: Int
   }
 
   type Submission {
@@ -66,6 +69,8 @@ module.exports = gql`
     editor: Editor
     author: Author
     file: File
+    pages: Int
+    words: Int
   }
 
   input FileInput {

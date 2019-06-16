@@ -13,6 +13,8 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
   const authorComment = get(manuscript, 'author.comment', null)
   const editorName = get(manuscript, 'editor.name', null)
   const role = get(manuscript, 'userRole', null)
+  const pages = get(manuscript, 'pages', null)
+  const words = get(manuscript, 'words', null)
 
   return (
     <DetailsCard {...rest}>
@@ -29,7 +31,7 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
       <Label>Abstract</Label>
       <Abstract>{abstract}</Abstract>
 
-      {role !== 'user' && (
+      {role !== 'user' && editorName && (
         <Fragment>
           <Label>Editor </Label>
           <Abstract>{editorName}</Abstract>
@@ -44,6 +46,20 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
           <Label>Author Comment</Label>
           <Abstract>{authorComment}</Abstract>
         </Fragment>
+      )}
+
+      {pages && (
+        <Row justify="flex-start">
+          <Label>Pages: </Label>
+          <InfoPage>{pages}</InfoPage>
+        </Row>
+      )}
+
+      {words && (
+        <Row justify="flex-start">
+          <Label>Words: </Label>
+          <InfoPage>{words}</InfoPage>
+        </Row>
       )}
     </DetailsCard>
   )
@@ -76,5 +92,8 @@ const Label = styled.div`
   font-weight: 600;
   padding: 16px 0px 0px;
 `
-
+const InfoPage = styled.div`
+  font-size: 14px;
+  padding: 16px 0px 0px 5px;
+`
 export default ManuscriptDetailsCard

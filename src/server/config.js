@@ -9,5 +9,7 @@ module.exports = {
     region: process.env.AWS_REGION,
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretKeyId: process.env.SECRET_KEY_ID,
-    manuscriptBucketName: process.env.MANUSCRIPTS_BUCKET_NAME
+    manuscriptBucketName: process.env.MANUSCRIPTS_BUCKET_NAME,
+    textGearsUrl: process.env.TEXT_GEARS_BASE_URL,
+    textGearsApiKey: process.env.TEXT_GEARS_API_KEY
 }

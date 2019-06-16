@@ -6,7 +6,6 @@ export const editUserValidation = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Required'),
-  role: Yup.string().required('Required'),
   university: Yup.string().required('Required'),
   specialization: Yup.string().required('Required'),
 })

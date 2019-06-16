@@ -1,19 +1,25 @@
 import React from 'react'
-import styled from 'styled-components'
 import { last, get } from 'lodash'
+import { compose } from 'recompose'
+import styled from 'styled-components'
+import { useQuery } from 'react-apollo-hooks'
 import { Comments } from '../../component-manuscript-details'
 import { mutations, queries } from '../../qraphqlClient'
-import { EmptyError } from '../../component-ui'
-import { compose } from 'recompose'
-import { useQuery } from 'react-apollo-hooks'
+import { EmptyError, Loader } from '../../component-ui'
 
-const CommentsTab = ({ submission, addReply }) => {
+const EditorCommentsTab = ({ submission, addReply }) => {
   const manuscript = last(submission)
-  const { data } = useQuery(queries.getManuscriptComments, {
+  const { data } = useQuery(queries.getEditorComments, {
     variables: { manuscriptId: manuscript._id },
   })
-  const comments = get(data, 'manuscriptComments')
-  console.log(comments)
+  const comments = get(data, 'editorComments')
+  if (!comments) {
+    return (
+      <RootLoader>
+        <Loader iconSize={2} />
+      </RootLoader>
+    )
+  }
   return (
     <Root>
       <Wrapper>
@@ -43,6 +49,12 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 15% 70% 15%;
 `
-// const EmptyError = styled.div``
 const Column = styled.div``
-export default compose(mutations)(CommentsTab)
+
+const RootLoader = styled.div`
+  padding-top: 25px;
+  display: flex;
+  justify-content: center;
+  font-family: 'Nunito';
+`
+export default compose(mutations)(EditorCommentsTab)

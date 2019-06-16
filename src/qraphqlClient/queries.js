@@ -12,6 +12,7 @@ const queries = {
         country
         city
         university
+        password
         specialization
       }
     }
@@ -134,11 +135,45 @@ const queries = {
       }
     }
   `,
-
+  getLastVersionManuscripts: gql`
+    query lastVersionManuscripts {
+      lastVersionManuscripts {
+        _id
+        words
+        pages
+        title
+        status
+        public
+        created
+        version
+        userRole
+        abstract
+        articleType
+        submissionId
+        author {
+          id
+          comment
+        }
+        editor {
+          id
+          name
+          decision
+          comment
+        }
+        file {
+          name
+          size
+          providerKey
+        }
+      }
+    }
+  `,
   getSubmission: gql`
     query getSubmission($submissionId: ID!) {
       getSubmission(submissionId: $submissionId) {
         _id
+        words
+        pages
         title
         status
         public
@@ -216,6 +251,26 @@ const queries = {
       }
     }
   `,
+  getEditorCommentsPerPage: gql`
+    query editorCommentsPerPage($manuscriptId: ID!, $page: Int) {
+      editorCommentsPerPage(manuscriptId: $manuscriptId, page: $page) {
+        _id
+        manuscriptId
+        page
+        created
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
+      }
+    }
+  `,
   getManuscriptComments: gql`
     query manuscriptComments($manuscriptId: ID!) {
       manuscriptComments(manuscriptId: $manuscriptId) {
@@ -236,9 +291,29 @@ const queries = {
       }
     }
   `,
-  getPageComments: gql`
-    query pageComments($manuscriptId: ID!, $page: Int) {
-      pageComments(manuscriptId: $manuscriptId, page: $page) {
+  getEditorComments: gql`
+    query editorComments($manuscriptId: ID!) {
+      editorComments(manuscriptId: $manuscriptId) {
+        _id
+        manuscriptId
+        page
+        created
+        text
+        userId
+        role
+        reply {
+          _id
+          text
+          userId
+          role
+          created
+        }
+      }
+    }
+  `,
+  getBotComments: gql`
+    query botComments($manuscriptId: ID!) {
+      botComments(manuscriptId: $manuscriptId) {
         _id
         manuscriptId
         page

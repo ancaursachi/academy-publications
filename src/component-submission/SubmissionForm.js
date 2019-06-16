@@ -78,7 +78,11 @@ const SubmissionForm = ({ updateManuscript, history, match, ...rest }) => {
                     label="Manuscript Type"
                     name="articleType"
                     type="text"
-                    options={['Research article', 'Review article']}
+                    options={[
+                      'Research article',
+                      'Review article',
+                      'Case studies',
+                    ]}
                     widthInput={14}
                     width={14}
                     required

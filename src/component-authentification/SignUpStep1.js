@@ -75,7 +75,6 @@ const SignUpStep1 = ({
           iconName={'arrow-left'}
           onClick={handleChangeSignUpPage}
         />
-        <Button name="Login" underline handleClick={handleChangePage} mt={1} />
         <Button
           mt={1}
           underline

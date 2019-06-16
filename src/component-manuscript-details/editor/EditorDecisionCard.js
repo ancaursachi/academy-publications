@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { th, DetailsCard } from '../component-ui'
+import { th, DetailsCard } from '../../component-ui'
 
 const parseText = string => {
   return string.charAt(0).toUpperCase() + string.slice(1)

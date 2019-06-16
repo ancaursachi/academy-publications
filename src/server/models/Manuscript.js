@@ -63,6 +63,8 @@ const ManuscriptSchema = new mongoose.Schema({
       },
     },
   },
+  pages: { type: Number },
+  words: { type: Number },
 })
 
 const Manuscript = mongoose.model('Manuscript', ManuscriptSchema)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { th } from '../component-ui'
 import { get } from 'lodash'
@@ -13,6 +13,49 @@ const parseRole = role => {
       return role.charAt(0).toUpperCase() + role.slice(1)
   }
 }
+
+const parseArray = array => {
+  const [firstArray, ...restArray] = array
+
+  if (restArray.length) {
+    return (
+      <Fragment>
+        <Suggestions key={firstArray}>{firstArray}</Suggestions>
+        {restArray.map(el => (
+          <Suggestions key={el}>, {el}</Suggestions>
+        ))}
+      </Fragment>
+    )
+  }
+  return <Suggestions key={firstArray}> {firstArray}</Suggestions>
+}
+const BotComment = ({ comment }) => {
+  const botComment = JSON.parse(comment)
+
+  return (
+    <WrapperBot>
+      {botComment.map(typo => (
+        <RootBot key={typo.typo}>
+          I don't understand the word <Typo>{typo.typo} </Typo> try{' '}
+          {parseArray(typo.suggestions)} at lines: {parseArray(typo.positions)}
+        </RootBot>
+      ))}
+    </WrapperBot>
+  )
+}
+const WrapperBot = styled.div``
+const RootBot = styled.div`
+  padding: 10px 10px;
+`
+const Typo = styled.span`
+  padding: 5px 0px;
+  font-weight: 700;
+  color: indianred;
+`
+const Suggestions = styled.span`
+  color: steelblue;
+  font-weight: 700;
+`
 const ChatQuestion = ({
   comment,
   manuscript,
@@ -26,7 +69,12 @@ const ChatQuestion = ({
     <Root>
       <RoleLeft>{parseRole(comment.role)}</RoleLeft>
       <Question visibleComment={visibleComment}>
-        <Comment> {comment.text}</Comment>
+        {comment.role === 'bot' ? (
+          <BotComment comment={comment.text} />
+        ) : (
+          <Comment> {comment.text}</Comment>
+        )}
+
         <Actions>
           {!['publish', 'reject'].includes(editorDecision) &&
             isLastManuscript && (

@@ -10,14 +10,13 @@ import {
   Loader,
   Button,
   InputForm,
-  InputSelect,
   DetailsCard,
 } from '../component-ui'
 import styled from 'styled-components'
 import { queries, mutations } from '../qraphqlClient'
 import { editUserValidation } from '../component-users'
 
-const Profile = ({ history, editUser, deleteUser, ...rest }) => {
+const Profile = ({ history, editProfile, deleteUser, ...rest }) => {
   const [showModal, setShowModal] = useState(false)
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -29,17 +28,16 @@ const Profile = ({ history, editUser, deleteUser, ...rest }) => {
     firstName: get(user, 'firstName'),
     lastName: get(user, 'lastName'),
     email: get(user, 'email'),
-    role: get(user, 'role'),
     country: get(user, 'country'),
     city: get(user, 'city'),
     university: get(user, 'university'),
     specialization: get(user, 'specialization'),
   }
 
-  const handleEditUser = input => {
-    return editUser({
+  const handleEditProfile = input => {
+    return editProfile({
       variables: {
-        input,
+        input: { role: get(user, 'role'), ...input },
       },
       refetchQueries: [
         {
@@ -62,7 +60,7 @@ const Profile = ({ history, editUser, deleteUser, ...rest }) => {
         },
       ],
     })
-      .then(() => {})
+      .then()
       .catch(error => {
         alert(error.message)
       })
@@ -89,7 +87,7 @@ const Profile = ({ history, editUser, deleteUser, ...rest }) => {
     <Formik
       initialValues={initialValues}
       validationSchema={editUserValidation}
-      onSubmit={handleEditUser}
+      onSubmit={handleEditProfile}
     >
       {({ values, handleChange, handleSubmit, errors }) => {
         return (
@@ -128,28 +126,16 @@ const Profile = ({ history, editUser, deleteUser, ...rest }) => {
                         error={errors.lastName}
                       />
                     </RowInput>
-                    <RowInput>
-                      <InputForm
-                        mb={0.5}
-                        pr={0.5}
-                        required
-                        type="text"
-                        label="Email"
-                        name="email"
-                        onChange={handleChange}
-                        value={values.email}
-                        error={errors.email}
-                      />
-                      <InputSelect
-                        pl={0.5}
-                        label="Role"
-                        name="role"
-                        type="text"
-                        options={['user', 'professor', 'admin']}
-                        value={values.searchType}
-                        onChange={handleChange}
-                      />
-                    </RowInput>
+                    <InputForm
+                      mb={0.5}
+                      required
+                      type="text"
+                      label="Email"
+                      name="email"
+                      onChange={handleChange}
+                      value={values.email}
+                      error={errors.email}
+                    />
                     <RowInput>
                       <InputForm
                         mb={0.5}

@@ -29,6 +29,23 @@ const editUser = gql`
     }
   }
 `
+
+const editProfile = gql`
+  mutation editProfile($input: EditProfileInput!) {
+    editProfile(input: $input) {
+      _id
+      firstName
+      lastName
+      email
+      role
+      country
+      city
+      university
+      password
+      specialization
+    }
+  }
+`
 export const createManuscript = gql`
   mutation createManuscript($input: ManuscriptInput) {
     createManuscript(input: $input) {
@@ -162,6 +179,7 @@ export default compose(
   graphql(updateManuscript, { name: 'updateManuscript' }),
   graphql(deleteUser, { name: 'deleteUser' }),
   graphql(editUser, { name: 'editUser' }),
+  graphql(editProfile, { name: 'editProfile' }),
   graphql(createManuscript, { name: 'createManuscript' }),
   graphql(deleteManuscript, { name: 'deleteManuscript' }),
   graphql(addProfessorDecision, { name: 'addProfessorDecision' }),

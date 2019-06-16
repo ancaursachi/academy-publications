@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Formik } from 'formik'
+import { compose } from 'recompose'
 import {
   th,
   Row,
@@ -7,10 +9,8 @@ import {
   InputSelect,
   InputTextarea,
   DetailsCard,
-} from '../component-ui'
-import { Formik } from 'formik'
-import { compose } from 'recompose'
-import { mutations, queries } from '../qraphqlClient'
+} from '../../component-ui'
+import { mutations, queries } from '../../qraphqlClient'
 
 const EditorMakeDecisionCard = ({
   addProfessorDecision,
@@ -35,6 +35,14 @@ const EditorMakeDecisionCard = ({
         { query: queries.getAssignedManuscripts },
         { query: queries.getReviewedManuscripts },
       ],
+    }).then(values => {
+      if (
+        ['publish', 'reject'].includes(
+          values.data.addProfessorDecision.editor.decision,
+        )
+      ) {
+        window.location.reload()
+      }
     })
   }
   return (
