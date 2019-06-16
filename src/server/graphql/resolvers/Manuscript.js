@@ -255,18 +255,20 @@ const models = {
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['user', 'professor', 'admin'])
 
-      const manuscripts = await Manuscript.find({
-        'editor.id': loggedInUser._id,
-      })
-
+      const manuscripts = await Manuscript.find()
       const groupedManuscripts = chain(manuscripts)
         .groupBy('submissionId')
         .map(manuscript => last(manuscript))
         .filter(
+          manuscript =>
+            manuscript.editor &&
+            manuscript.editor.id.toHexString() ===
+              loggedInUser._id.toHexString(),
+        )
+        .filter(
           manuscript => !['publish', 'reject'].includes(manuscript.status),
         )
         .value()
-
       const users = await User.find({
         role: 'professor',
       })
@@ -279,7 +281,9 @@ const models = {
 
         return {
           editor: {
-            name: `${findEditor.firstName} ${findEditor.lastName}`,
+            name: findEditor
+              ? `${findEditor.firstName} ${findEditor.lastName}`
+              : null,
             ...editor,
           },
           ...restManuscript,

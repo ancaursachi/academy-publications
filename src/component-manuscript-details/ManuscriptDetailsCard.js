@@ -31,7 +31,7 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
       <Label>Abstract</Label>
       <Abstract>{abstract}</Abstract>
 
-      {role !== 'user' && (
+      {role !== 'user' && editorName && (
         <Fragment>
           <Label>Editor </Label>
           <Abstract>{editorName}</Abstract>
@@ -48,15 +48,19 @@ const ManuscriptDetailsCard = ({ manuscript, ...rest }) => {
         </Fragment>
       )}
 
-      <Row justify="flex-start">
-        <Label>Pages: </Label>
-        <InfoPage>{pages}</InfoPage>
-      </Row>
+      {pages && (
+        <Row justify="flex-start">
+          <Label>Pages: </Label>
+          <InfoPage>{pages}</InfoPage>
+        </Row>
+      )}
 
-      <Row justify="flex-start">
-        <Label>Words: </Label>
-        <InfoPage>{words}</InfoPage>
-      </Row>
+      {words && (
+        <Row justify="flex-start">
+          <Label>Words: </Label>
+          <InfoPage>{words}</InfoPage>
+        </Row>
+      )}
     </DetailsCard>
   )
 }
