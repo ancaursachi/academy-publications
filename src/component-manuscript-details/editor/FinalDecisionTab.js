@@ -5,7 +5,6 @@ import { Loader } from '../../component-ui'
 import {
   EditorDecisionCard,
   EditorMakeDecisionCard,
-  ActualManuscriptOverview,
 } from '../../component-manuscript-details'
 
 const FinalDecisionTab = ({
@@ -35,9 +34,6 @@ const FinalDecisionTab = ({
             )}
             {editorDecision && (
               <EditorDecisionCard manuscript={manuscript} mb={1} />
-            )}
-            {editorDecision && (
-              <ActualManuscriptOverview submission={submission} mb={2} />
             )}
           </Container>
         )}

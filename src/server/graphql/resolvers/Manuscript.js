@@ -3,10 +3,12 @@ const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
+const Comment = require('../../models/Comment')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
-const { chain, last } = require('lodash')
+const { chain, last, reduce, map } = require('lodash')
 const reviewService = require('../../manuscriptMistakes')
+const Promise = require('bluebird')
 
 const models = {
   Upload: GraphQLUpload,
@@ -52,7 +54,7 @@ const models = {
       }
     },
     manuscripts: async (parent, args, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
+      policyRole(loggedInUser, ['admin', 'user', 'professor'])
       const manuscripts = await Manuscript.find()
       const users = await User.find({})
 
@@ -94,6 +96,7 @@ const models = {
       })
       return newManuscripts
     },
+
     lastVersionManuscripts: async (parent, args, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'user', 'professor'])
       const manuscripts = await Manuscript.find()
@@ -241,7 +244,7 @@ const models = {
         .value()
     },
     unassignedManuscripts: async (parent, args, { loggedInUser }) => {
-      policyRole(loggedInUser, ['professor'])
+      policyRole(loggedInUser, ['user', 'professor', 'admin'])
       const manuscripts = await Manuscript.find({ 'editor.id': null })
       const filteredManuscripts = manuscripts.filter(
         manuscript => manuscript.status.toLowerCase() !== 'draft',
@@ -250,7 +253,7 @@ const models = {
       return filteredManuscripts
     },
     assignedManuscripts: async (parent, args, { loggedInUser }) => {
-      policyRole(loggedInUser, ['professor'])
+      policyRole(loggedInUser, ['user', 'professor', 'admin'])
 
       const manuscripts = await Manuscript.find({
         'editor.id': loggedInUser._id,

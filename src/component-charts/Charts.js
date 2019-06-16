@@ -103,7 +103,6 @@ const Charts = ({ ...rest }) => {
       <Column>
         <TitlePage>Overview</TitlePage>
         <hr />
-        <VersionsChart />
         <Row justify={'space-around'}>
           <Custom
             title={'All manuscripts on the app'}

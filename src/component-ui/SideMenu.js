@@ -53,7 +53,7 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="Your Manuscripts"
+            name="Your manuscripts"
             onClick={() => history.push('/userManuscripts')}
           />
         )}
@@ -83,7 +83,7 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="In Review Process"
+            name="In review process"
             onClick={() => history.push('/assignedManuscripts')}
           />
         )}
@@ -114,7 +114,7 @@ const SideMenu = ({ history, ...props }) => {
             fontWeight="bold"
             fontSize="1.2em"
             sideMenu
-            name="Overview"
+            name="Manuscripts overview"
             onClick={() => history.push('/charts')}
           />
         )}

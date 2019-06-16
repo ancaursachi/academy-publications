@@ -22,7 +22,7 @@ const models = {
       return await User.findOne({ _id })
     },
     users: async (parent, args, { loggedInUser }) => {
-      policyRole(loggedInUser, ['admin'])
+      policyRole(loggedInUser, ['user', 'admin', 'professor'])
       return await User.find({})
     },
   },
@@ -49,6 +49,15 @@ const models = {
       }
     },
     editUser: async (parent, { input }, { loggedInUser }) => {
+      policyRole(loggedInUser, ['admin', 'professor', 'user'])
+      const { _id, ...userRest } = input
+      return await User.findOneAndUpdate(
+        { _id },
+        { $set: userRest },
+        { new: true },
+      )
+    },
+    editProfile: async (parent, { input }, { loggedInUser }) => {
       policyRole(loggedInUser, ['admin', 'professor', 'user'])
       const { _id, ...userRest } = input
       return await User.findOneAndUpdate(

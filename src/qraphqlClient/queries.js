@@ -12,6 +12,7 @@ const queries = {
         country
         city
         university
+        password
         specialization
       }
     }

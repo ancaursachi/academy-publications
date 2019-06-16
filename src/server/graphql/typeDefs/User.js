@@ -40,6 +40,18 @@ module.exports = gql`
     university: String!
     specialization: String!
   }
+  input EditProfileInput {
+    _id: String!
+    firstName: String
+    lastName: String!
+    role: String!
+    email: String!
+    country: String
+    city: String
+    university: String!
+    password: String
+    specialization: String!
+  }
 
   type Token {
     token: String!
@@ -47,7 +59,8 @@ module.exports = gql`
   type Mutation {
     signUp(input: UserInput!): Token!
     deleteUser(_id: String!): Boolean
-    editUser(input: UserEditInput!): User
+    editUser(input: UserEditInput): User
+    editProfile(input: EditProfileInput): User
     login(email: String!, password: String!): Token!
   }
 `
