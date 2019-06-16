@@ -3,12 +3,10 @@ const { Kind } = require('graphql/language')
 const policyRole = require('../policyRole')
 const Manuscript = require('../../models/Manuscript')
 const User = require('../../models/User')
-const Comment = require('../../models/Comment')
 const { ObjectId } = require('mongodb')
 const { GraphQLUpload } = require('graphql-upload')
-const { chain, last, reduce, map } = require('lodash')
+const { chain, last } = require('lodash')
 const reviewService = require('../../manuscriptMistakes')
-const Promise = require('bluebird')
 
 const models = {
   Upload: GraphQLUpload,
