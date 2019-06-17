@@ -329,7 +329,7 @@ const models = {
       const manuscript = new Manuscript({
         submissionId: oldManuscript.submissionId,
         created: new Date(),
-        status: 'Submitted Revision',
+        status: 'Revision Submitted',
         version: oldManuscript.version + 1,
         public: oldManuscript.public,
         ...restInput,
