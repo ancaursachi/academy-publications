@@ -47,7 +47,7 @@
     "lodash": "^4.17.11",
     "merge-graphql-schemas": "^1.5.8",
     "mongodb": "^3.1.13",
-    "mongoose": "^5.4.17",
+    "mongoose": "^5.7.5",
     "pdf-to-text": "0.0.7",
     "pdfinfo": "0.0.3",
     "pdfjs-dist": "^2.0.943",
